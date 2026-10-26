@@ -159,6 +159,16 @@ await step('admin creates an account, changes a role, cannot demote or delete se
   assert.equal((await call('DELETE', `/admin/users/${c.body.id}?confirm=new@school.kz`, { token: admin })).status, 204);
 });
 
+await step('admin can create an account with a plain login (no @) and it can sign in', async () => {
+  assert.equal((await call('POST', '/admin/users', { token: admin, body: { email: 'a b', password: 'temp-pass-1' } })).status, 400);
+  assert.equal((await call('POST', '/admin/users', { token: admin, body: { email: 'Teacher1', password: 'temp-pass-1' } })).status, 201);
+  const r = await call('POST', '/auth/login', { body: { email: 'teacher1', password: 'temp-pass-1' } });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.user.email, 'teacher1');
+  // students still have to register with a real e-mail
+  assert.equal((await call('POST', '/auth/register', { body: { email: 'justaname', password: 'secret1' } })).status, 400);
+});
+
 await step('every admin action is in the audit log', async () => {
   const log = (await call('GET', '/admin/audit', { token: admin })).body as { action: string }[];
   const actions = new Set(log.map((l) => l.action));

@@ -1,5 +1,5 @@
 import type { FastifyInstance, FastifyRequest } from 'fastify';
-import { hashPassword, normEmail, passwordProblem, requireAdmin, validEmail } from '../auth.js';
+import { hashPassword, normEmail, passwordProblem, requireAdmin, validLogin } from '../auth.js';
 import { config } from '../config.js';
 import { pool, q } from '../db.js';
 import { grantedLevels, openLevels } from '../access.js';
@@ -69,7 +69,7 @@ export async function adminRoutes(app: FastifyInstance) {
   app.post('/admin/users', async (req, reply) => {
     const body = (req.body ?? {}) as { email?: unknown; password?: unknown; role?: unknown };
     const email = normEmail(body.email);
-    if (!validEmail(email)) return reply.code(400).send({ error: 'Enter a valid e-mail' });
+    if (!validLogin(email)) return reply.code(400).send({ error: 'Enter an e-mail or a login (3+ characters, no spaces)' });
     const problem = passwordProblem(body.password);
     if (problem) return reply.code(400).send({ error: problem });
     const role = body.role === 'admin' ? 'admin' : 'student';

@@ -49,7 +49,7 @@ export default function Account() {
             <button type="button" className={mode === 'up' ? 'active' : ''} onClick={() => setMode('up')}>{t('signUp')}</button>
           </div>
           <form onSubmit={submit} className="form">
-            <label>{t('email')}<input className="input" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
+            <label>{t('email')}<input className="input" type="text" required autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
             <label>{t('password')}<input className="input" type="password" required minLength={6} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} value={password} onChange={(e) => setPassword(e.target.value)} /></label>
             <button className="btn primary" disabled={busy}>{mode === 'in' ? t('signIn') : t('signUp')}</button>
             {msg && <p className="notice" role="alert">{msg}</p>}

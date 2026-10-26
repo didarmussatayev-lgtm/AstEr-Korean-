@@ -21,6 +21,8 @@ export const checkPassword = (pw: string, hash: string) => bcrypt.compare(pw, ha
 
 export const normEmail = (e: unknown) => (typeof e === 'string' ? e.trim().toLowerCase() : '');
 export const validEmail = (e: string) => e.length <= 200 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e);
+/** Accounts created by an admin (or seeded) may use a plain login such as "admin" instead of an e-mail. */
+export const validLogin = (e: string) => e.length >= 3 && e.length <= 200 && !/\s/.test(e);
 
 export function passwordProblem(pw: unknown): string | null {
   if (typeof pw !== 'string') return 'Password is required';

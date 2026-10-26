@@ -1,4 +1,4 @@
-import { hashPassword, normEmail, passwordProblem, validEmail } from './auth.js';
+import { hashPassword, normEmail, passwordProblem, validLogin } from './auth.js';
 import { buildApp } from './app.js';
 import { config } from './config.js';
 import { migrate, pool, q } from './db.js';
@@ -6,7 +6,8 @@ import { migrate, pool, q } from './db.js';
 async function seedAdmin() {
   const email = normEmail(config.adminEmail);
   if (!email || !config.adminPassword) return;
-  if (!validEmail(email) || passwordProblem(config.adminPassword)) throw new Error('ADMIN_EMAIL / ADMIN_PASSWORD are invalid');
+  if (!validLogin(email) || passwordProblem(config.adminPassword))
+    throw new Error('ADMIN_EMAIL must be an e-mail or login (3+ chars) and ADMIN_PASSWORD at least 6 characters');
   const { rowCount } = await q('select 1 from users where lower(email) = $1', [email]);
   if (rowCount) return;
   await q("insert into users (email, password_hash, role) values ($1, $2, 'admin')", [email, await hashPassword(config.adminPassword)]);

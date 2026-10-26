@@ -108,7 +108,7 @@ function AddUser({ onDone }: { onDone: () => void }) {
 
   return (
     <form className="card form-row" onSubmit={submit}>
-      <label>E-mail<input className="input" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></label>
+      <label>Логин или e-mail<input className="input" type="text" required value={email} onChange={(e) => setEmail(e.target.value)} /></label>
       <label>Пароль
         <span className="with-btn">
           <input className="input" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
