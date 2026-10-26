@@ -12,22 +12,49 @@ npm run dev        # разработка
 npm run build      # сборка в dist/
 ```
 
-## Аккаунты и база
+## Сервер и база (Node + Postgres)
 
-Без настройки сайт работает в локальном режиме (прогресс в браузере). Сервер скрыт за интерфейсом `Backend`
-(`src/lib/backend/`), выбор по переменным окружения (см. `.env.example`):
+Папка `server/` — API на Fastify + PostgreSQL (схема `server/schema.sql` применяется при старте).
+Контракт и правила доступа — `docs/API.md`.
 
-- **Supabase** (сейчас): `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`, таблица из `supabase/schema.sql`.
-- **Свой сервер + Postgres** (планируется): `VITE_API_URL`. Контракт API, админка и схема БД — в `docs/API.md`.
+```bash
+cd server && cp .env.example .env     # DATABASE_URL, JWT_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
+npm install
+npm run dev                            # http://localhost:3000, первый админ создаётся из ADMIN_EMAIL
+npm test                               # e2e-тесты на настоящем Postgres (нужна БД aster_test)
+```
 
-Переезд на Postgres = написать сервер по `docs/API.md`, интерфейс сайта менять не нужно.
+Сайт ученика подключается к серверу переменной `VITE_API_URL` (в корне `.env`): адрес API, либо `/` если сайт
+и админка раздаются самим сервером. Без неё сайт работает локально (прогресс в браузере); можно и Supabase
+(`.env.example`).
+
+## Админка (React)
+
+Папка `admin/`: список и поиск учеников, прогресс (уроки, экзамены, XP, серия), **ручное открытие уровней**,
+**новый пароль без почты и ссылок** (админ вводит пароль и сообщает его ученику; старые сессии ученика
+завершаются), сброс экзамена/прогресса, роли, создание и удаление учётных записей, журнал действий.
+
+```bash
+cd admin && cp .env.example .env && npm install && npm run dev    # http://localhost:5174
+```
+
+### Один сервер на всё (продакшн)
+
+```bash
+VITE_API_URL=/ npm run build            # сайт -> dist/
+(cd admin && npm run build)             # админка -> admin/dist/
+(cd server && npm run build && NODE_ENV=production npm start)   # сайт на /, админка на /admin/
+```
+
+В продакшне обязателен длинный `JWT_SECRET`; за прокси включите HTTPS.
 
 ## Структура
 
 - `src/data/hangul.ts` — буквы хангыля (звук, мнемоника, пример)
 - `src/data/lessons.ts` — уроки (теория, слова, упражнения, диалог, рассказ)
 - `src/lib/srs.ts` — интервальные повторения (SM-2 lite)
-- `src/lib/backend/` — адаптеры сервера (supabase, rest)
+- `src/lib/backend/` — адаптеры сервера (rest, supabase)
+- `server/` — API (Fastify + Postgres), `admin/` — админка (React)
 - `src/lib/progress.tsx` — прогресс, серия дней, синхронизация
 - `src/components/ExerciseRunner.tsx` — типы упражнений: choice, listen, build, type
 
@@ -46,6 +73,6 @@ npm run build      # сборка в dist/
 
 1. ✅ MVP: каркас, хангыль, SRS, аккаунты
 2. ✅ Уровень 1 целиком + экзамен и открытие уровней
-3. Свой сервер (Node) + Postgres, админка на React: ученики, прогресс, открытие уровней, задать новый пароль
+3. ✅ Свой сервер (Node) + Postgres, админка на React: ученики, прогресс, открытие уровней, новый пароль
 4. Уровень 2 (связки, просьбы, возможность, описания) и его экзамен
 5. Реальное аудио, достижения

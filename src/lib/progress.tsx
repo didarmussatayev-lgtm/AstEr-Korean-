@@ -83,12 +83,27 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     setSyncing(true);
     backend.loadProgress().then((remote) => {
       if (cancelled) return;
-      if (remote && remote.updatedAt > pRef.current.updatedAt) setP({ ...empty(), ...remote });
+      if (remote) {
+        // the newer copy wins, but `granted` (levels opened by an admin) always comes from the server
+        setP((prev) =>
+          remote.updatedAt > prev.updatedAt ? { ...empty(), ...remote, granted: remote.granted ?? [] } : { ...prev, granted: remote.granted ?? [] },
+        );
+      }
       setSyncing(false);
     });
     return () => {
       cancelled = true;
     };
+  }, [userId]);
+
+  // signing out drops admin-granted levels held in this browser
+  const hadUser = useRef(false);
+  useEffect(() => {
+    if (userId) hadUser.current = true;
+    else if (hadUser.current) {
+      hadUser.current = false;
+      setP((prev) => (prev.granted.length ? { ...prev, granted: [] } : prev));
+    }
   }, [userId]);
 
   // debounced push

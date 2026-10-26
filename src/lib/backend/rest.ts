@@ -7,7 +7,9 @@ const TOKEN_KEY = 'aster-korean:token';
  * Own server (Node + Postgres). The contract is described in docs/API.md.
  * Auth is a bearer token returned by /auth/login and /auth/register.
  */
-export function createRestBackend(base: string): Backend {
+export function createRestBackend(apiUrl: string): Backend {
+  // "/" means same origin (the server serves the site itself)
+  const base = apiUrl.replace(/\/$/, '');
   const listeners = new Set<(u: AuthUser | null) => void>();
   const token = () => {
     try {
