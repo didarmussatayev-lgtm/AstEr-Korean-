@@ -19,6 +19,10 @@ export async function buildApp() {
   await app.register(studentRoutes);
   await app.register(adminRoutes);
 
+  // /admin without the trailing slash is a very common way to open the panel
+  app.get('/admin', (_req, reply) => reply.redirect('/admin/'));
+  app.get('/favicon.ico', (_req, reply) => reply.code(204).send());
+
   // optional: serve the built site and admin panel from the same process
   const studentDist = resolve(config.studentDist ?? '../dist');
   const adminDist = resolve(config.adminDist ?? '../admin/dist');

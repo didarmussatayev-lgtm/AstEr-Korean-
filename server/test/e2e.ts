@@ -53,6 +53,12 @@ await step('admin signs in', async () => {
   admin = r.body.token;
 });
 
+await step('/admin redirects to /admin/', async () => {
+  const r = await app.inject({ method: 'GET', url: '/admin' });
+  assert.equal(r.statusCode, 302);
+  assert.equal(r.headers.location, '/admin/');
+});
+
 await step('students register; bad input is rejected; duplicates are 409', async () => {
   assert.equal((await call('POST', '/auth/register', { body: { email: 'nope', password: 'secret1' } })).status, 400);
   assert.equal((await call('POST', '/auth/register', { body: { email: 'x@y.kz', password: '123' } })).status, 400);
