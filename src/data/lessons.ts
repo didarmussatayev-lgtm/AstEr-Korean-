@@ -102,7 +102,8 @@ const base: Lesson[] = [
         answer: 1,
         why: { ru: '계세요 — от «оставаться»; уходящий желает остающемуся «оставайся благополучно».', en: '계세요 comes from "to stay": the leaver wishes the stayer to stay safely.' },
       },
-      { type: 'type', prompt: { ru: 'Напиши по-корейски: «Здравствуйте»', en: 'Write in Korean: "Hello"' }, answers: ['안녕하세요'], hint: { ru: 'Начинается с 안녕…', en: 'Starts with 안녕…' } },
+      { type: 'write', prompt: { ru: 'Научись писать слово «да»', en: 'Learn to write the word "yes"' }, word: '네', tr: { ru: 'да', en: 'yes' } },
+      { type: 'write', prompt: { ru: 'Теперь слово «нет»', en: 'Now the word "no"' }, word: '아니요', tr: { ru: 'нет', en: 'no' } },
       { type: 'build', prompt: { ru: 'Собери: «Нет, всё в порядке»', en: 'Build: "No, it\'s okay"' }, tokens: ['괜찮아요', '아니요'], answer: ['아니요', '괜찮아요'] },
       { type: 'listen', say: '죄송합니다', options: [{ ru: 'извините', en: "I'm sorry" }, { ru: 'да', en: 'yes' }, { ru: 'до свидания', en: 'goodbye' }], answer: 0 },
     ],
@@ -210,7 +211,7 @@ const base: Lesson[] = [
       { type: 'choice', prompt: { ru: 'Выбери форму: 저는 안나___.', en: 'Pick the form: 저는 안나___.' }, options: ['예요', '이에요'], answer: 0, why: { ru: '안나 заканчивается на гласную → 예요.', en: '안나 ends in a vowel → 예요.' } },
       { type: 'listen', say: '한국', options: [{ ru: 'Россия', en: 'Russia' }, { ru: 'Корея', en: 'Korea' }, { ru: 'Казахстан', en: 'Kazakhstan' }], answer: 1 },
       { type: 'build', prompt: { ru: 'Собери: «Я из Казахстана» (дословно: «Я казахстанец»)', en: 'Build: "I am Kazakhstani"' }, tokens: ['사람이에요', '저는', '카자흐스탄'], answer: ['저는', '카자흐스탄', '사람이에요'] },
-      { type: 'type', prompt: { ru: 'Напиши по-корейски: «Я студент»', en: 'Write in Korean: "I am a student"' }, answers: ['저는 학생이에요', '저는 학생이에요.'], hint: { ru: '저 + частица + 학생 + связка', en: '저 + particle + 학생 + copula' } },
+      { type: 'write', prompt: { ru: 'Научись писать слово «студент»', en: 'Learn to write the word "student"' }, word: '학생', tr: { ru: 'студент', en: 'student' } },
     ],
     dialogue: {
       title: { ru: 'Знакомство', en: 'Getting to know each other' },

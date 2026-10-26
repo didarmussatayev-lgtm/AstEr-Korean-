@@ -4,6 +4,7 @@ import type { Exercise, Text } from '../lib/types';
 import { useI18n } from '../lib/i18n';
 import { norm, ProgressBar, shuffle, SpeakButton } from './ui';
 import { speak } from '../lib/speak';
+import { GuidedWrite } from './write/GuidedWrite';
 
 export interface Outcome {
   ex: Exercise;
@@ -21,16 +22,19 @@ interface Props {
   exercises: Exercise[];
   /** exam mode: no hints, no retries, answers are only revealed at the end */
   exam?: boolean;
+  /** continue from this exercise (used to resume an unfinished lesson) */
+  startAt?: number;
+  onPos?: (pos: number) => void;
   onFinish: (stats: Stats) => void;
 }
 
 const isKo = (s: string) => /[ㄱ-힝]/.test(s);
 
 /** Runs exercises one by one. In practice mode a missed one returns to the end of the queue once. */
-export function ExerciseRunner({ exercises, exam = false, onFinish }: Props) {
+export function ExerciseRunner({ exercises, exam = false, startAt = 0, onPos, onFinish }: Props) {
   const { t, tx } = useI18n();
   const [queue, setQueue] = useState(() => exercises.map((e) => ({ e, retry: false })));
-  const [pos, setPos] = useState(0);
+  const [pos, setPos] = useState(() => Math.max(0, Math.min(startAt, exercises.length - 1)));
   const [result, setResult] = useState<null | { ok: boolean; correct: string }>(null);
   const mistakes = useRef(0);
   const outcomes = useRef<Outcome[]>([]);
@@ -40,6 +44,10 @@ export function ExerciseRunner({ exercises, exam = false, onFinish }: Props) {
   useEffect(() => {
     if (cur && (cur.e.type === 'listen' || cur.e.type === 'dictation')) speak(cur.e.say);
   }, [cur]);
+
+  useEffect(() => {
+    if (!exam && pos < exercises.length) onPos?.(pos);
+  }, [pos]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const advance = () => {
     setResult(null);
@@ -126,6 +134,17 @@ export function ExerciseRunner({ exercises, exam = false, onFinish }: Props) {
             answers={e.answers}
             disabled={done}
             onSubmit={(ok) => settle(ok, e.answers[0].replace(/\.$/, ''))}
+          />
+        )}
+        {e.type === 'write' && (
+          <GuidedWrite
+            word={e.word}
+            tr={e.tr ? tx(e.tr) : undefined}
+            prompt={tx(e.prompt)}
+            onDone={(r) => {
+              if (!cur.retry) outcomes.current.push({ ex: cur.e, ok: r.skipped === 0, correct: e.word });
+              advance();
+            }}
           />
         )}
         {e.type === 'dictation' && (
@@ -334,5 +353,6 @@ export function describe(ex: Exercise, tx: (x: Text) => string): string {
     case 'build': return tx(ex.prompt);
     case 'type': return tx(ex.prompt);
     case 'dictation': return `🔊 ${ex.say}`;
+    case 'write': return `✍️ ${ex.word}`;
   }
 }

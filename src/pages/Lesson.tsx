@@ -25,10 +25,21 @@ export default function Lesson() {
 function LessonView({ lesson }: { lesson: LessonT }) {
   const { t, tx } = useI18n();
   const nav = useNavigate();
-  const { addCards, gain, completeLesson } = useProgress();
-  const [i, setI] = useState(0);
-  const [theoryIdx, setTheoryIdx] = useState(0);
+  const { addCards, gain, completeLesson, saveResume, p } = useProgress();
+  const saved = useMemo(() => p.resume?.[lesson.id], []); // eslint-disable-line react-hooks/exhaustive-deps
+  const [i, setI] = useState(() => {
+    const k = saved ? steps.indexOf(saved.step as Step) : 0;
+    return k > 0 && k < steps.length - 1 ? k : 0;
+  });
+  const [theoryIdx, setTheoryIdx] = useState(() => Math.max(0, Math.min(saved?.theory ?? 0, lesson.theory.length - 1)));
+  const [exPos, setExPos] = useState(saved?.ex ?? 0);
   const step = steps[i];
+
+  // remember where the learner stopped, so leaving a lesson never loses progress
+  useEffect(() => {
+    if (step === 'done' || (i === 0 && theoryIdx === 0)) return;
+    saveResume(lesson.id, { step, theory: theoryIdx, ex: step === 'practice' ? exPos : 0 });
+  }, [step, theoryIdx, exPos]); // eslint-disable-line react-hooks/exhaustive-deps
   const next = () => { window.scrollTo({ top: 0 }); setI((n) => Math.min(n + 1, steps.length - 1)); };
 
   const finish = () => {
@@ -86,7 +97,9 @@ function LessonView({ lesson }: { lesson: LessonT }) {
         </>
       )}
 
-      {step === 'practice' && <ExerciseRunner exercises={lesson.exercises} onFinish={() => next()} />}
+      {step === 'practice' && (
+        <ExerciseRunner exercises={lesson.exercises} startAt={saved?.step === 'practice' ? saved.ex : 0} onPos={setExPos} onFinish={() => { setExPos(0); next(); }} />
+      )}
 
       {step === 'dialogue' && <DialogueView lesson={lesson} onNext={next} />}
 

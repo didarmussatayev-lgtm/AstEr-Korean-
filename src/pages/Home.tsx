@@ -89,6 +89,9 @@ export default function Home() {
                         <span className="node-body">
                           <b>{tx(l.title)}</b>
                           <span className="muted">{tx(l.goal)}</span>
+                          {!done && p.resume?.[l.id] && (
+                            <span className="resume">▶ {t('resumeFrom')}: {t(p.resume[l.id].step as 'theory')}</span>
+                          )}
                         </span>
                         <span className="go">{done ? '✓' : '›'}</span>
                       </Link>

@@ -6,6 +6,7 @@ import type { Exercise, Letter } from '../lib/types';
 import { Card, ProgressBar, shuffle, SpeakButton } from '../components/ui';
 import { ExerciseRunner } from '../components/ExerciseRunner';
 import { canSpeak } from '../lib/speak';
+import { DrawPad } from '../components/write/DrawPad';
 
 type Tab = 'vowel' | 'consonant';
 
@@ -16,6 +17,7 @@ export default function Hangul() {
   const [sel, setSel] = useState<Letter>(vowels[0]);
   const [quiz, setQuiz] = useState<Letter[] | null>(null);
   const [score, setScore] = useState<number | null>(null);
+  const [tracing, setTracing] = useState(false);
 
   const list = tab === 'vowel' ? vowels : consonants;
   const learned = p.letters.length;
@@ -93,7 +95,7 @@ export default function Hangul() {
             type="button"
             key={l.ch}
             className={`letter ko ${sel.ch === l.ch ? 'sel' : ''} ${p.letters.includes(l.ch) ? 'known' : ''}`}
-            onClick={() => setSel(l)}
+            onClick={() => { setSel(l); setTracing(false); }}
             aria-label={`${l.ch} ${l.roman}`}
           >
             {l.ch}
@@ -113,11 +115,22 @@ export default function Hangul() {
           <p className="example">
             <span className="muted">{t('example')}:</span> <span className="ko">{sel.word.ko}</span> <i>({sel.word.roman})</i> — {tx(sel.word.tr)}
           </p>
-          <button type="button" className="btn" onClick={() => markLearned(sel)} disabled={p.letters.includes(sel.ch)}>
-            {p.letters.includes(sel.ch) ? '✓' : t('memorized')}
-          </button>
+          <div className="row">
+            <button type="button" className="btn" onClick={() => markLearned(sel)} disabled={p.letters.includes(sel.ch)}>
+              {p.letters.includes(sel.ch) ? '✓' : t('memorized')}
+            </button>
+            <button type="button" className="btn" onClick={() => setTracing((v) => !v)}>
+              ✍️ {tracing ? t('closePractice') : t('tracePractice')}
+            </button>
+          </div>
         </div>
       </Card>
+
+      {tracing && (
+        <Card className="trace-box">
+          <DrawPad key={sel.ch} text={sel.ch} mode="trace" hint="empty" size={170} onPass={() => { setTracing(false); gain(1); }} />
+        </Card>
+      )}
 
       <button
         type="button"

@@ -22,7 +22,9 @@ export type Exercise =
   | { type: 'match'; prompt: L; pairs: { ko: string; tr: Text }[] }
   | { type: 'build'; prompt: L; tokens: string[]; answer: string[] }
   | { type: 'type'; prompt: L; answers: string[]; hint?: L }
-  | { type: 'dictation'; say: string; answers: string[] };
+  | { type: 'dictation'; say: string; answers: string[] }
+  /** guided handwriting: assemble -> trace -> write syllables -> write the word */
+  | { type: 'write'; prompt: L; word: string; tr?: L };
 
 export interface Exam {
   id: string;
@@ -87,6 +89,12 @@ export interface Card {
   reps: number;
 }
 
+export interface LessonResume {
+  step: string;
+  theory: number;
+  ex: number;
+}
+
 export interface Progress {
   xp: number;
   streak: number;
@@ -95,6 +103,8 @@ export interface Progress {
   letters: string[];
   cards: Record<string, Card>;
   exams: Record<string, ExamResult>;
+  /** where the learner stopped inside an unfinished lesson */
+  resume: Record<string, LessonResume>;
   /** levels opened by an admin regardless of exams */
   granted: number[];
   updatedAt: number;

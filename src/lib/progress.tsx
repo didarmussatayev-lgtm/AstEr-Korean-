@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { Card, ExamResult, Progress } from './types';
+import type { Card, ExamResult, LessonResume, Progress } from './types';
 import { newCard, today, addDays, isDue } from './srs';
 import { backend } from './backend';
 import type { AuthUser } from './backend';
@@ -15,6 +15,7 @@ const empty = (): Progress => ({
   letters: [],
   cards: {},
   exams: {},
+  resume: {},
   granted: [],
   updatedAt: 0,
 });
@@ -38,6 +39,7 @@ interface Ctx {
   completeLesson: (id: string) => void;
   learnLetters: (chars: string[]) => void;
   recordExam: (id: string, score: number, passed: boolean) => void;
+  saveResume: (id: string, r: LessonResume | null) => void;
   syncing: boolean;
 }
 
@@ -106,6 +108,16 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     }
   }, [userId]);
 
+  // leaving the tab or switching apps: send the latest progress right away instead of waiting for the debounce
+  useEffect(() => {
+    if (!backend || !userId) return;
+    const flush = () => {
+      if (document.visibilityState === 'hidden' && pRef.current.updatedAt > 0) void backend!.saveProgress(pRef.current);
+    };
+    document.addEventListener('visibilitychange', flush);
+    return () => document.removeEventListener('visibilitychange', flush);
+  }, [userId]);
+
   // debounced push
   useEffect(() => {
     if (!backend || !userId || p.updatedAt === 0) return;
@@ -138,7 +150,11 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   );
 
   const completeLesson = useCallback(
-    (id: string) => update((s) => (s.lessons.includes(id) ? s : { ...s, lessons: [...s.lessons, id] })),
+    (id: string) => update((s) => {
+        const resume = { ...(s.resume ?? {}) };
+        delete resume[id];
+        return s.lessons.includes(id) ? { ...s, resume } : { ...s, lessons: [...s.lessons, id], resume };
+      }),
     [update],
   );
 
@@ -161,8 +177,22 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [update],
   );
 
+  const saveResume = useCallback(
+    (id: string, r: LessonResume | null) =>
+      update((s) => {
+        const cur = s.resume?.[id];
+        if (!r && !cur) return s;
+        if (r && cur && cur.step === r.step && cur.theory === r.theory && cur.ex === r.ex) return s;
+        const next = { ...(s.resume ?? {}) };
+        if (r) next[id] = r;
+        else delete next[id];
+        return { ...s, resume: next };
+      }),
+    [update],
+  );
+
   const dueCount = useMemo(() => Object.values(p.cards).filter((c) => isDue(c)).length, [p.cards]);
 
-  const value: Ctx = { p, user, dueCount, gain, addCards, setCard, completeLesson, learnLetters, recordExam, syncing };
+  const value: Ctx = { p, user, dueCount, gain, addCards, setCard, completeLesson, learnLetters, recordExam, saveResume, syncing };
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
