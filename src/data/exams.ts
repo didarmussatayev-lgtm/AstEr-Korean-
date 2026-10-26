@@ -3,6 +3,8 @@ import { l } from './helpers';
 
 const passage = '저는 안나예요. 카자흐스탄에서 왔어요. 스무 살이에요. 학생이에요. 어제 도서관에서 한국어를 공부했어요. 내일은 친구를 만날 거예요.';
 
+const passage2 = '저는 민수예요. 열아홉 살이에요. 우리 가족은 네 명이에요. 아버지는 선생님이에요. 저는 아침 일곱 시에 일어나요. 보통 버스로 학교에 가요. 오늘은 비가 와서 지하철을 타요. 주말에 친구하고 축구를 해요.';
+
 export const exams: Exam[] = [
   {
     id: 'exam-l1',
@@ -55,6 +57,39 @@ export const exams: Exam[] = [
       { type: 'match', prompt: l('Соедини вопросительные слова', 'Match the question words'), pairs: [{ ko: '뭐', tr: l('что', 'what') }, { ko: '누구', tr: l('кто', 'who') }, { ko: '어디', tr: l('где', 'where') }, { ko: '언제', tr: l('когда', 'when') }] },
       { type: 'type', prompt: l('Напиши: «Откуда вы?»', 'Write: "Where are you from?"'), answers: ['어디에서 왔어요'] },
       { type: 'dictation', say: '만나서 반갑습니다', answers: ['만나서 반갑습니다'] },
+      // lessons 13–14: adjectives, family
+      { type: 'match', prompt: l('Соедини слово и перевод', 'Match the word and its meaning'), pairs: [{ ko: '커요', tr: l('большой', 'big') }, { ko: '싸요', tr: l('дешёвый', 'cheap') }, { ko: '비싸요', tr: l('дорогой', 'expensive') }, { ko: '작아요', tr: l('маленький', 'small') }] },
+      { type: 'choice', prompt: l('예쁘다 в вежливой форме:', 'Polite form of 예쁘다:'), options: ['예쁘어요', '예뻐요', '예쁘아요'], answer: 1 },
+      { type: 'choice', prompt: l('«Вкусная еда»:', '"Tasty food":'), options: ['맛있은 음식', '맛있는 음식', '맛있ㄴ 음식'], answer: 1 },
+      { type: 'choice', prompt: l('Девушка о старшем брате:', 'A young woman about her older brother:'), options: ['형', '오빠', '누나'], answer: 1 },
+      { type: 'cloze', sentence: '우리 가족은 네 ___이에요.', tr: l('Нас в семье четверо.', 'There are four of us.'), options: ['명', '개', '살'], answer: 0 },
+      // lessons 15–17: ordering, daily routine, transport
+      { type: 'cloze', sentence: '커피 한 ___ 주세요.', tr: l('Одну чашку кофе, пожалуйста.', 'One cup of coffee, please.'), options: ['잔', '명', '살'], answer: 0 },
+      { type: 'build', prompt: l('Собери: «Два кимбапа, пожалуйста»', 'Build: "Two gimbap, please"'), tokens: ['주세요', '두', '김밥', '개'], answer: ['김밥', '두', '개', '주세요'] },
+      { type: 'cloze', sentence: '일곱 시___ 일어나요.', options: ['에', '에서', '을'], answer: 0 },
+      { type: 'choice', prompt: l('Как сказать 10:30?', 'How do you say 10:30?'), options: ['십 시 삼십 분', '열 시 삼십 분', '열 시 서른 분'], answer: 1 },
+      { type: 'cloze', sentence: '지하철___ 가요.', options: ['로', '으로', '를'], answer: 0 },
+      { type: 'type', prompt: l('Напиши: «Это занимает 30 минут»', 'Write: "It takes 30 minutes"'), answers: ['삼십 분 걸려요', '삼십분 걸려요'] },
+      // second reading
+      { type: 'choice', passage: passage2, prompt: l('Сколько лет Минсу?', 'How old is Minsu?'), options: [l('19', '19'), l('9', '9'), l('21', '21')], answer: 0 },
+      { type: 'choice', passage: passage2, prompt: l('Сколько человек в его семье?', 'How many people are in his family?'), options: [l('3', '3'), l('4', '4'), l('5', '5')], answer: 1 },
+      { type: 'choice', passage: passage2, prompt: l('Как он едет в школу сегодня и почему?', 'How does he go to school today and why?'), options: [l('на метро, потому что идёт дождь', 'by subway because it rains'), l('на автобусе, потому что опаздывает', 'by bus because he is late'), l('пешком, потому что тепло', 'on foot because it is warm')], answer: 0 },
+      { type: 'choice', passage: passage2, prompt: l('Что он делает на выходных?', 'What does he do at the weekend?'), options: [l('играет с другом в футбол', 'plays football with a friend'), l('ходит по магазинам', 'goes shopping'), l('слушает музыку', 'listens to music')], answer: 0 },
+      // lessons 18–19: weather, health
+      { type: 'choice', prompt: l('춥다 в вежливой форме:', 'Polite form of 춥다:'), options: ['춥어요', '추워요', '춥아요'], answer: 1 },
+      { type: 'cloze', sentence: '머리___ 아파요.', tr: l('У меня болит голова.', 'I have a headache.'), options: ['가', '를', '에서'], answer: 0 },
+      { type: 'match', prompt: l('Соедини времена года', 'Match the seasons'), pairs: [{ ko: '봄', tr: l('весна', 'spring') }, { ko: '여름', tr: l('лето', 'summer') }, { ko: '가을', tr: l('осень', 'autumn') }, { ko: '겨울', tr: l('зима', 'winter') }] },
+      // lessons 20–22: requests, abilities, hobbies
+      { type: 'choice', prompt: l('앉다 + вежливая просьба:', '앉다 + polite request:'), options: ['앉세요', '앉으세요', '앉아세요'], answer: 1 },
+      { type: 'type', prompt: l('Напиши: «Говорите, пожалуйста, медленнее»', 'Write: "Please speak slowly"'), answers: ['천천히 말해 주세요', '천천히 말해주세요'] },
+      { type: 'cloze', sentence: '한국어를 할 ___ 있어요.', options: ['수', '거', '게'], answer: 0 },
+      { type: 'tf', statement: l('못 значит «не хочу».', '못 means "do not want to".'), answer: false },
+      { type: 'choice', prompt: l('듣다 в вежливой форме:', 'Polite form of 듣다:'), options: ['듣어요', '들어요', '들으요'], answer: 1 },
+      // lessons 23–24: connectors, phrases
+      { type: 'cloze', sentence: '비가 와___ 집에 있어요.', tr: l('Идёт дождь, поэтому я дома.', "It's raining, so I stay home."), options: ['서', '지만', '고'], answer: 0 },
+      { type: 'type', prompt: l('Напиши: «Идёт дождь, поэтому я дома»', 'Write: "It is raining, so I am at home"'), answers: ['비가 와서 집에 있어요'] },
+      { type: 'choice', prompt: l('Другу день рождения. Что сказать?', "It is a friend's birthday. What do you say?"), options: ['생일 축하해요', '오랜만이에요', '어서 오세요'], answer: 0 },
+      { type: 'tf', statement: l('К слову 선생님 можно добавить 씨.', 'You can add 씨 to 선생님.'), answer: false },
     ],
   },
 ];

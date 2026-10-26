@@ -9,6 +9,6 @@ export interface LevelInfo {
 }
 
 export const levels: LevelInfo[] = [
-  { level: 1, emoji: '🌱', title: l('Уровень 1 · Старт', 'Level 1 · Start'), blurb: l('Хангыль, знакомство, числа, простые глаголы, прошедшее и будущее время.', 'Hangul, introductions, numbers, basic verbs, past and future.') },
-  { level: 2, emoji: '🌿', title: l('Уровень 2 · Повседневная речь', 'Level 2 · Everyday Korean'), blurb: l('Связки предложений, просьбы, возможность, описание людей и мест.', 'Linking sentences, requests, ability, describing people and places.') },
+  { level: 1, emoji: '🌱', title: l('Уровень 1 · A1', 'Level 1 · A1'), blurb: l('Хангыль и базовая речь: знакомство, числа, время, еда, транспорт, погода, здоровье, просьбы, умения и хобби.', 'Hangul and basic speech: introductions, numbers, time, food, transport, weather, health, requests, abilities and hobbies.') },
+  { level: 2, emoji: '🌿', title: l('Уровень 2 · A2', 'Level 2 · A2'), blurb: l('Связки предложений, просьбы, возможность, описание людей и мест.', 'Linking sentences, requests, ability, describing people and places.') },
 ];

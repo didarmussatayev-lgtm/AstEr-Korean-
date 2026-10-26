@@ -9,6 +9,18 @@ import { lesson as l9 } from './lessons/l09-likes';
 import { lesson as l10 } from './lessons/l10-past';
 import { lesson as l11 } from './lessons/l11-plans';
 import { lesson as l12 } from './lessons/l12-introduce-more';
+import { lesson as l13 } from './lessons/l13-adjectives';
+import { lesson as l14 } from './lessons/l14-family';
+import { lesson as l15 } from './lessons/l15-order';
+import { lesson as l16 } from './lessons/l16-daily';
+import { lesson as l17 } from './lessons/l17-transport';
+import { lesson as l18 } from './lessons/l18-weather';
+import { lesson as l19 } from './lessons/l19-health';
+import { lesson as l20 } from './lessons/l20-requests';
+import { lesson as l21 } from './lessons/l21-abilities';
+import { lesson as l22 } from './lessons/l22-hobbies';
+import { lesson as l23 } from './lessons/l23-connectors';
+import { lesson as l24 } from './lessons/l24-phrases';
 
 const base: Lesson[] = [
   {
@@ -224,4 +236,4 @@ const base: Lesson[] = [
   },
 ];
 
-export const lessons: Lesson[] = [...base, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12];
+export const lessons: Lesson[] = [...base, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17, l18, l19, l20, l21, l22, l23, l24];
