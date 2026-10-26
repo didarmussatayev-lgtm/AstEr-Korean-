@@ -13,7 +13,8 @@ on the server (argon2id or bcrypt), tokens are JWT or opaque session ids.
 | GET | `/me` | – | `{id, email, role}` |
 | GET | `/progress` | – | progress JSON or `null` |
 | PUT | `/progress` | progress JSON | `204` |
-| GET | `/access` | – | `{levels: number[], lessons: string[] \| "all"}` *(planned)* |
+| GET | `/access` | – | `{levels: number[]}` levels opened by an admin (`granted`) *(planned)* |
+| PUT | `/progress` (exams) | progress JSON incl. `exams` | exam results are part of the progress JSON for now |
 
 Errors: `{ "error": "human readable message" }` with a 4xx status.
 
@@ -23,14 +24,16 @@ Errors: `{ "error": "human readable message" }` with a 4xx status.
 |---|---|---|
 | GET | `/admin/users?q=&page=` | list/search students |
 | GET | `/admin/users/:id` | profile + progress summary (xp, streak, lessons, cards due) |
-| POST | `/admin/users/:id/reset-password` | generate a one-time reset link / temp password |
+| PUT | `/admin/users/:id/password` | admin types a new password for the student (no email, no link); old sessions are revoked |
 | PUT | `/admin/users/:id/access` | open or close levels/lessons for one student |
 | POST | `/admin/users/:id/reset-progress` | wipe progress (with confirmation) |
 | PUT | `/admin/users/:id/role` | student / admin |
 | GET/PUT | `/admin/access/defaults` | which levels are open for everyone by default |
 
-Admin screens: students table (search, last active, streak, level), student page
-(progress per lesson, errors, reset password, open/close levels), access matrix
+Level rules: level 1 is open for everyone; level N+1 opens when the level N exam is passed (>= 80%) or when an admin adds N+1 to the student's `granted` list. The server must re-check this rule (do not trust the client).
+
+Admin screens (React): students table (search, last active, streak, level), student page
+(progress per lesson, errors, set a new password, open/close levels), access matrix
 (levels × groups), audit log of admin actions.
 
 ## Postgres schema (draft)

@@ -28,6 +28,13 @@ const dict = {
     checkMail: 'Проверь почту, чтобы подтвердить аккаунт.', loggedAs: 'Вы вошли как',
     noVoice: 'В этом браузере нет корейского голоса — звук может не воспроизводиться.',
     back: 'Назад', step: 'Шаг', of: 'из', level: 'Уровень', memorized: 'Запомнил!',
+    questions: 'вопросов', true: 'Верно', false: 'Неверно', dictation: 'Послушай и напиши по-корейски',
+    exam: 'Экзамен', examLevel: 'Экзамен уровня', examIntro: 'Вопросы разных форм: аудирование, выбор, пропуски, сопоставление, сборка, чтение и письмо. Подсказок и повторов нет, результат — в конце.',
+    passMark: 'Проходной балл', yourScore: 'Твой результат', passed: 'Экзамен сдан! 🎉', failed: 'Пока не сдан',
+    failedText: 'Повтори уроки и попробуй ещё раз — это можно делать сколько угодно.', retry: 'Пересдать', startExam: 'Начать экзамен',
+    levelUnlocked: 'Открыт следующий уровень!', locked: 'Закрыто', lessonsLeft: 'Осталось уроков до экзамена', examLocked: 'Пройди все уроки уровня, чтобы открыть экзамен',
+    levelLocked: 'Сдай экзамен предыдущего уровня, чтобы открыть этот', soon: 'Скоро', bestScore: 'Лучший результат', mistakesReview: 'Разбор ошибок',
+    allCorrect: 'Ошибок нет — отлично!', yourLevelOpen: 'Теперь открыт уровень', openNext: 'К карте',
   },
   en: {
     home: 'Home', hangul: 'Hangul', review: 'Review', account: 'Account',
@@ -54,6 +61,13 @@ const dict = {
     checkMail: 'Check your email to confirm your account.', loggedAs: 'Signed in as',
     noVoice: 'No Korean voice in this browser — audio may not play.',
     back: 'Back', step: 'Step', of: 'of', level: 'Level', memorized: 'Got it!',
+    questions: 'questions', true: 'True', false: 'False', dictation: 'Listen and write in Korean',
+    exam: 'Exam', examLevel: 'Level exam', examIntro: 'Mixed question types: listening, multiple choice, fill-in, matching, sentence building, reading and writing. No hints or retries; results come at the end.',
+    passMark: 'Pass mark', yourScore: 'Your score', passed: 'Exam passed! 🎉', failed: 'Not passed yet',
+    failedText: 'Review the lessons and try again — you can retake it as many times as you like.', retry: 'Retake', startExam: 'Start exam',
+    levelUnlocked: 'Next level unlocked!', locked: 'Locked', lessonsLeft: 'Lessons left before the exam', examLocked: 'Finish all lessons of this level to unlock the exam',
+    levelLocked: 'Pass the exam of the previous level to unlock this one', soon: 'Coming soon', bestScore: 'Best score', mistakesReview: 'Review of mistakes',
+    allCorrect: 'No mistakes — great!', yourLevelOpen: 'Now open: level', openNext: 'To the map',
   },
 } as const;
 

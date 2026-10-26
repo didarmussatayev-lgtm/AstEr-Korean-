@@ -15,10 +15,27 @@ export interface Vocab {
 }
 
 export type Exercise =
-  | { type: 'choice'; prompt: L; options: Text[]; answer: number; why?: L }
+  | { type: 'choice'; prompt: L; options: Text[]; answer: number; why?: L; passage?: string }
+  | { type: 'cloze'; sentence: string; tr?: L; options: Text[]; answer: number; why?: L }
+  | { type: 'tf'; statement: Text; answer: boolean; why?: L }
   | { type: 'listen'; say: string; options: L[]; answer: number }
+  | { type: 'match'; prompt: L; pairs: { ko: string; tr: Text }[] }
   | { type: 'build'; prompt: L; tokens: string[]; answer: string[] }
-  | { type: 'type'; prompt: L; answers: string[]; hint?: L };
+  | { type: 'type'; prompt: L; answers: string[]; hint?: L }
+  | { type: 'dictation'; say: string; answers: string[] };
+
+export interface Exam {
+  id: string;
+  level: number;
+  title: L;
+  exercises: Exercise[];
+}
+
+export interface ExamResult {
+  best: number; // 0..1
+  passed: boolean;
+  at: string;
+}
 
 export interface DialogueLine {
   who: 'A' | 'B';
@@ -77,5 +94,8 @@ export interface Progress {
   lessons: string[];
   letters: string[];
   cards: Record<string, Card>;
+  exams: Record<string, ExamResult>;
+  /** levels opened by an admin regardless of exams */
+  granted: number[];
   updatedAt: number;
 }

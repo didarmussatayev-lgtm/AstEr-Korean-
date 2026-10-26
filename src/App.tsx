@@ -6,6 +6,7 @@ import Hangul from './pages/Hangul';
 import Lesson from './pages/Lesson';
 import Review from './pages/Review';
 import Account from './pages/Account';
+import Exam from './pages/Exam';
 
 export default function App() {
   const { t, lang, setLang } = useI18n();
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/hangul" element={<Hangul />} />
           <Route path="/lesson/:id" element={<Lesson />} />
+          <Route path="/exam/:id" element={<Exam />} />
           <Route path="/review" element={<Review />} />
           <Route path="/account" element={<Account />} />
           <Route path="*" element={<Home />} />

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { Card, Progress } from './types';
+import type { Card, ExamResult, Progress } from './types';
 import { newCard, today, addDays, isDue } from './srs';
 import { backend } from './backend';
 import type { AuthUser } from './backend';
@@ -14,6 +14,8 @@ const empty = (): Progress => ({
   lessons: [],
   letters: [],
   cards: {},
+  exams: {},
+  granted: [],
   updatedAt: 0,
 });
 
@@ -35,6 +37,7 @@ interface Ctx {
   setCard: (c: Card) => void;
   completeLesson: (id: string) => void;
   learnLetters: (chars: string[]) => void;
+  recordExam: (id: string, score: number, passed: boolean) => void;
   syncing: boolean;
 }
 
@@ -129,8 +132,22 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [update],
   );
 
+  const recordExam = useCallback(
+    (id: string, score: number, passed: boolean) =>
+      update((s) => {
+        const prev: ExamResult | undefined = s.exams[id];
+        const next: ExamResult = {
+          best: Math.max(prev?.best ?? 0, score),
+          passed: passed || (prev?.passed ?? false),
+          at: today(),
+        };
+        return { ...touchStreak(s), exams: { ...s.exams, [id]: next } };
+      }),
+    [update],
+  );
+
   const dueCount = useMemo(() => Object.values(p.cards).filter((c) => isDue(c)).length, [p.cards]);
 
-  const value: Ctx = { p, user, dueCount, gain, addCards, setCard, completeLesson, learnLetters, syncing };
+  const value: Ctx = { p, user, dueCount, gain, addCards, setCard, completeLesson, learnLetters, recordExam, syncing };
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

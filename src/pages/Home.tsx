@@ -3,7 +3,10 @@ import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { addDays, today } from '../lib/srs';
 import { lessons } from '../data/lessons';
+import { levels } from '../data/levels';
+import { examOfLevel } from '../data/exams';
 import { allLetters } from '../data/hangul';
+import { isExamUnlocked, isLevelOpen, lessonsLeft } from '../lib/access';
 import { Card, ProgressBar } from '../components/ui';
 
 export default function Home() {
@@ -29,9 +32,7 @@ export default function Home() {
       <Card className="review-cta">
         {dueCount > 0 ? (
           <>
-            <div>
-              <h2>{t('dueToday')}: {dueCount} {t('cardsWord')}</h2>
-            </div>
+            <h2>{t('dueToday')}: {dueCount} {t('cardsWord')}</h2>
             <Link className="btn primary" to="/review">{t('startReview')}</Link>
           </>
         ) : (
@@ -39,35 +40,91 @@ export default function Home() {
         )}
       </Card>
 
-      <h2 className="section">{t('path')}</h2>
-      <ul className="path">
-        <li>
-          <Link to="/hangul" className="node">
-            <span className="emoji">한</span>
-            <span className="node-body">
-              <b>{t('hangul')}</b>
-              <span className="muted">{learned}/{allLetters.length} {t('letters')} · {t('learned')}</span>
-              <ProgressBar value={learned} max={allLetters.length} />
-            </span>
-            <span className="go">{learned >= allLetters.length ? '✓' : '›'}</span>
-          </Link>
-        </li>
-        {lessons.map((l) => {
-          const done = p.lessons.includes(l.id);
-          return (
-            <li key={l.id}>
-              <Link to={`/lesson/${l.id}`} className={`node ${done ? 'done' : ''}`}>
-                <span className="emoji">{l.emoji}</span>
-                <span className="node-body">
-                  <b>{tx(l.title)}</b>
-                  <span className="muted">{tx(l.goal)}</span>
-                </span>
-                <span className="go">{done ? '✓' : '›'}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      {levels.map((lv) => {
+        const open = isLevelOpen(lv.level, p);
+        const items = lessons.filter((l) => l.level === lv.level);
+        const exam = examOfLevel(lv.level);
+        const examResult = exam ? p.exams[exam.id] : undefined;
+        const left = lessonsLeft(lv.level, p);
+        const doneCount = items.length - left;
+        return (
+          <section key={lv.level} className="stack">
+            <div className="level-head">
+              <span className="emoji-lg">{open ? lv.emoji : '🔒'}</span>
+              <div className="grow">
+                <h2>{tx(lv.title)}</h2>
+                <p className="muted">{tx(lv.blurb)}</p>
+                {open && items.length > 0 && <ProgressBar value={doneCount} max={items.length} />}
+              </div>
+            </div>
+
+            {!open && (
+              <Card className="lock-card">
+                <p>🔒 {t('levelLocked')}</p>
+                {items.length === 0 && <p><b>{t('soon')}</b></p>}
+              </Card>
+            )}
+
+            {open && (
+              <ul className="path">
+                {lv.level === 1 && (
+                  <li>
+                    <Link to="/hangul" className="node">
+                      <span className="emoji">한</span>
+                      <span className="node-body">
+                        <b>{t('hangul')}</b>
+                        <span className="muted">{learned}/{allLetters.length} {t('letters')} · {t('learned')}</span>
+                        <ProgressBar value={learned} max={allLetters.length} />
+                      </span>
+                      <span className="go">{learned >= allLetters.length ? '✓' : '›'}</span>
+                    </Link>
+                  </li>
+                )}
+                {items.map((l) => {
+                  const done = p.lessons.includes(l.id);
+                  return (
+                    <li key={l.id}>
+                      <Link to={`/lesson/${l.id}`} className={`node ${done ? 'done' : ''}`}>
+                        <span className="emoji">{l.emoji}</span>
+                        <span className="node-body">
+                          <b>{tx(l.title)}</b>
+                          <span className="muted">{tx(l.goal)}</span>
+                        </span>
+                        <span className="go">{done ? '✓' : '›'}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+                {exam && (
+                  <li>
+                    {isExamUnlocked(lv.level, p) ? (
+                      <Link to={`/exam/${exam.id}`} className={`node exam ${examResult?.passed ? 'passed' : ''}`}>
+                        <span className="emoji">🎓</span>
+                        <span className="node-body">
+                          <b>{tx(exam.title)}</b>
+                          <span className="muted">
+                            {examResult ? `${t('bestScore')}: ${Math.round(examResult.best * 100)}%` : t('examIntro')}
+                          </span>
+                        </span>
+                        <span className="go">{examResult?.passed ? '✓' : '›'}</span>
+                      </Link>
+                    ) : (
+                      <div className="node exam locked" aria-disabled="true">
+                        <span className="emoji">🔒</span>
+                        <span className="node-body">
+                          <b>{tx(exam.title)}</b>
+                          <span className="muted">{t('examLocked')} · {t('lessonsLeft')}: {left}</span>
+                        </span>
+                      </div>
+                    )}
+                  </li>
+                )}
+                {items.length === 0 && <li><Card className="lock-card"><b>{t('soon')}</b></Card></li>}
+              </ul>
+            )}
+          </section>
+        );
+      })}
     </div>
   );
 }

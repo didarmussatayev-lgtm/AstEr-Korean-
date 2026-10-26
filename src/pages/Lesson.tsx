@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { isLevelOpen } from '../lib/access';
 import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { lessons } from '../data/lessons';
@@ -15,7 +16,9 @@ export default function Lesson() {
   const { id } = useParams();
   const lesson = lessons.find((l) => l.id === id);
   const { t } = useI18n();
+  const { p } = useProgress();
   if (!lesson) return <p>404 · <Link to="/">{t('toHome')}</Link></p>;
+  if (!isLevelOpen(lesson.level, p)) return <Navigate to="/" replace />;
   return <LessonView key={lesson.id} lesson={lesson} />;
 }
 

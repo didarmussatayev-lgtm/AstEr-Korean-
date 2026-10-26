@@ -174,3 +174,20 @@ th { background: var(--brand-soft); }
 .form label { display: grid; gap: .3rem; font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+.opt.picked { border-color: var(--brand); background: var(--brand-soft); }
+.passage { display: flex; gap: .6rem; align-items: flex-start; padding: .8rem; border-radius: 14px; background: var(--brand-soft); }
+.passage p { margin: 0; line-height: 1.7; }
+.prompt.cloze { font-size: 1.5rem; }
+.match-cols { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.match-cols .opt { text-align: center; min-height: 48px; padding: .6rem; }
+.node.locked { opacity: .6; }
+.node.exam { border-style: dashed; }
+.node.exam.passed { border-style: solid; border-color: var(--good); }
+.level-head { display: flex; align-items: center; gap: .6rem; margin-top: .6rem; }
+.level-head h2 { margin: 0; }
+.lock-card { text-align: center; color: var(--muted); }
+.score-ring { font-size: 2.6rem; font-weight: 800; }
+.review-list { list-style: none; padding: 0; margin: .5rem 0; display: grid; gap: .5rem; text-align: left; }
+.review-list li { padding: .6rem .8rem; border-radius: 12px; background: var(--bad-soft); }
+.emoji-lg { font-size: 2rem; }
