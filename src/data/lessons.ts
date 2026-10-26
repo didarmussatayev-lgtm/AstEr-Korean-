@@ -1,6 +1,11 @@
 import type { Lesson } from '../lib/types';
+import { lesson as l3 } from './lessons/l03-numbers-sino';
+import { lesson as l4 } from './lessons/l04-numbers-native';
+import { lesson as l5 } from './lessons/l05-this-that';
+import { lesson as l6 } from './lessons/l06-verbs';
+import { lesson as l7 } from './lessons/l07-places';
 
-export const lessons: Lesson[] = [
+const base: Lesson[] = [
   {
     id: 'l1-greetings',
     level: 1,
@@ -213,3 +218,5 @@ export const lessons: Lesson[] = [
     },
   },
 ];
+
+export const lessons: Lesson[] = [...base, l3, l4, l5, l6, l7];

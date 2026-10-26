@@ -1,9 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { Session } from '@supabase/supabase-js';
 import type { Card, Progress } from './types';
 import { newCard, today, addDays, isDue } from './srs';
-import { supabase } from './supabase';
+import { backend } from './backend';
+import type { AuthUser } from './backend';
 
 const KEY = 'aster-korean:progress:v1';
 
@@ -28,7 +28,7 @@ function loadLocal(): Progress {
 
 interface Ctx {
   p: Progress;
-  session: Session | null;
+  user: AuthUser | null;
   dueCount: number;
   gain: (xp: number) => void;
   addCards: (cards: Parameters<typeof newCard>[0][]) => void;
@@ -47,7 +47,7 @@ export const useProgress = () => {
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
   const [p, setP] = useState<Progress>(loadLocal);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [syncing, setSyncing] = useState(false);
   const pRef = useRef(p);
   pRef.current = p;
@@ -67,29 +67,22 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   // auth state
   useEffect(() => {
-    if (!supabase) return;
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
-    return () => data.subscription.unsubscribe();
+    if (!backend) return;
+    backend.getUser().then(setUser);
+    return backend.onAuthChange(setUser);
   }, []);
 
   // on login: pull remote, newer copy wins
-  const userId = session?.user.id;
+  const userId = user?.id;
   useEffect(() => {
-    if (!supabase || !userId) return;
+    if (!backend || !userId) return;
     let cancelled = false;
     setSyncing(true);
-    supabase
-      .from('progress')
-      .select('data, updated_at')
-      .eq('user_id', userId)
-      .maybeSingle()
-      .then(({ data }) => {
-        if (cancelled) return;
-        const remote = data?.data as Progress | undefined;
-        if (remote && remote.updatedAt > pRef.current.updatedAt) setP({ ...empty(), ...remote });
-        setSyncing(false);
-      });
+    backend.loadProgress().then((remote) => {
+      if (cancelled) return;
+      if (remote && remote.updatedAt > pRef.current.updatedAt) setP({ ...empty(), ...remote });
+      setSyncing(false);
+    });
     return () => {
       cancelled = true;
     };
@@ -97,13 +90,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   // debounced push
   useEffect(() => {
-    if (!supabase || !userId || p.updatedAt === 0) return;
-    const t = setTimeout(() => {
-      supabase!
-        .from('progress')
-        .upsert({ user_id: userId, data: p, updated_at: new Date().toISOString() })
-        .then(() => undefined);
-    }, 1500);
+    if (!backend || !userId || p.updatedAt === 0) return;
+    const t = setTimeout(() => void backend!.saveProgress(p), 1500);
     return () => clearTimeout(t);
   }, [p, userId]);
 
@@ -143,6 +131,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const dueCount = useMemo(() => Object.values(p.cards).filter((c) => isDue(c)).length, [p.cards]);
 
-  const value: Ctx = { p, session, dueCount, gain, addCards, setCard, completeLesson, learnLetters, syncing };
+  const value: Ctx = { p, user, dueCount, gain, addCards, setCard, completeLesson, learnLetters, syncing };
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

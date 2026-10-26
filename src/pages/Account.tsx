@@ -2,12 +2,12 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
-import { cloudEnabled, supabase } from '../lib/supabase';
+import { backend } from '../lib/backend';
 import { Card } from '../components/ui';
 
 export default function Account() {
   const { t } = useI18n();
-  const { session, syncing } = useProgress();
+  const { user, syncing } = useProgress();
   const [mode, setMode] = useState<'in' | 'up'>('in');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,34 +16,32 @@ export default function Account() {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!supabase) return;
+    if (!backend) return;
     setBusy(true);
     setMsg('');
-    const res = mode === 'in'
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password });
+    const res = mode === 'in' ? await backend.signIn(email, password) : await backend.signUp(email, password);
     setBusy(false);
-    if (res.error) setMsg(res.error.message);
-    else if (mode === 'up' && !res.data.session) setMsg(t('checkMail'));
+    if (res.error) setMsg(res.error);
+    else if ('needsConfirm' in res && res.needsConfirm) setMsg(t('checkMail'));
   };
 
   return (
     <div className="stack">
       <h1>{t('account')}</h1>
-      {!cloudEnabled && (
+      {!backend && (
         <Card>
           <p>{t('localMode')}</p>
           <p className="muted">{t('cloudOff')}</p>
         </Card>
       )}
-      {cloudEnabled && session && (
+      {backend && user && (
         <Card>
-          <p>{t('loggedAs')} <b>{session.user.email}</b></p>
+          <p>{t('loggedAs')} <b>{user.email}</b></p>
           <p className="muted">{syncing ? '…' : t('cloudOn')}</p>
-          <button type="button" className="btn" onClick={() => supabase!.auth.signOut()}>{t('signOut')}</button>
+          <button type="button" className="btn" onClick={() => backend!.signOut()}>{t('signOut')}</button>
         </Card>
       )}
-      {cloudEnabled && !session && (
+      {backend && !user && (
         <Card>
           <p className="muted">{t('localMode')}</p>
           <div className="tabs">
