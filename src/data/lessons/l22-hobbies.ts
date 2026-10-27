@@ -86,9 +86,9 @@ export const lesson: Lesson = {
     { type: 'cloze', sentence: '저는 ___ 음악을 들어요.', tr: l('Я каждый день слушаю музыку.', 'I listen to music every day.'), options: ['매일', '가끔', '거의'], answer: 0 },
     { type: 'tf', statement: l('거의 안 해요 значит «делаю почти каждый день».', '거의 안 해요 means "I do it almost every day".'), answer: false },
     { type: 'build', prompt: l('Собери: «Моё хобби — музыка»', 'Build: "My hobby is music"'), tokens: ['음악이에요', '취미는', '제'], answer: ['제', '취미는', '음악이에요'] },
-    { type: 'type', prompt: l('Напиши: «Я иногда гуляю»', 'Write: "I sometimes take a walk"'), answers: ['가끔 산책해요', '저는 가끔 산책해요'] },
+    { type: 'write', prompt: l('Научись писать слово «прогулка»', 'Learn to write the word "walk"'), word: '산책', tr: l('прогулка', 'walk') },
     { type: 'listen', say: '축구', options: [l('футбол', 'football'), l('баскетбол', 'basketball'), l('игра', 'game')], answer: 0 },
-    { type: 'dictation', say: '취미', answers: ['취미'] },
+    { type: 'write', prompt: l('Научись писать слово «хобби»', 'Learn to write the word "hobby"'), word: '취미', tr: l('хобби', 'hobby') },
   ],
   dialogue: {
     title: l('Твоё хобби', 'Your hobby'),

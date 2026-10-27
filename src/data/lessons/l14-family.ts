@@ -94,9 +94,9 @@ export const lesson: Lesson = {
     { type: 'cloze', sentence: '우리 가족은 네 ___이에요.', tr: l('Нас в семье четверо.', 'There are four of us.'), options: ['명', '개', '살'], answer: 0 },
     { type: 'tf', statement: l('제 — это сокращение от 저의.', '제 is a contraction of 저의.'), answer: true },
     { type: 'build', prompt: l('Собери: «У меня есть младшая сестра»', 'Build: "I have a younger sister"'), tokens: ['있어요', '여동생이', '저는'], answer: ['저는', '여동생이', '있어요'] },
-    { type: 'type', prompt: l('Напиши (говорит юноша): «У меня есть старший брат»', 'Write (a man speaking): "I have an older brother"'), answers: ['형이 있어요', '저는 형이 있어요'] },
+    { type: 'write', prompt: l('Научись писать слово «семья»', 'Learn to write the word "family"'), word: '가족', tr: l('семья', 'family') },
     { type: 'listen', say: '아버지', options: [l('отец', 'father'), l('мать', 'mother'), l('сын', 'son')], answer: 0 },
-    { type: 'dictation', say: '할머니', answers: ['할머니'] },
+    { type: 'write', prompt: l('Научись писать слово «бабушка»', 'Learn to write the word "grandmother"'), word: '할머니', tr: l('бабушка', 'grandmother') },
   ],
   dialogue: {
     title: l('О семье', 'About family'),

@@ -99,9 +99,9 @@ export const lesson: Lesson = {
     { type: 'cloze', sentence: '어디가 ___?', tr: l('Где болит?', 'Where does it hurt?'), options: ['아파요', '피곤해요', '맛있어요'], answer: 0 },
     { type: 'tf', statement: l('피곤해요 значит «Я голоден».', '피곤해요 means "I am hungry".'), answer: false },
     { type: 'build', prompt: l('Собери: «Я простудился»', 'Build: "I caught a cold"'), tokens: ['걸렸어요', '감기에'], answer: ['감기에', '걸렸어요'] },
-    { type: 'type', prompt: l('Напиши: «У меня болит голова»', 'Write: "I have a headache"'), answers: ['머리가 아파요', '저는 머리가 아파요'] },
+    { type: 'write', prompt: l('Научись писать слово «голова»', 'Learn to write the word "head"'), word: '머리', tr: l('голова', 'head') },
     { type: 'listen', say: '약', options: [l('лекарство', 'medicine'), l('больница', 'hospital'), l('простуда', 'a cold')], answer: 0 },
-    { type: 'dictation', say: '병원', answers: ['병원'] },
+    { type: 'write', prompt: l('Научись писать слово «больница»', 'Learn to write the word "hospital"'), word: '병원', tr: l('больница', 'hospital') },
   ],
   dialogue: {
     title: l('Что случилось?', 'What happened?'),

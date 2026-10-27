@@ -89,9 +89,9 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('피곤하다 + «поэтому»:', '피곤하다 + "so":'), options: ['피곤해서', '피곤하서', '피곤했서'], answer: 0, why: l('Вежливая форма 피곤해요 → убрать 요 → 피곤해 + 서.', 'Polite form 피곤해요 → drop 요 → 피곤해 + 서.') },
     { type: 'tf', statement: l('Можно сказать 비가 왔어서 집에 있어요.', 'You can say 비가 왔어서 집에 있어요.'), answer: false, why: l('Перед -아서/어서 нельзя ставить прошедшее время.', 'You cannot put a past marker before -아서/어서.') },
     { type: 'build', prompt: l('Собери: «Устал, поэтому рано ложусь»', 'Build: "I am tired, so I go to bed early"'), tokens: ['자요', '일찍', '피곤해서'], answer: ['피곤해서', '일찍', '자요'] },
-    { type: 'type', prompt: l('Напиши: «Идёт дождь, поэтому я дома»', 'Write: "It is raining, so I am at home"'), answers: ['비가 와서 집에 있어요', '비가 와서 집에 있어요.'] },
+    { type: 'write', prompt: l('Научись писать слово «поэтому»', 'Learn to write the word "so, therefore"'), word: '그래서', tr: l('поэтому', 'so, therefore') },
     { type: 'listen', say: '그래서', options: [l('поэтому', 'so'), l('но', 'but'), l('и', 'and')], answer: 0 },
-    { type: 'dictation', say: '하지만', answers: ['하지만'] },
+    { type: 'write', prompt: l('Научись писать слово «но, однако»', 'Learn to write the word "but, however"'), word: '하지만', tr: l('но, однако', 'but, however') },
   ],
   dialogue: {
     title: l('Почему?', 'Why?'),

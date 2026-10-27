@@ -89,9 +89,9 @@ export const lesson: Lesson = {
     { type: 'tf', statement: l('К слову 선생님 можно добавить 씨: 선생님 씨.', 'You can add 씨 to 선생님: 선생님 씨.'), answer: false, why: l('선생님 уже уважительное слово, 씨 не нужен.', '선생님 is already respectful, so no 씨.') },
     { type: 'choice', prompt: l('Какая речь безопаснее всего для новичка?', 'Which speech style is safest for a beginner?'), options: [l('반말', '반말'), l('존댓말 (-요)', '존댓말 (-요)')], answer: 1 },
     { type: 'build', prompt: l('Собери: «Давно не виделись. Как дела?»', 'Build: "Long time no see. How are you?"'), tokens: ['잘 지내요?', '오랜만이에요.'], answer: ['오랜만이에요.', '잘 지내요?'] },
-    { type: 'type', prompt: l('Напиши: «С днём рождения»', 'Write: "Happy birthday"'), answers: ['생일 축하해요', '생일 축하합니다'] },
+    { type: 'write', prompt: l('Научись писать слово «вежливая речь»', 'Learn to write the word "polite speech"'), word: '존댓말', tr: l('вежливая речь', 'polite speech') },
     { type: 'listen', say: '미안해요', options: [l('извини', "I'm sorry"), l('спасибо', 'thanks'), l('до встречи', 'see you')], answer: 0 },
-    { type: 'dictation', say: '오랜만이에요', answers: ['오랜만이에요'] },
+    { type: 'write', prompt: l('Научись писать слово «разговорная речь»', 'Learn to write the word "casual speech"'), word: '반말', tr: l('разговорная речь', 'casual speech') },
   ],
   dialogue: {
     title: l('Встреча знакомых', 'Meeting an acquaintance'),

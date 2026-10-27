@@ -98,7 +98,7 @@ export const lesson: Lesson = {
     { type: 'listen', say: '물', options: [l('вода', 'water'), l('книга', 'book'), l('кофе', 'coffee')], answer: 0 },
     { type: 'build', prompt: l('Собери: «Вон то — сумка»', 'Build: "That over there is a bag"'), tokens: ['가방이에요', '저거는'], answer: ['저거는', '가방이에요'] },
     { type: 'build', prompt: l('Собери: «Это не книга»', 'Build: "This is not a book"'), tokens: ['아니에요', '이거는', '책이'], answer: ['이거는', '책이', '아니에요'] },
-    { type: 'type', prompt: l('Напиши: «Это книга»', 'Write: "This is a book"'), answers: ['이거는 책이에요', '이건 책이에요', '이것은 책이에요', '이거 책이에요'] },
+    { type: 'write', prompt: l('Научись писать слово «книга»', 'Learn to write the word "book"'), word: '책', tr: l('книга', 'book') },
   ],
   dialogue: {
     title: l('Что это?', 'What is this?'),

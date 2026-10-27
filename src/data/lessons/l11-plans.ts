@@ -77,8 +77,8 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('마시다 в будущем:', 'Future of 마시다:'), options: ['마실 거예요', '마시을 거예요', '마셨을 거예요'], answer: 0 },
     { type: 'tf', statement: l('먹고 싶어요 значит «Хочу есть».', '먹고 싶어요 means "I want to eat".'), answer: true },
     { type: 'build', prompt: l('Собери: «Завтра я буду учиться»', 'Build: "I will study tomorrow"'), tokens: ['공부할', '저는', '거예요', '내일'], answer: ['저는', '내일', '공부할', '거예요'] },
-    { type: 'type', prompt: l('Напиши: «Я хочу пить кофе»', 'Write: "I want to drink coffee"'), answers: ['커피를 마시고 싶어요', '저는 커피를 마시고 싶어요'] },
-    { type: 'dictation', say: '갈 거예요', answers: ['갈 거예요', '갈거예요'] },
+    { type: 'write', prompt: l('Научись писать слово «сейчас»', 'Learn to write the word "now"'), word: '지금', tr: l('сейчас', 'now') },
+    { type: 'write', prompt: l('Научись писать слово «завтра»', 'Learn to write the word "tomorrow"'), word: '내일', tr: l('завтра', 'tomorrow') },
   ],
   dialogue: {
     title: l('Планы', 'Plans'),

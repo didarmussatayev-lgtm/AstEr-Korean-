@@ -96,9 +96,9 @@ export const lesson: Lesson = {
     { type: 'tf', statement: l('오늘에 학교에 가요 — правильно.', '오늘에 학교에 가요 is correct.'), answer: false, why: l('С 오늘 частица 에 не нужна.', '오늘 takes no 에.') },
     { type: 'choice', prompt: l('오후 значит…', '오후 means…'), options: [l('до полудня', 'AM'), l('после полудня', 'PM'), l('ночью', 'at night')], answer: 1 },
     { type: 'build', prompt: l('Собери: «С девяти до трёх у меня занятия»', 'Build: "I have classes from nine to three"'), tokens: ['수업이', '세', '시까지', '아홉', '시부터', '있어요'], answer: ['아홉', '시부터', '세', '시까지', '수업이', '있어요'] },
-    { type: 'type', prompt: l('Напиши: «Я встаю в 7 часов»', 'Write: "I get up at seven"'), answers: ['일곱 시에 일어나요', '저는 일곱 시에 일어나요'] },
+    { type: 'write', prompt: l('Научись писать слово «утро»', 'Learn to write the word "morning"'), word: '아침', tr: l('утро', 'morning') },
     { type: 'listen', say: '저녁', options: [l('вечер', 'evening'), l('утро', 'morning'), l('ночь', 'night')], answer: 0 },
-    { type: 'dictation', say: '일어나요', answers: ['일어나요'] },
+    { type: 'write', prompt: l('Научись писать слово «вечер»', 'Learn to write the word "evening"'), word: '저녁', tr: l('вечер', 'evening') },
   ],
   dialogue: {
     title: l('Твой день', 'Your day'),

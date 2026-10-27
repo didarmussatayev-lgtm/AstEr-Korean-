@@ -92,9 +92,9 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('«Я не умею плавать»:', '"I cannot swim":'), options: ['수영을 안 해요', '수영을 못 해요', '수영이 아니에요'], answer: 1, why: l('못 — «не могу», 안 — «не хочу / не делаю».', '못 is "cannot", 안 is "do not".') },
     { type: 'tf', statement: l('못 значит «не хочу».', '못 means "do not want to".'), answer: false },
     { type: 'build', prompt: l('Собери: «Я хорошо готовлю»', 'Build: "I cook well"'), tokens: ['잘해요', '요리를', '저는'], answer: ['저는', '요리를', '잘해요'] },
-    { type: 'type', prompt: l('Напиши: «Я умею говорить по-корейски»', 'Write: "I can speak Korean"'), answers: ['한국어를 할 수 있어요', '저는 한국어를 할 수 있어요'] },
+    { type: 'write', prompt: l('Научись писать слово «плавание»', 'Learn to write the word "swimming"'), word: '수영', tr: l('плавание', 'swimming') },
     { type: 'listen', say: '운전', options: [l('вождение', 'driving'), l('плавание', 'swimming'), l('пение', 'singing')], answer: 0 },
-    { type: 'dictation', say: '수영', answers: ['수영'] },
+    { type: 'write', prompt: l('Научись писать слово «готовка»', 'Learn to write the word "cooking"'), word: '요리', tr: l('готовка', 'cooking') },
   ],
   dialogue: {
     title: l('Что ты умеешь?', 'What can you do?'),

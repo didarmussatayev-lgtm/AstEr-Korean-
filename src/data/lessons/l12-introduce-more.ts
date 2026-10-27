@@ -84,8 +84,8 @@ export const lesson: Lesson = {
     { type: 'tf', statement: l('왜 означает «как».', '왜 means "how".'), answer: false, why: l('왜 — «почему», «как» — 어떻게.', '왜 is "why"; "how" is 어떻게.') },
     { type: 'choice', prompt: l('Как спросить «Откуда вы?»', 'How do you ask "Where are you from?"'), options: ['어디에서 왔어요?', '어디예요?', '언제 왔어요?'], answer: 0 },
     { type: 'build', prompt: l('Собери: «Я из Казахстана»', 'Build: "I am from Kazakhstan"'), tokens: ['왔어요', '카자흐스탄에서'], answer: ['카자흐스탄에서', '왔어요'] },
-    { type: 'type', prompt: l('Напиши: «Как вас зовут?»', 'Write: "What is your name?"'), answers: ['이름이 뭐예요'] },
-    { type: 'dictation', say: '만나서 반갑습니다', answers: ['만나서 반갑습니다'] },
+    { type: 'write', prompt: l('Научись писать слово «имя»', 'Learn to write the word "name"'), word: '이름', tr: l('имя', 'name') },
+    { type: 'write', prompt: l('Научись писать слово «кто»', 'Learn to write the word "who"'), word: '누구', tr: l('кто', 'who') },
   ],
   dialogue: {
     title: l('Знакомство', 'Meeting someone'),

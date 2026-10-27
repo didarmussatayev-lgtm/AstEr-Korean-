@@ -109,7 +109,7 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('«Большая сумка»:', '"A big bag":'), options: ['큰 가방', '크은 가방', '크는 가방'], answer: 0 },
     { type: 'choice', prompt: l('«Вкусная еда»:', '"Tasty food":'), options: ['맛있은 음식', '맛있는 음식', '맛있ㄴ 음식'], answer: 1, why: l('Для 있다/없다 используем -는.', 'Words with 있다/없다 take -는.') },
     { type: 'build', prompt: l('Собери: «Я люблю большие сумки»', 'Build: "I like big bags"'), tokens: ['가방을', '큰', '좋아해요', '저는'], answer: ['저는', '큰', '가방을', '좋아해요'] },
-    { type: 'type', prompt: l('Напиши: «Я очень занят»', 'Write: "I am very busy"'), answers: ['저는 아주 바빠요', '아주 바빠요', '저는 정말 바빠요', '저는 너무 바빠요'] },
+    { type: 'write', prompt: l('Научись писать слово «очень»', 'Learn to write the word "very"'), word: '아주', tr: l('очень', 'very') },
     { type: 'listen', say: '비싸요', options: [l('дорогой', 'expensive'), l('дешёвый', 'cheap'), l('красивый', 'pretty')], answer: 0 },
   ],
   dialogue: {

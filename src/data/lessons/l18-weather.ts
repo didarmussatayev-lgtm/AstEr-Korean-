@@ -90,9 +90,9 @@ export const lesson: Lesson = {
     { type: 'cloze', sentence: '오늘 날씨가 ___?', tr: l('Какая сегодня погода?', "What's the weather today?"), options: ['어때요', '뭐예요', '누구예요'], answer: 0 },
     { type: 'tf', statement: l('눈이 와요 значит «Идёт снег».', '눈이 와요 means "it is snowing".'), answer: true },
     { type: 'build', prompt: l('Собери: «Сегодня очень тепло»', 'Build: "It is very warm today"'), tokens: ['따뜻해요', '오늘은', '아주', '날씨가'], answer: ['오늘은', '날씨가', '아주', '따뜻해요'] },
-    { type: 'type', prompt: l('Напиши: «Сегодня холодно»', 'Write: "It is cold today"'), answers: ['오늘은 추워요', '오늘 추워요', '오늘 날씨가 추워요'] },
+    { type: 'write', prompt: l('Научись писать слово «погода»', 'Learn to write the word "weather"'), word: '날씨', tr: l('погода', 'weather') },
     { type: 'listen', say: '매워요', options: [l('острый', 'spicy'), l('сладкий', 'sweet'), l('холодный', 'cold')], answer: 0 },
-    { type: 'dictation', say: '겨울', answers: ['겨울'] },
+    { type: 'write', prompt: l('Научись писать слово «зима»', 'Learn to write the word "winter"'), word: '겨울', tr: l('зима', 'winter') },
   ],
   dialogue: {
     title: l('Какая погода?', "What's the weather like?"),

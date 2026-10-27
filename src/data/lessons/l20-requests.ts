@@ -100,9 +100,9 @@ export const lesson: Lesson = {
     { type: 'tf', statement: l('안녕히 주무세요 говорят перед сном.', '안녕히 주무세요 is said at bedtime.'), answer: true },
     { type: 'cloze', sentence: '천천히 말해 ___.', tr: l('Говорите, пожалуйста, медленнее.', 'Please speak slowly.'), options: ['주세요', '마세요', '이에요'], answer: 0 },
     { type: 'build', prompt: l('Собери: «Говорите, пожалуйста, медленнее»', 'Build: "Please speak slowly"'), tokens: ['주세요', '말해', '천천히'], answer: ['천천히', '말해', '주세요'] },
-    { type: 'type', prompt: l('Напиши: «Подождите, пожалуйста»', 'Write: "Please wait"'), answers: ['기다려 주세요', '잠깐만 기다려 주세요', '기다려주세요'] },
+    { type: 'write', prompt: l('Научись писать слово «дайте, пожалуйста»', 'Learn to write the word "please give me"'), word: '주세요', tr: l('дайте, пожалуйста', 'please give me') },
     { type: 'listen', say: '도와주세요', options: [l('помогите', 'please help'), l('подождите', 'please wait'), l('садитесь', 'please sit')], answer: 0 },
-    { type: 'dictation', say: '천천히', answers: ['천천히'] },
+    { type: 'write', prompt: l('Научись писать слово «медленно»', 'Learn to write the word "slowly"'), word: '천천히', tr: l('медленно', 'slowly') },
   ],
   dialogue: {
     title: l('В классе', 'In the classroom'),

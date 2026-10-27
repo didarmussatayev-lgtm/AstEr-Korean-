@@ -98,8 +98,8 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('Как сказать «20 лет»?', 'How do you say "20 years old"?'), options: ['이십 살', '스무 살', '열열 살'], answer: 1, why: l('Возраст 20 лет — 스무 살: перед счётным словом 스무.', 'Age uses the native form: 스무 before a counter.') },
     { type: 'choice', prompt: l('Какие числа нужны для минут?', 'Which numbers are used for minutes?'), options: [l('Китайско-корейские (십 분)', 'Sino-Korean (십 분)'), l('Чистокорейские (열 분)', 'Native (열 분)')], answer: 0 },
     { type: 'build', prompt: l('Собери: «три человека»', 'Build: "three people"'), tokens: ['명', '세'], answer: ['세', '명'] },
-    { type: 'type', prompt: l('Напиши по-корейски: «5 часов»', 'Write in Korean: "5 o\'clock"'), answers: ['다섯 시', '다섯시'] },
-    { type: 'type', prompt: l('Напиши: «два яблока» (사과 …)', 'Write "two apples" (사과 …)'), answers: ['사과 두 개', '사과두개'] },
+    { type: 'write', prompt: l('Научись писать слово «пять (чистокорейское)»', 'Learn to write the word "five (native number)"'), word: '다섯', tr: l('пять (чистокорейское)', 'five (native number)') },
+    { type: 'write', prompt: l('Научись писать слово «яблоко»', 'Learn to write the word "apple"'), word: '사과', tr: l('яблоко', 'apple') },
   ],
   dialogue: {
     title: l('Знакомство: возраст', 'Getting to know you: age'),

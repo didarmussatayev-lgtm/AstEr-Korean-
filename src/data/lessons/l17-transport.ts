@@ -99,9 +99,9 @@ export const lesson: Lesson = {
     { type: 'cloze', sentence: '버스를 ___.', tr: l('Сажусь на автобус.', 'I take the bus.'), options: ['타요', '내려요', '걸려요'], answer: 0 },
     { type: 'tf', statement: l('걸어서 가요 значит «Еду на автобусе».', '걸어서 가요 means "I go by bus".'), answer: false },
     { type: 'build', prompt: l('Собери: «Я езжу в школу на метро»', 'Build: "I go to school by subway"'), tokens: ['가요', '학교에', '지하철로', '저는'], answer: ['저는', '지하철로', '학교에', '가요'] },
-    { type: 'type', prompt: l('Напиши: «Это занимает 30 минут»', 'Write: "It takes 30 minutes"'), answers: ['삼십 분 걸려요', '삼십분 걸려요'] },
+    { type: 'write', prompt: l('Научись писать слово «автобус»', 'Learn to write the word "bus"'), word: '버스', tr: l('автобус', 'bus') },
     { type: 'listen', say: '비행기', options: [l('самолёт', 'airplane'), l('поезд', 'train'), l('велосипед', 'bicycle')], answer: 0 },
-    { type: 'dictation', say: '지하철', answers: ['지하철'] },
+    { type: 'write', prompt: l('Научись писать слово «метро»', 'Learn to write the word "subway"'), word: '지하철', tr: l('метро', 'subway') },
   ],
   dialogue: {
     title: l('Как добираешься?', 'How do you get there?'),

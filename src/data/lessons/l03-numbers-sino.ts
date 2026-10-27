@@ -106,7 +106,7 @@ export const lesson: Lesson = {
     { type: 'write', prompt: l('И число 3000', 'And the number 3,000'), word: '삼천', tr: l('три тысячи', 'three thousand') },
     { type: 'build', prompt: l('Собери: «5 000 вон»', 'Build: "5,000 won"'), tokens: ['원', '오천'], answer: ['오천', '원'] },
     { type: 'build', prompt: l('Собери: «Сколько это стоит?»', 'Build: "How much is this?"'), tokens: ['얼마예요?', '이거'], answer: ['이거', '얼마예요?'] },
-    { type: 'type', prompt: l('Напиши: «10 000 вон» (по-корейски, словами)', 'Write "10,000 won" in Korean words'), answers: ['만 원', '만원'] },
+    { type: 'write', prompt: l('Научись писать слово «10 000 вон»', 'Learn to write the word "10,000 won"'), word: '만원', tr: l('10 000 вон', '10,000 won') },
   ],
   dialogue: {
     title: l('В магазине', 'At the shop'),

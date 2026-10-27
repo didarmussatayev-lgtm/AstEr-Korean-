@@ -81,7 +81,7 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('«Я не пью кофе»:', '"I do not drink coffee":'), options: ['커피를 안 마셔요', '커피를 마셔요 안', '안 커피를 마셔요'], answer: 0, why: l('안 стоит прямо перед глаголом.', '안 stands right before the verb.') },
     { type: 'tf', statement: l('공부 안 해요 значит «Я не учусь».', '공부 안 해요 means "I am not studying".'), answer: true },
     { type: 'build', prompt: l('Собери: «Я не люблю кимчи»', 'Build: "I do not like kimchi"'), tokens: ['좋아해요', '안', '김치를', '저는'], answer: ['저는', '김치를', '안', '좋아해요'] },
-    { type: 'type', prompt: l('Напиши: «Я тоже студент»', 'Write: "I am a student too"'), answers: ['저도 학생이에요'] },
+    { type: 'write', prompt: l('Научись писать слово «кимчи»', 'Learn to write the word "kimchi"'), word: '김치', tr: l('кимчи', 'kimchi') },
     { type: 'listen', say: '좋아해요', options: [l('любит', 'likes'), l('пьёт', 'drinks'), l('идёт', 'goes')], answer: 0 },
   ],
   dialogue: {

@@ -100,9 +100,9 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('Когда говорят 잘 먹겠습니다?', 'When do you say 잘 먹겠습니다?'), options: [l('перед едой', 'before the meal'), l('после еды', 'after the meal'), l('при оплате', 'when paying')], answer: 0 },
     { type: 'tf', statement: l('잘 먹었습니다 говорят перед едой.', '잘 먹었습니다 is said before eating.'), answer: false },
     { type: 'build', prompt: l('Собери: «Два кимбапа, пожалуйста»', 'Build: "Two gimbap, please"'), tokens: ['주세요', '두', '김밥', '개'], answer: ['김밥', '두', '개', '주세요'] },
-    { type: 'type', prompt: l('Напиши: «Меню, пожалуйста»', 'Write: "The menu, please"'), answers: ['메뉴 주세요', '메뉴 좀 주세요', '메뉴주세요'] },
+    { type: 'write', prompt: l('Научись писать слово «меню»', 'Learn to write the word "menu"'), word: '메뉴', tr: l('меню', 'menu') },
     { type: 'listen', say: '계산', options: [l('счёт', 'the bill'), l('меню', 'menu'), l('вода', 'water')], answer: 0 },
-    { type: 'dictation', say: '여기요', answers: ['여기요'] },
+    { type: 'write', prompt: l('Научись писать слово «простите! (позвать официанта)»', 'Learn to write the word "excuse me!"'), word: '여기요', tr: l('простите! (позвать официанта)', 'excuse me!') },
   ],
   dialogue: {
     title: l('Заказ в ресторане', 'Ordering at a restaurant'),

@@ -76,8 +76,8 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('Противоположное к 있어요:', 'The opposite of 있어요:'), options: ['아니에요', '없어요', '가요'], answer: 1 },
     { type: 'listen', say: '어디', options: [l('где', 'where'), l('что', 'what'), l('кто', 'who')], answer: 0 },
     { type: 'build', prompt: l('Собери: «Я иду в школу»', 'Build: "I go to school"'), tokens: ['가요', '학교에', '저는'], answer: ['저는', '학교에', '가요'] },
-    { type: 'type', prompt: l('Напиши: «Я учусь в библиотеке»', 'Write: "I study in the library"'), answers: ['저는 도서관에서 공부해요', '도서관에서 공부해요'] },
-    { type: 'type', prompt: l('Напиши: «У меня есть друг»', 'Write: "I have a friend"'), answers: ['친구가 있어요', '저는 친구가 있어요'] },
+    { type: 'write', prompt: l('Научись писать слово «библиотека»', 'Learn to write the word "library"'), word: '도서관', tr: l('библиотека', 'library') },
+    { type: 'write', prompt: l('Научись писать слово «друг»', 'Learn to write the word "friend"'), word: '친구', tr: l('друг', 'friend') },
   ],
   dialogue: {
     title: l('Куда идёшь?', 'Where are you going?'),

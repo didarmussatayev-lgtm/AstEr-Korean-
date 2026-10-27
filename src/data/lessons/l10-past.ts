@@ -72,8 +72,8 @@ export const lesson: Lesson = {
     { type: 'tf', statement: '어제에 갔어요.', answer: false, why: l('Слово 어제 употребляется без 에.', 'No 에 after 어제.') },
     { type: 'listen', say: '갔어요', options: [l('ходил', 'went'), l('ел', 'ate'), l('пил', 'drank')], answer: 0 },
     { type: 'build', prompt: l('Собери: «Вчера я встретил друга»', 'Build: "I met a friend yesterday"'), tokens: ['만났어요', '어제', '친구를'], answer: ['어제', '친구를', '만났어요'] },
-    { type: 'type', prompt: l('Напиши: «Вчера я учил корейский»', 'Write: "I studied Korean yesterday"'), answers: ['어제 한국어를 공부했어요', '저는 어제 한국어를 공부했어요'] },
-    { type: 'dictation', say: '마셨어요', answers: ['마셨어요'] },
+    { type: 'write', prompt: l('Научись писать слово «фильм»', 'Learn to write the word "movie"'), word: '영화', tr: l('фильм', 'movie') },
+    { type: 'write', prompt: l('Научись писать слово «выходные»', 'Learn to write the word "weekend"'), word: '주말', tr: l('выходные', 'weekend') },
   ],
   dialogue: {
     title: l('Что ты делал вчера?', 'What did you do yesterday?'),

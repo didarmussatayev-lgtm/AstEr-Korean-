@@ -73,7 +73,7 @@ export const lesson: Lesson = {
     { type: 'cloze', sentence: '오늘은 무슨 ___이에요?', tr: l('Какой сегодня день недели?', 'What day of the week is it today?'), options: ['요일', '월', '살'], answer: 0 },
     { type: 'tf', statement: l('Перед 내일 нужно ставить 에: 내일에 가요.', 'You must put 에 after 내일: 내일에 가요.'), answer: false, why: l('С 오늘/내일/어제 частица 에 не нужна.', 'No 에 after 오늘/내일/어제.') },
     { type: 'build', prompt: l('Собери: «Завтра вторник»', 'Build: "Tomorrow is Tuesday"'), tokens: ['화요일이에요', '내일은'], answer: ['내일은', '화요일이에요'] },
-    { type: 'type', prompt: l('Напиши: «Сегодня понедельник»', 'Write: "Today is Monday"'), answers: ['오늘은 월요일이에요'] },
+    { type: 'write', prompt: l('Научись писать слово «понедельник»', 'Learn to write the word "Monday"'), word: '월요일', tr: l('понедельник', 'Monday') },
     { type: 'choice', prompt: l('시월 이십육 일 — это…', '시월 이십육 일 is…'), options: [l('26 октября', 'October 26'), l('6 октября', 'October 6'), l('26 июня', 'June 26')], answer: 0 },
   ],
   dialogue: {

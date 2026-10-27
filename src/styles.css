@@ -207,8 +207,12 @@ th { background: var(--brand-soft); }
 .cube.vertical.has-final { grid-template-rows: 1fr 1fr; grid-template-areas: "i v" "f f"; }
 .cube.horizontal { grid-template-columns: 1fr; grid-template-areas: "i" "v"; }
 .cube.horizontal.has-final { grid-template-areas: "i" "v" "f"; }
-.cube.mixed { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; grid-template-areas: "i v" "v v"; }
-.cube.mixed.has-final { grid-template-rows: 1fr 1fr .8fr; grid-template-areas: "i v" "v v" "f f"; }
+/* compound vowels (ㅘ ㅝ ㅢ …) wrap around the consonant: the vowel cell spans the whole block under the consonant cell */
+.cube.mixed { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; grid-template-areas: none; }
+.cube.mixed.has-final { grid-template-rows: 1fr 1fr .8fr; }
+.cube.mixed .cell.vowel { grid-area: 1 / 1 / 3 / 3; place-items: end end; padding: 8%; }
+.cube.mixed .cell.initial { grid-area: 1 / 1 / 2 / 2; z-index: 1; border-right: 3px solid var(--line); border-bottom: 3px solid var(--line); }
+.cube.mixed .cell.final { grid-area: 3 / 1 / 4 / 3; }
 .cube .cell.initial { grid-area: i; } .cube .cell.vowel { grid-area: v; } .cube .cell.final { grid-area: f; }
 .cube.guide { background: transparent; border: 2px dashed var(--line); border-radius: 0; gap: 0; }
 .cube.guide .cell { background: transparent; border: 1px dashed var(--line); font-size: 1.6rem; color: rgba(124, 77, 255, .35); }

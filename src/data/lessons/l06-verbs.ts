@@ -104,8 +104,8 @@ export const lesson: Lesson = {
     { type: 'choice', prompt: l('Выбери частицу: 밥___ 먹어요.', 'Pick the particle: 밥___ 먹어요.'), options: ['을', '를'], answer: 0, why: l('밥 заканчивается на ㅂ → 을.', '밥 ends in ㅂ → 을.') },
     { type: 'listen', say: '마셔요', options: [l('пьёт', 'drinks'), l('ест', 'eats'), l('спит', 'sleeps')], answer: 0 },
     { type: 'build', prompt: l('Собери: «Я пью кофе»', 'Build: "I drink coffee"'), tokens: ['마셔요', '저는', '커피를'], answer: ['저는', '커피를', '마셔요'] },
-    { type: 'type', prompt: l('Напиши: «Я учу корейский»', 'Write: "I study Korean"'), answers: ['저는 한국어를 공부해요', '한국어를 공부해요'] },
-    { type: 'type', prompt: l('Напиши: «Я ем» (밥…)', 'Write: "I eat a meal" (밥…)'), answers: ['밥을 먹어요', '저는 밥을 먹어요'] },
+    { type: 'write', prompt: l('Научись писать слово «корейский язык»', 'Learn to write the word "Korean language"'), word: '한국어', tr: l('корейский язык', 'Korean language') },
+    { type: 'write', prompt: l('Научись писать слово «ем (먹다)»', 'Learn to write the word "eat (먹다)"'), word: '먹어요', tr: l('ем (먹다)', 'eat (먹다)') },
   ],
   dialogue: {
     title: l('Что ты делаешь?', 'What are you doing?'),
