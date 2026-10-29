@@ -4,13 +4,14 @@ import { isLevelOpen } from '../lib/access';
 import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { lessons } from '../data/lessons';
-import type { Block, Lesson as LessonT, StorySentence } from '../lib/types';
+import { mnemonicFor } from '../data/mnemonics';
+import { buildSteps } from '../lib/steps';
+import type { Step } from '../lib/steps';
+import type { Block, Lesson as LessonT, StorySentence, Vocab } from '../lib/types';
 import { Card, ProgressBar, Rich, SpeakButton } from '../components/ui';
 import { ExerciseRunner } from '../components/ExerciseRunner';
 import { speak } from '../lib/speak';
-
-type Step = 'theory' | 'words' | 'practice' | 'dialogue' | 'story' | 'done';
-const steps: Step[] = ['theory', 'words', 'practice', 'dialogue', 'story', 'done'];
+import { speakable } from '../lib/quiz';
 
 export default function Lesson() {
   const { id } = useParams();
@@ -22,32 +23,55 @@ export default function Lesson() {
   return <LessonView key={lesson.id} lesson={lesson} />;
 }
 
+/** Resume points look like "s12" (step number); older formats are ignored. */
+const parseStep = (s?: string) => (s && /^s\d+$/.test(s) ? parseInt(s.slice(1), 10) : 0);
+
 function LessonView({ lesson }: { lesson: LessonT }) {
   const { t, tx } = useI18n();
   const nav = useNavigate();
   const { addCards, gain, completeLesson, saveResume, p } = useProgress();
   const saved = useMemo(() => p.resume?.[lesson.id], []); // eslint-disable-line react-hooks/exhaustive-deps
+  const steps = useMemo<Step[]>(() => buildSteps(lesson, lessons[lessons.findIndex((x) => x.id === lesson.id) - 1]), [lesson]);
   const [i, setI] = useState(() => {
-    const k = saved ? steps.indexOf(saved.step as Step) : 0;
+    const k = parseStep(saved?.step);
     return k > 0 && k < steps.length - 1 ? k : 0;
   });
-  const [theoryIdx, setTheoryIdx] = useState(() => Math.max(0, Math.min(saved?.theory ?? 0, lesson.theory.length - 1)));
   const [exPos, setExPos] = useState(saved?.ex ?? 0);
   const step = steps[i];
+  const resumedHere = saved && parseStep(saved.step) === i;
 
   // remember where the learner stopped, so leaving a lesson never loses progress
   useEffect(() => {
-    if (step === 'done' || (i === 0 && theoryIdx === 0)) return;
-    saveResume(lesson.id, { step, theory: theoryIdx, ex: step === 'practice' ? exPos : 0 });
-  }, [step, theoryIdx, exPos]); // eslint-disable-line react-hooks/exhaustive-deps
-  const next = () => { window.scrollTo({ top: 0 }); setI((n) => Math.min(n + 1, steps.length - 1)); };
+    if (step.kind === 'done' || i === 0) return;
+    const hasEx = 'exercises' in step;
+    saveResume(lesson.id, { step: `s${i}`, theory: 0, ex: hasEx ? exPos : 0 });
+  }, [i, exPos]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const finish = () => {
-    addCards(lesson.vocab.map((v) => ({ id: `${lesson.id}:${v.ko}`, ko: v.ko, roman: v.roman, tr: v.tr })));
+  const next = () => {
+    window.scrollTo({ top: 0 });
+    setExPos(0);
+    setI((n) => Math.min(n + 1, steps.length - 1));
+  };
+
+  const learnWords = (items: Vocab[]) =>
+    addCards(items.map((v) => ({ id: `${lesson.id}:${v.ko}`, ko: v.ko, roman: v.roman, tr: v.tr })));
+
+  const finishLesson = () => {
+    learnWords(lesson.vocab);
     completeLesson(lesson.id);
     gain(20);
     next();
   };
+
+  const runner = (exercises: Extract<Step, { exercises: unknown }>['exercises'], onDone: () => void) => (
+    <ExerciseRunner
+      key={i}
+      exercises={exercises}
+      startAt={resumedHere ? saved!.ex : 0}
+      onPos={setExPos}
+      onFinish={() => { gain(1); onDone(); }}
+    />
+  );
 
   return (
     <div className="stack">
@@ -58,65 +82,78 @@ function LessonView({ lesson }: { lesson: LessonT }) {
           <ProgressBar value={i} max={steps.length - 1} />
         </div>
       </div>
-      <p className="muted step-label">{t('step')} {i + 1} {t('of')} {steps.length}: {t(step)}</p>
+      <p className="muted step-label">
+        {t('step')} {i + 1} {t('of')} {steps.length} · <b>{tx(step.title)}</b>
+      </p>
 
-      {step === 'theory' && (
+      {step.kind === 'cards' && (
         <>
-          {(() => {
-            const sec = lesson.theory[theoryIdx];
-            return (
-              <Card>
-                <h2>{tx(sec.title)}</h2>
-                {sec.blocks.map((b, k) => <BlockView key={k} b={b} />)}
-              </Card>
-            );
-          })()}
-          <button
-            type="button"
-            className="btn primary"
-            onClick={() => (theoryIdx < lesson.theory.length - 1 ? (setTheoryIdx(theoryIdx + 1), window.scrollTo({ top: 0 })) : next())}
-          >
-            {t('next')}
-          </button>
+          <div className="cards-list">
+            {step.items.map((v) => <WordCard key={v.ko} lessonId={lesson.id} v={v} />)}
+          </div>
+          <button type="button" className="btn primary" onClick={() => { learnWords(step.items); next(); }}>{t('letsCheck')} →</button>
         </>
       )}
 
-      {step === 'words' && (
+      {(step.kind === 'recap' || step.kind === 'quiz' || step.kind === 'drill' || step.kind === 'final') &&
+        runner(step.exercises, step.kind === 'final' ? finishLesson : next)}
+
+      {step.kind === 'rule' && (
         <>
-          <ul className="vocab">
-            {lesson.vocab.map((v) => (
-              <li key={v.ko}>
-                <SpeakButton text={v.ko} />
-                <span className="ko big">{v.ko}</span>
-                <span className="roman muted">{v.roman}</span>
-                <span className="tr">{tx(v.tr)}</span>
-              </li>
-            ))}
-          </ul>
+          <Card>
+            <h2>{tx(lesson.theory[step.section].title)}</h2>
+            {lesson.theory[step.section].blocks
+              .filter((_, k) => !step.blocks || step.blocks.includes(k))
+              .map((b, k) => <BlockView key={k} b={b} />)}
+          </Card>
           <button type="button" className="btn primary" onClick={next}>{t('next')}</button>
         </>
       )}
 
-      {step === 'practice' && (
-        <ExerciseRunner exercises={lesson.exercises} startAt={saved?.step === 'practice' ? saved.ex : 0} onPos={setExPos} onFinish={() => { setExPos(0); next(); }} />
-      )}
+      {step.kind === 'dialogue' && <DialogueView lesson={lesson} onNext={next} />}
 
-      {step === 'dialogue' && <DialogueView lesson={lesson} onNext={next} />}
+      {step.kind === 'story' && <StoryView lesson={lesson} onNext={next} />}
 
-      {step === 'story' && <StoryView lesson={lesson} onNext={finish} />}
-
-      {step === 'done' && (
+      {step.kind === 'done' && (
         <Card className="center">
           <div className="confetti">🎉</div>
           <h2>{t('lessonDone')}</h2>
+          <p><b>{t('wordsLearned')}: {lesson.vocab.length}</b></p>
           <p>{t('lessonDoneText')}</p>
-          <div className="row">
+          <div className="row" style={{ justifyContent: 'center' }}>
             <button type="button" className="btn primary" onClick={() => nav('/review')}>{t('startReview')}</button>
             <button type="button" className="btn" onClick={() => nav('/')}>{t('toHome')}</button>
           </div>
         </Card>
       )}
     </div>
+  );
+}
+
+/** Longer emoji scenes get smaller so that they always fit the square. */
+const picSize = (e: string) => { const n = [...e].length; return n <= 2 ? '2.4rem' : n <= 4 ? '1.7rem' : '1.3rem'; };
+
+/** One new word: the picture, how it sounds, what it means and the memory hook. */
+function WordCard({ lessonId, v }: { lessonId: string; v: Vocab }) {
+  const { t, tx, lang } = useI18n();
+  const m = mnemonicFor(lessonId, v.ko);
+  return (
+    <article className="wcard">
+      <div className="wc-pic" aria-hidden="true" style={{ fontSize: picSize(m?.e ?? '🔤') }}>{m?.e ?? '🔤'}</div>
+      <div className="wc-main">
+        <div className="wc-top">
+          <span className="ko wc-ko">{v.ko}</span>
+          <SpeakButton text={speakable(v.ko)} label={t('tapToHear')} />
+        </div>
+        <div className="muted roman">{v.roman}</div>
+        <div className="wc-tr">{tx(v.tr)}</div>
+        {m && (
+          <p className="mnemo">
+            <b>💡 {t('howToRemember')}:</b> {lang === 'en' && m.en ? m.en : m.ru}
+          </p>
+        )}
+      </div>
+    </article>
   );
 }
 

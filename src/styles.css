@@ -235,3 +235,16 @@ th { background: var(--brand-soft); }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 .node .resume { color: var(--brand); font-weight: 600; font-size: .85rem; }
 .pad-wrap { scroll-margin-bottom: 96px; }
+
+/* ---- word cards with memory hooks ---- */
+.cards-list { display: grid; gap: .8rem; }
+.wcard { display: flex; gap: .9rem; align-items: flex-start; padding: .9rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.wc-pic { flex: none; width: 84px; height: 84px; display: grid; place-items: center; border-radius: 18px; background: var(--brand-soft); line-height: 1.15; text-align: center; overflow: hidden; padding: 4px; word-break: break-all; }
+.wc-main { flex: 1; min-width: 0; }
+.wc-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.wc-ko { font-size: 1.7rem; font-weight: 700; }
+.wc-tr { font-weight: 700; margin: .1rem 0 .3rem; }
+.mnemo { margin: .4rem 0 0; padding: .5rem .7rem; border-radius: 12px; background: var(--brand-soft); font-size: .92rem; line-height: 1.45; }
+.mnemo-pic { font-size: 1.3rem; margin-right: .2rem; }
+.feedback .mnemo { background: rgba(255,255,255,.55); color: var(--text); }
+.flash .mnemo { max-width: 30rem; text-align: left; }

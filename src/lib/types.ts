@@ -15,10 +15,10 @@ export interface Vocab {
 }
 
 export type Exercise =
-  | { type: 'choice'; prompt: L; options: Text[]; answer: number; why?: L; passage?: string }
+  | { type: 'choice'; prompt: L; options: Text[]; answer: number; why?: L; passage?: string; ref?: string }
   | { type: 'cloze'; sentence: string; tr?: L; options: Text[]; answer: number; why?: L }
   | { type: 'tf'; statement: Text; answer: boolean; why?: L }
-  | { type: 'listen'; say: string; options: L[]; answer: number }
+  | { type: 'listen'; say: string; options: L[]; answer: number; ref?: string }
   | { type: 'match'; prompt: L; pairs: { ko: string; tr: Text }[] }
   | { type: 'build'; prompt: L; tokens: string[]; answer: string[] }
   | { type: 'type'; prompt: L; answers: string[]; hint?: L }

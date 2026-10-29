@@ -89,8 +89,8 @@ export default function Home() {
                         <span className="node-body">
                           <b>{tx(l.title)}</b>
                           <span className="muted">{tx(l.goal)}</span>
-                          {!done && p.resume?.[l.id] && (
-                            <span className="resume">▶ {t('resumeFrom')}: {t(p.resume[l.id].step as 'theory')}</span>
+                          {!done && /^s\d+$/.test(p.resume?.[l.id]?.step ?? '') && (
+                            <span className="resume">▶ {t('resumeFrom')} · {t('step')} {parseInt(p.resume[l.id].step.slice(1), 10) + 1}</span>
                           )}
                         </span>
                         <span className="go">{done ? '✓' : '›'}</span>

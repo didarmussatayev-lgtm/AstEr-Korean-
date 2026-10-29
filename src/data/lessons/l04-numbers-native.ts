@@ -9,37 +9,48 @@ export const lesson: Lesson = {
   goal: l('Считать предметы и людей, назвать возраст и час.', 'Count things and people, say your age and the hour.'),
   theory: [
     {
-      title: l('Чистокорейские числа', 'Native Korean numbers'),
+      title: l('Свои числа корейцев', 'The native Korean numbers'),
       blocks: [
         {
           type: 'p',
           text: l(
-            'Эти числа используются со **счётными словами**: для предметов (개), людей (명), возраста (살), часов (시). Считают обычно до 99.',
-            'These numbers go with **counters**: things (개), people (명), age (살), hours (시). They are normally used up to 99.',
+            'Это **вторая система** — чистокорейские числа. Они нужны для счёта **предметов и людей, возраста и часов**. Их немного: считают до 99. Начнём с самых первых — по три цифры за раз.',
+            'This is the **second system** — native Korean numbers. They count **things and people, age and hours**. They are used up to 99. We start with the first ones, three at a time.',
           ),
         },
-        { type: 'table', head: ['1', '2', '3', '4', '5'], rows: [['하나', '둘', '셋', '넷', '다섯'], ['hana', 'dul', 'set', 'net', 'daseot']] },
-        { type: 'table', head: ['6', '7', '8', '9', '10'], rows: [['여섯', '일곱', '여덟', '아홉', '열'], ['yeoseot', 'ilgop', 'yeodeol', 'ahop', 'yeol']] },
       ],
     },
     {
-      title: l('Перед счётным словом числа меняются', 'Numbers change before a counter'),
+      title: l('Счётные слова', 'Counters'),
       blocks: [
         {
           type: 'p',
           text: l(
-            'Числа **1, 2, 3, 4 и 20** перед счётным словом сокращаются. Остальные остаются как есть.',
-            'The numbers **1, 2, 3, 4 and 20** are shortened before a counter. The others stay the same.',
+            'В корейском число почти всегда ставят **со счётным словом** (как «штуки», «человек», «лет» в русском): **предмет + число + счётное слово**. Для предметов — **개**, для людей — **명**, для возраста — **살**.',
+            'In Korean a number usually comes **with a counter** (like "pieces", "people", "years old"): **thing + number + counter**. Use **개** for things, **명** for people, **살** for age.',
           ),
         },
-        { type: 'table', head: ['1', '2', '3', '4', '20'], rows: [['한', '두', '세', '네', '스무'], ['han', 'du', 'se', 'ne', 'seumu']] },
+        {
+          type: 'examples',
+          items: [
+            { ko: '사과 다섯 개', tr: l('пять яблок', 'five apples') },
+            { ko: '학생 열 명', tr: l('десять студентов', 'ten students') },
+            { ko: '여섯 살', tr: l('шесть лет', 'six years old') },
+          ],
+        },
+      ],
+    },
+    {
+      title: l('Числа 1–4 и 20 сокращаются', 'The numbers 1–4 and 20 get shorter'),
+      blocks: [
         {
           type: 'p',
           text: l(
-            'Порядок: **предмет + число + счётное слово.** Сам предмет можно называть без частицы.',
-            'Order: **thing + number + counter.**',
+            'Перед счётным словом числа **1, 2, 3, 4 и 20** сокращаются. Остальные (5, 6, 7…) остаются как есть. Само «двадцать» — 스물, но перед счётным словом это **스무**.',
+            'Before a counter the numbers **1, 2, 3, 4 and 20** get shorter. The others (5, 6, 7…) stay the same. "Twenty" itself is 스물, but before a counter it becomes **스무**.',
           ),
         },
+        { type: 'table', head: ['1', '2', '3', '4', '20'], rows: [['한', '두', '세', '네', '스무'], ['han', 'du', 'se', 'ne', 'seumu']] },
         {
           type: 'examples',
           items: [
@@ -56,8 +67,8 @@ export const lesson: Lesson = {
         {
           type: 'p',
           text: l(
-            '**Часы** — чистокорейские числа + 시. **Минуты** — китайско-корейские + 분. Из двух систем получается одна фраза!',
-            '**Hours** use native numbers + 시. **Minutes** use Sino-Korean numbers + 분. One phrase, two systems!',
+            '**Часы** — чистокорейские числа + 시. **Минуты** — китайско-корейские (из прошлого урока) + 분. Две системы в одной фразе!',
+            '**Hours** use native numbers + 시. **Minutes** use Sino-Korean numbers (last lesson) + 분. Two systems in one phrase!',
           ),
         },
         {
@@ -91,15 +102,22 @@ export const lesson: Lesson = {
     { ko: '몇 살이에요?', roman: 'myeot salieyo', tr: l('сколько вам лет?', 'how old are you?') },
   ],
   exercises: [
-    { type: 'listen', say: '일곱', options: [l('6', '6'), l('7', '7'), l('9', '9')], answer: 1 },
-    { type: 'listen', say: '여덟', options: [l('8', '8'), l('10', '10'), l('5', '5')], answer: 0 },
-    { type: 'choice', prompt: l('사과 ___ 개 (3 яблока)', 'Apples: ___ 개 (3)'), options: ['삼', '세', '셋'], answer: 1, why: l('Перед счётным словом 셋 превращается в 세.', 'Before a counter 셋 becomes 세.') },
-    { type: 'choice', prompt: l('학생 ___ 명 (2 студента)', 'Students: ___ 명 (2)'), options: ['이', '두', '둘'], answer: 1 },
-    { type: 'choice', prompt: l('Как сказать «20 лет»?', 'How do you say "20 years old"?'), options: ['이십 살', '스무 살', '열열 살'], answer: 1, why: l('Возраст 20 лет — 스무 살: перед счётным словом 스무.', 'Age uses the native form: 스무 before a counter.') },
-    { type: 'choice', prompt: l('Какие числа нужны для минут?', 'Which numbers are used for minutes?'), options: [l('Китайско-корейские (십 분)', 'Sino-Korean (십 분)'), l('Чистокорейские (열 분)', 'Native (열 분)')], answer: 0 },
-    { type: 'build', prompt: l('Собери: «три человека»', 'Build: "three people"'), tokens: ['명', '세'], answer: ['세', '명'] },
-    { type: 'write', prompt: l('Научись писать слово «пять (чистокорейское)»', 'Learn to write the word "five (native number)"'), word: '다섯', tr: l('пять (чистокорейское)', 'five (native number)') },
-    { type: 'write', prompt: l('Научись писать слово «яблоко»', 'Learn to write the word "apple"'), word: '사과', tr: l('яблоко', 'apple') },
+    /* 0 */ { type: 'listen', say: '일곱', options: [l('6', '6'), l('7', '7'), l('9', '9')], answer: 1 },
+    /* 1 */ { type: 'listen', say: '여덟', options: [l('8', '8'), l('10', '10'), l('5', '5')], answer: 0 },
+    /* 2 */ { type: 'choice', prompt: l('사과 ___ 개 (3 яблока)', 'Apples: ___ 개 (3)'), options: ['삼', '세', '셋'], answer: 1, why: l('Перед счётным словом 셋 превращается в 세.', 'Before a counter 셋 becomes 세.') },
+    /* 3 */ { type: 'choice', prompt: l('학생 ___ 명 (2 студента)', 'Students: ___ 명 (2)'), options: ['이', '두', '둘'], answer: 1, why: l('Перед счётным словом 둘 превращается в 두.', 'Before a counter 둘 becomes 두.') },
+    /* 4 */ { type: 'choice', prompt: l('Как сказать «20 лет»?', 'How do you say "20 years old"?'), options: ['이십 살', '스무 살', '열열 살'], answer: 1, why: l('Возраст — своими числами; 20 перед 살 — 스무.', 'Age uses native numbers; 20 before 살 is 스무.') },
+    /* 5 */ { type: 'choice', prompt: l('Какие числа нужны для минут?', 'Which numbers are used for minutes?'), options: [l('Китайско-корейские (십 분)', 'Sino-Korean (십 분)'), l('Чистокорейские (열 분)', 'Native (열 분)')], answer: 0 },
+    /* 6 */ { type: 'build', prompt: l('Собери: «три человека»', 'Build: "three people"'), tokens: ['명', '세'], answer: ['세', '명'] },
+    /* 7 */ { type: 'write', prompt: l('Научись писать число 5', 'Learn to write the number 5'), word: '다섯', tr: l('пять (чистокорейское)', 'five (native number)') },
+    /* 8 */ { type: 'write', prompt: l('Научись писать слово «яблоко»', 'Learn to write the word "apple"'), word: '사과', tr: l('яблоко', 'apple') },
+    /* 9 */ { type: 'match', prompt: l('Соедини слово и цифру', 'Match the word and the digit'), pairs: [{ ko: '하나', tr: '1' }, { ko: '둘', tr: '2' }, { ko: '셋', tr: '3' }, { ko: '넷', tr: '4' }] },
+    /* 10 */ { type: 'match', prompt: l('Соедини слово и цифру', 'Match the word and the digit'), pairs: [{ ko: '다섯', tr: '5' }, { ko: '여섯', tr: '6' }, { ko: '일곱', tr: '7' }, { ko: '여덟', tr: '8' }] },
+    /* 11 */ { type: 'choice', prompt: l('Какое счётное слово для людей?', 'Which counter is for people?'), options: ['개', '명', '살'], answer: 1 },
+    /* 12 */ { type: 'choice', prompt: l('Какое счётное слово для возраста?', 'Which counter is for age?'), options: ['개', '명', '살'], answer: 2 },
+    /* 13 */ { type: 'choice', prompt: l('학생 ___ 명 (5 студентов)', 'Students: ___ 명 (5)'), options: ['다섯', '오', '다'], answer: 0, why: l('5 не сокращается: 다섯 명.', '5 does not change: 다섯 명.') },
+    /* 14 */ { type: 'choice', prompt: l('Как сказать «три часа»?', 'How do you say "three o\'clock"?'), options: ['삼 시', '세 시', '셋 시'], answer: 1, why: l('Часы — свои числа, и 셋 → 세 перед 시.', 'Hours use native numbers, and 셋 → 세 before 시.') },
+    /* 15 */ { type: 'build', prompt: l('Собери: «5 часов»', 'Build: "5 o\'clock"'), tokens: ['시', '다섯'], answer: ['다섯', '시'] },
   ],
   dialogue: {
     title: l('Знакомство: возраст', 'Getting to know you: age'),

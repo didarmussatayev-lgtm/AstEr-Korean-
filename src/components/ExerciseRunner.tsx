@@ -5,6 +5,7 @@ import { useI18n } from '../lib/i18n';
 import { norm, ProgressBar, shuffle, SpeakButton } from './ui';
 import { speak } from '../lib/speak';
 import { GuidedWrite } from './write/GuidedWrite';
+import { MNEMONICS } from '../data/mnemonics';
 
 export interface Outcome {
   ex: Exercise;
@@ -162,6 +163,11 @@ export function ExerciseRunner({ exercises, exam = false, startAt = 0, onPos, on
         <div className={`feedback ${result.ok ? 'ok' : 'bad'}`} role="status">
           <b>{result.ok ? t('correct') : `${t('wrong')} ${result.correct}`.trim()}</b>
           {(e.type === 'choice' || e.type === 'cloze' || e.type === 'tf') && e.why && <p>{tx(e.why)}</p>}
+          {!result.ok && (e.type === 'choice' || e.type === 'listen') && e.ref && MNEMONICS[e.ref] && (
+            <p className="mnemo">
+              <span className="mnemo-pic">{MNEMONICS[e.ref].e}</span> {MNEMONICS[e.ref].ru}
+            </p>
+          )}
           <button type="button" className="btn primary" onClick={advance} autoFocus>
             {t('continue')}
           </button>

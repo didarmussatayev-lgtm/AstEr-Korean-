@@ -6,6 +6,7 @@ import { isDue, review } from '../lib/srs';
 import type { Grade } from '../lib/srs';
 import { Card, ProgressBar, shuffle, SpeakButton } from '../components/ui';
 import { speak } from '../lib/speak';
+import { mnemonicFor } from '../data/mnemonics';
 
 export default function Review() {
   const { t, tx } = useI18n();
@@ -34,6 +35,8 @@ export default function Review() {
   }
 
   const card = queue[i];
+  const sep = card.id.indexOf(':');
+  const hook = sep > 0 ? mnemonicFor(card.id.slice(0, sep), card.ko) : null;
   const grade = (g: Grade) => {
     setCard(review(p.cards[card.id] ?? card, g));
     gain(g === 'again' ? 1 : 3);
@@ -56,6 +59,7 @@ export default function Review() {
           <>
             {card.roman && <div className="muted roman">{card.roman}</div>}
             <div className="flash-tr">{tx(card.tr)}</div>
+            {hook && <p className="mnemo"><span className="mnemo-pic">{hook.e}</span> {hook.ru}</p>}
           </>
         ) : (
           <button type="button" className="btn" onClick={flip}>{t('flip')}</button>
