@@ -6,10 +6,10 @@ import { isDue, review } from '../lib/srs';
 import type { Grade } from '../lib/srs';
 import { Card, ProgressBar, shuffle, SpeakButton } from '../components/ui';
 import { speak } from '../lib/speak';
-import { mnemonicFor } from '../data/mnemonics';
+import { mnemoText, mnemonicFor } from '../data/mnemonics';
 
 export default function Review() {
-  const { t, tx } = useI18n();
+  const { t, tx, lang } = useI18n();
   const { p, setCard, gain } = useProgress();
   const queue = useMemo(() => shuffle(Object.values(p.cards).filter((c) => isDue(c))).slice(0, 20), []); // eslint-disable-line react-hooks/exhaustive-deps
   const [i, setI] = useState(0);
@@ -59,7 +59,7 @@ export default function Review() {
           <>
             {card.roman && <div className="muted roman">{card.roman}</div>}
             <div className="flash-tr">{tx(card.tr)}</div>
-            {hook && <p className="mnemo"><span className="mnemo-pic">{hook.e}</span> {hook.ru}</p>}
+            {hook && <p className="mnemo"><span className="mnemo-pic">{hook.e}</span> {mnemoText(hook, lang)}</p>}
           </>
         ) : (
           <button type="button" className="btn" onClick={flip}>{t('flip')}</button>

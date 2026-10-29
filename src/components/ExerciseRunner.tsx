@@ -5,7 +5,7 @@ import { useI18n } from '../lib/i18n';
 import { norm, ProgressBar, shuffle, SpeakButton } from './ui';
 import { speak } from '../lib/speak';
 import { GuidedWrite } from './write/GuidedWrite';
-import { MNEMONICS } from '../data/mnemonics';
+import { MNEMONICS, mnemoText } from '../data/mnemonics';
 
 export interface Outcome {
   ex: Exercise;
@@ -33,7 +33,7 @@ const isKo = (s: string) => /[ㄱ-힝]/.test(s);
 
 /** Runs exercises one by one. In practice mode a missed one returns to the end of the queue once. */
 export function ExerciseRunner({ exercises, exam = false, startAt = 0, onPos, onFinish }: Props) {
-  const { t, tx } = useI18n();
+  const { t, tx, lang } = useI18n();
   const [queue, setQueue] = useState(() => exercises.map((e) => ({ e, retry: false })));
   const [pos, setPos] = useState(() => Math.max(0, Math.min(startAt, exercises.length - 1)));
   const [result, setResult] = useState<null | { ok: boolean; correct: string }>(null);
@@ -165,7 +165,7 @@ export function ExerciseRunner({ exercises, exam = false, startAt = 0, onPos, on
           {(e.type === 'choice' || e.type === 'cloze' || e.type === 'tf') && e.why && <p>{tx(e.why)}</p>}
           {!result.ok && (e.type === 'choice' || e.type === 'listen') && e.ref && MNEMONICS[e.ref] && (
             <p className="mnemo">
-              <span className="mnemo-pic">{MNEMONICS[e.ref].e}</span> {MNEMONICS[e.ref].ru}
+              <span className="mnemo-pic">{MNEMONICS[e.ref].e}</span> {mnemoText(MNEMONICS[e.ref], lang)}
             </p>
           )}
           <button type="button" className="btn primary" onClick={advance} autoFocus>

@@ -1,8 +1,8 @@
 import type { Exercise, L, Lesson, Vocab } from './types';
 import { chunkQuiz, mixQuiz } from './quiz';
 import { lessons as allLessons } from '../data/lessons';
-import { plans } from '../data/plan';
 import type { PlanItem } from '../data/plan';
+import type { Unit } from '../data/units';
 
 export type Step =
   | { kind: 'recap'; title: L; exercises: Exercise[] }
@@ -37,16 +37,19 @@ export function defaultPlan(lesson: Lesson): PlanItem[] {
 }
 
 /**
- * Turns a lesson into small steps: a few new words -> quick check -> a few more -> mixed review;
- * a rule -> drills on exactly that rule; then the dialogue, the story and a final review.
+ * Turns a lesson (or one part of it) into small steps: a few new words -> quick check -> a few more -> mixed review;
+ * a rule -> drills on exactly that rule; then, in the last part, the dialogue and the story; and a final review.
  * Quiz questions are generated fresh each time so a retry never repeats the same questions.
  */
-export function buildSteps(lesson: Lesson, prev?: Lesson): Step[] {
-  const plan = plans[lesson.id] ?? defaultPlan(lesson);
+export function buildSteps(unit: Unit, prev?: Unit): Step[] {
+  const lesson = unit.lesson;
+  const plan = unit.plan.length ? unit.plan : defaultPlan(lesson);
+  const isLast = unit.part === unit.parts;
   const pool = lesson.vocab;
   const wide = pool.length >= 6 ? pool : [...pool, ...globalPool];
   const steps: Step[] = [];
-  const known: Vocab[] = [];
+  const priorWords = unit.prior.map((i) => lesson.vocab[i]).filter(Boolean);
+  const known: Vocab[] = [...priorWords];
   const used = new Set<number>();
   const seenWords = new Set<number>();
 
@@ -59,8 +62,13 @@ export function buildSteps(lesson: Lesson, prev?: Lesson): Step[] {
     return [...out, ...extra];
   };
 
-  if (prev) {
-    const recap = mixQuiz(prev.vocab, prev.id, prev.vocab.length >= 6 ? prev.vocab : [...prev.vocab, ...globalPool], 4);
+  if (priorWords.length) {
+    const recap = mixQuiz(priorWords, lesson.id, wide, 4);
+    if (recap.length) steps.push({ kind: 'recap', title: t('Вспомним начало урока', 'Recap of the first part'), exercises: recap });
+  } else if (prev) {
+    const prevWords = prev.vocab.map((i) => prev.lesson.vocab[i]).filter(Boolean);
+    const prevPool = prev.lesson.vocab.length >= 6 ? prev.lesson.vocab : [...prev.lesson.vocab, ...globalPool];
+    const recap = mixQuiz(prevWords.length ? prevWords : prev.lesson.vocab, prev.lesson.id, prevPool, 4);
     if (recap.length) steps.push({ kind: 'recap', title: t('Вспомним прошлый урок', 'Recap of the last lesson'), exercises: recap });
   }
 
@@ -92,21 +100,29 @@ export function buildSteps(lesson: Lesson, prev?: Lesson): Step[] {
     }
   }
 
-  // words the plan forgot still get taught
-  const rest = lesson.vocab.map((_, i) => i).filter((i) => !seenWords.has(i));
-  for (let i = 0; i < rest.length; i += 3) {
-    const items = rest.slice(i, i + 3).map((k) => lesson.vocab[k]);
-    steps.push({ kind: 'cards', title: t('Ещё слова', 'More words'), items });
-    steps.push({ kind: 'quiz', title: t('Проверим', 'Check'), exercises: chunkQuiz(items, lesson.id, wide) });
-    known.push(...items);
+  // words the plan forgot still get taught (only in the part that owns them: the last one when no plan covers them)
+  if (isLast && unit.parts === 1) {
+    const rest = lesson.vocab.map((_, i) => i).filter((i) => !seenWords.has(i));
+    for (let i = 0; i < rest.length; i += 3) {
+      const items = rest.slice(i, i + 3).map((k) => lesson.vocab[k]);
+      steps.push({ kind: 'cards', title: t('Ещё слова', 'More words'), items });
+      steps.push({ kind: 'quiz', title: t('Проверим', 'Check'), exercises: chunkQuiz(items, lesson.id, wide) });
+      known.push(...items);
+    }
   }
 
-  steps.push({ kind: 'dialogue', title: t('Диалог', 'Dialogue') });
-  steps.push({ kind: 'story', title: t('Рассказ', 'Story') });
+  if (isLast) {
+    steps.push({ kind: 'dialogue', title: t('Диалог', 'Dialogue') });
+    steps.push({ kind: 'story', title: t('Рассказ', 'Story') });
+  }
 
-  const leftover = lesson.exercises.filter((_, i) => !used.has(i));
+  const leftover = isLast && unit.parts === 1 ? lesson.exercises.filter((_, i) => !used.has(i)) : [];
   const finalQ = [...mixQuiz(known, lesson.id, wide, 8), ...leftover];
-  steps.push({ kind: 'final', title: t('Итоговое повторение', 'Final review'), exercises: finalQ });
+  steps.push({
+    kind: 'final',
+    title: isLast ? t('Итоговое повторение', 'Final review') : t(`Итог части ${unit.part}`, `Part ${unit.part} review`),
+    exercises: finalQ,
+  });
   steps.push({ kind: 'done', title: t('Готово', 'Done') });
   return steps;
 }

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../api';
 import type { UserRow } from '../api';
 import { ago, generatePassword, useDebounced } from '../util';
-import { lessons } from '../../../src/data/lessons';
+import { units } from '../../../src/data/units';
 
 interface Stats { users: number; students: number; active7: number; examL1Passed: number }
 const PAGE = 25;
@@ -30,7 +30,7 @@ export default function Users() {
   useEffect(() => setPage(1), [q]);
 
   const pages = Math.max(1, Math.ceil(total / PAGE));
-  const lessonTotal = lessons.length;
+  const lessonTotal = units.length;
 
   return (
     <div className="stack">

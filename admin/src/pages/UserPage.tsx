@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api';
 import type { UserDetail } from '../api';
 import { generatePassword, when } from '../util';
-import { lessons } from '../../../src/data/lessons';
+import { units, unitDone } from '../../../src/data/units';
 import { exams } from '../../../src/data/exams';
 import { levels } from '../../../src/data/levels';
 
@@ -51,14 +51,14 @@ export default function UserPage({ meId }: { meId: string }) {
         <div className="stats">
           <div className="stat"><b>{progress.xp}</b><span>XP</span></div>
           <div className="stat"><b>{progress.streak}</b><span>серия дней</span></div>
-          <div className="stat"><b>{progress.lessons.length}/{lessons.length}</b><span>уроков</span></div>
+          <div className="stat"><b>{units.filter((u) => unitDone(progress.lessons, u)).length}/{units.length}</b><span>уроков (частей)</span></div>
           <div className="stat"><b>{progress.letters}/24</b><span>букв хангыля</span></div>
           <div className="stat"><b>{progress.cardsDue}/{progress.cards}</b><span>к повторению / карточек</span></div>
         </div>
         <ul className="checklist">
-          {lessons.map((l) => (
-            <li key={l.id} className={progress.lessons.includes(l.id) ? 'done' : ''}>
-              {progress.lessons.includes(l.id) ? '✓' : '○'} {l.title.ru}
+          {units.map((u) => (
+            <li key={u.id} className={unitDone(progress.lessons, u) ? 'done' : ''}>
+              {unitDone(progress.lessons, u) ? '✓' : '○'} {u.title.ru}
             </li>
           ))}
         </ul>

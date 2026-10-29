@@ -13,6 +13,7 @@ export interface Mnemonic {
 }
 
 const m = (e: string, ru: string, en?: string): Mnemonic => ({ e, ru, en });
+import { MNEMONICS_EN } from './mnemonics-en';
 
 export const MNEMONICS: Record<string, Mnemonic> = {
   // ── урок 1
@@ -351,6 +352,12 @@ export const MNEMONICS: Record<string, Mnemonic> = {
   '존댓말': m('🎩🗣️', '«Чон-дэт-маль» ≈ «Джон-денди»: джентльмен говорит вежливо.'),
   '반말': m('🧢🗣️', '«Пан-маль» ≈ «пацан малой»: пацанская речь.'),
 };
+
+// attach the English versions
+for (const [k, en] of Object.entries(MNEMONICS_EN)) if (MNEMONICS[k]) MNEMONICS[k].en = en;
+
+/** The hook in the language the interface is in (falls back to Russian). */
+export const mnemoText = (m: Mnemonic, lang: 'ru' | 'en') => (lang === 'en' && m.en ? m.en : m.ru);
 
 /** Lookup for a vocabulary entry of a given lesson ("word@lesson" wins over "word"). */
 export function mnemonicKey(lessonId: string, ko: string): string | null {

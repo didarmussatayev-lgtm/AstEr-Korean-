@@ -1,10 +1,10 @@
-import { lessons } from '../data/lessons';
+import { unitDone, unitsOfLevel } from '../data/units';
 import type { Progress } from './types';
 
 export const EXAM_PASS = 0.8;
 export const examIdOf = (level: number) => `exam-l${level}`;
 
-export const lessonsOfLevel = (level: number) => lessons.filter((l) => l.level === level);
+export const lessonsOfLevel = (level: number) => unitsOfLevel(level);
 
 /** Level 1 is always open. Level N opens after the exam of level N-1 is passed, or when an admin grants it. */
 export function isLevelOpen(level: number, p: Progress): boolean {
@@ -12,8 +12,9 @@ export function isLevelOpen(level: number, p: Progress): boolean {
   return p.granted.includes(level) || p.exams[examIdOf(level - 1)]?.passed === true;
 }
 
+/** Lessons (or lesson parts) of the level that are not finished yet. */
 export function lessonsLeft(level: number, p: Progress): number {
-  return lessonsOfLevel(level).filter((l) => !p.lessons.includes(l.id)).length;
+  return unitsOfLevel(level).filter((u) => !unitDone(p.lessons, u)).length;
 }
 
 export const isExamUnlocked = (level: number, p: Progress) =>

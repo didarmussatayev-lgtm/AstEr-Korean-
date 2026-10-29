@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { addDays, today } from '../lib/srs';
-import { lessons } from '../data/lessons';
+import { unitDone, unitsOfLevel } from '../data/units';
 import { levels } from '../data/levels';
 import { examOfLevel } from '../data/exams';
 import { allLetters } from '../data/hangul';
@@ -42,7 +42,7 @@ export default function Home() {
 
       {levels.map((lv) => {
         const open = isLevelOpen(lv.level, p);
-        const items = lessons.filter((l) => l.level === lv.level);
+        const items = unitsOfLevel(lv.level);
         const exam = examOfLevel(lv.level);
         const examResult = exam ? p.exams[exam.id] : undefined;
         const left = lessonsLeft(lv.level, p);
@@ -80,17 +80,18 @@ export default function Home() {
                     </Link>
                   </li>
                 )}
-                {items.map((l) => {
-                  const done = p.lessons.includes(l.id);
+                {items.map((u) => {
+                  const l = u.lesson;
+                  const done = unitDone(p.lessons, u);
                   return (
-                    <li key={l.id}>
-                      <Link to={`/lesson/${l.id}`} className={`node ${done ? 'done' : ''}`}>
+                    <li key={u.id}>
+                      <Link to={`/lesson/${u.id}`} className={`node ${done ? 'done' : ''}`}>
                         <span className="emoji">{l.emoji}</span>
                         <span className="node-body">
-                          <b>{tx(l.title)}</b>
+                          <b>{tx(u.title)}</b>
                           <span className="muted">{tx(l.goal)}</span>
-                          {!done && /^s\d+$/.test(p.resume?.[l.id]?.step ?? '') && (
-                            <span className="resume">▶ {t('resumeFrom')} · {t('step')} {parseInt(p.resume[l.id].step.slice(1), 10) + 1}</span>
+                          {!done && /^s\d+$/.test(p.resume?.[u.id]?.step ?? '') && (
+                            <span className="resume">▶ {t('resumeFrom')} · {t('step')} {parseInt(p.resume[u.id].step.slice(1), 10) + 1}</span>
                           )}
                         </span>
                         <span className="go">{done ? '✓' : '›'}</span>

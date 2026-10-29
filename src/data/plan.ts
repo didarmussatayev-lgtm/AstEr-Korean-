@@ -13,7 +13,7 @@ export type PlanItem =
   | { r: number; blocks?: number[]; d?: number[]; x?: Exercise[] }
   | { d?: number[]; x?: Exercise[] };
 
-export const plans: Record<string, PlanItem[]> = {
+const RAW: Record<string, PlanItem[]> = {
   'l3-numbers-sino': [
     { r: 0 },
     { w: [0, 1, 2] }, { w: [3, 4] }, { mix: true, d: [0] },
@@ -137,3 +137,70 @@ export const plans: Record<string, PlanItem[]> = {
     { w: [8] }, { w: [9, 10], d: [7, 9] }, { r: 1, d: [3, 4, 5] }, { r: 2 }, { mix: true, d: [6] },
   ],
 };
+
+
+/** Long rules are shown in two steps: which blocks of a theory section go together. */
+const RULE_SPLITS: Record<string, Record<number, number[][]>> = {
+  'l2-introduce': { 1: [[0, 1], [2, 3]] },
+  'l5-this-that': { 0: [[0, 1], [2, 3]], 1: [[0, 1], [2, 3]] },
+  'l6-verbs': { 0: [[0, 1], [2, 3, 4]] },
+  'l7-places': { 1: [[0, 1], [2]] },
+  'l8-days': { 0: [[0, 1], [2, 3]], 1: [[0, 1], [2, 3]] },
+  'l9-likes': { 2: [[0, 1], [2]] },
+  'l10-past': { 0: [[0, 1], [2]] },
+  'l11-plans': { 1: [[0, 1], [2]] },
+  'l13-adjectives': { 0: [[0, 1], [2]] },
+  'l15-order': { 0: [[0, 1], [2, 3]] },
+  'l16-daily': { 0: [[0], [1, 2]] },
+  'l17-transport': { 0: [[0, 1], [2]], 1: [[0, 1], [2]] },
+  'l18-weather': { 0: [[0], [1, 2]], 1: [[0, 1], [2]] },
+  'l19-health': { 0: [[0, 1], [2]] },
+  'l20-requests': { 0: [[0, 1], [2]] },
+  'l21-abilities': { 0: [[0, 1], [2]] },
+  'l23-connectors': { 2: [[0, 1], [2]] },
+};
+
+/** Lessons that are too long for one sitting are cut in two parts; the number is where part 2 starts in the plan. */
+const PART_AT: Record<string, number> = {
+  'l3-numbers-sino': 12,
+  'l8-days': 6,
+  'l9-likes': 4,
+  'l12-introduce-more': 5,
+  'l24-phrases': 5,
+  'l4-numbers-native': 9,
+  'l13-adjectives': 7,
+  'l14-family': 7,
+  'l15-order': 4,
+  'l16-daily': 5,
+  'l17-transport': 6,
+  'l18-weather': 8,
+  'l19-health': 5,
+  'l20-requests': 5,
+  'l21-abilities': 5,
+  'l22-hobbies': 6,
+  'l23-connectors': 6,
+};
+
+function expandRules(id: string, plan: PlanItem[]): PlanItem[] {
+  const splits = RULE_SPLITS[id] ?? {};
+  const out: PlanItem[] = [];
+  for (const item of plan) {
+    if ('r' in item && !item.blocks && splits[item.r]) {
+      const groups = splits[item.r];
+      groups.forEach((blocks, k) => {
+        const last = k === groups.length - 1;
+        out.push(last ? { r: item.r, blocks, d: item.d, x: item.x } : { r: item.r, blocks });
+      });
+    } else out.push(item);
+  }
+  return out;
+}
+
+/** The plan of every lesson, as one list per part (most lessons have a single part). */
+export const planParts: Record<string, PlanItem[][]> = Object.fromEntries(
+  Object.entries(RAW).map(([id, plan]) => {
+    const at = PART_AT[id];
+    const parts = at ? [plan.slice(0, at), plan.slice(at)] : [plan];
+    return [id, parts.map((p) => expandRules(id, p))];
+  }),
+);

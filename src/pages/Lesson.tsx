@@ -3,8 +3,9 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { isLevelOpen } from '../lib/access';
 import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
-import { lessons } from '../data/lessons';
-import { mnemonicFor } from '../data/mnemonics';
+import { unitById, prevUnit } from '../data/units';
+import type { Unit } from '../data/units';
+import { mnemoText, mnemonicFor } from '../data/mnemonics';
 import { buildSteps } from '../lib/steps';
 import type { Step } from '../lib/steps';
 import type { Block, Lesson as LessonT, StorySentence, Vocab } from '../lib/types';
@@ -15,23 +16,24 @@ import { speakable } from '../lib/quiz';
 
 export default function Lesson() {
   const { id } = useParams();
-  const lesson = lessons.find((l) => l.id === id);
+  const unit = id ? unitById(id) : undefined;
   const { t } = useI18n();
   const { p } = useProgress();
-  if (!lesson) return <p>404 · <Link to="/">{t('toHome')}</Link></p>;
-  if (!isLevelOpen(lesson.level, p)) return <Navigate to="/" replace />;
-  return <LessonView key={lesson.id} lesson={lesson} />;
+  if (!unit) return <p>404 · <Link to="/">{t('toHome')}</Link></p>;
+  if (!isLevelOpen(unit.lesson.level, p)) return <Navigate to="/" replace />;
+  return <LessonView key={unit.id} unit={unit} />;
 }
 
 /** Resume points look like "s12" (step number); older formats are ignored. */
 const parseStep = (s?: string) => (s && /^s\d+$/.test(s) ? parseInt(s.slice(1), 10) : 0);
 
-function LessonView({ lesson }: { lesson: LessonT }) {
+function LessonView({ unit }: { unit: Unit }) {
+  const lesson = unit.lesson;
   const { t, tx } = useI18n();
   const nav = useNavigate();
   const { addCards, gain, completeLesson, saveResume, p } = useProgress();
-  const saved = useMemo(() => p.resume?.[lesson.id], []); // eslint-disable-line react-hooks/exhaustive-deps
-  const steps = useMemo<Step[]>(() => buildSteps(lesson, lessons[lessons.findIndex((x) => x.id === lesson.id) - 1]), [lesson]);
+  const saved = useMemo(() => p.resume?.[unit.id], []); // eslint-disable-line react-hooks/exhaustive-deps
+  const steps = useMemo<Step[]>(() => buildSteps(unit, prevUnit(unit)), [unit]);
   const startAt = (() => {
     const k = parseStep(saved?.step);
     return k > 0 && k < steps.length - 1 ? k : 0;
@@ -50,7 +52,7 @@ function LessonView({ lesson }: { lesson: LessonT }) {
   useEffect(() => {
     if (steps[reached].kind === 'done' || reached === 0) return;
     const hasEx = 'exercises' in steps[reached];
-    saveResume(lesson.id, { step: `s${reached}`, theory: 0, ex: hasEx && i === reached ? exPos : 0 });
+    saveResume(unit.id, { step: `s${reached}`, theory: 0, ex: hasEx && i === reached ? exPos : 0 });
   }, [reached, i, exPos]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const go = (k: number) => {
@@ -68,8 +70,8 @@ function LessonView({ lesson }: { lesson: LessonT }) {
     addCards(items.map((v) => ({ id: `${lesson.id}:${v.ko}`, ko: v.ko, roman: v.roman, tr: v.tr })));
 
   const finishLesson = () => {
-    learnWords(lesson.vocab);
-    completeLesson(lesson.id);
+    learnWords(unit.vocab.map((i) => lesson.vocab[i]));
+    completeLesson(unit.id);
     gain(20);
     next();
   };
@@ -89,7 +91,7 @@ function LessonView({ lesson }: { lesson: LessonT }) {
       <div className="lesson-head">
         <Link to="/" className="back" aria-label={t('back')}>←</Link>
         <div className="grow">
-          <h1 className="h-sm">{lesson.emoji} {tx(lesson.title)}</h1>
+          <h1 className="h-sm">{lesson.emoji} {tx(unit.title)}</h1>
           <ProgressBar value={i} max={steps.length - 1} />
         </div>
       </div>
@@ -173,7 +175,7 @@ function LessonView({ lesson }: { lesson: LessonT }) {
         <Card className="center">
           <div className="confetti">🎉</div>
           <h2>{t('lessonDone')}</h2>
-          <p><b>{t('wordsLearned')}: {lesson.vocab.length}</b></p>
+          <p><b>{t('wordsLearned')}: {unit.vocab.length || lesson.vocab.length}</b></p>
           <p>{t('lessonDoneText')}</p>
           <div className="row" style={{ justifyContent: 'center' }}>
             <button type="button" className="btn primary" onClick={() => nav('/review')}>{t('startReview')}</button>
@@ -207,7 +209,7 @@ function WordCard({ lessonId, v }: { lessonId: string; v: Vocab }) {
         <div className="wc-tr">{tx(v.tr)}</div>
         {m && (
           <p className="mnemo">
-            <b>💡 {t('howToRemember')}:</b> {lang === 'en' && m.en ? m.en : m.ru}
+            <b>💡 {t('howToRemember')}:</b> {mnemoText(m, lang)}
           </p>
         )}
       </div>
