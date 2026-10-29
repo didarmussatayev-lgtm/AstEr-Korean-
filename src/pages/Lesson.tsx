@@ -41,6 +41,8 @@ function LessonView({ lesson }: { lesson: LessonT }) {
   const [reached, setReached] = useState(startAt);
   const [exPos, setExPos] = useState(saved?.ex ?? 0);
   const [menu, setMenu] = useState(false);
+  /** a finished quiz/drill is only replayed when the learner asks for it */
+  const [redo, setRedo] = useState(false);
   const step = steps[i];
   const resumedHere = saved && startAt === i;
 
@@ -55,6 +57,7 @@ function LessonView({ lesson }: { lesson: LessonT }) {
     window.scrollTo({ top: 0 });
     setExPos(0);
     setMenu(false);
+    setRedo(false);
     const n = Math.max(0, Math.min(k, steps.length - 1));
     setI(n);
     setReached((r) => Math.max(r, n));
@@ -97,7 +100,7 @@ function LessonView({ lesson }: { lesson: LessonT }) {
         <nav className="stepnav" aria-label={t('steps')}>
           <button type="button" className="btn small" disabled={i === 0} onClick={() => go(i - 1)}>← {t('back')}</button>
           <button type="button" className="btn small" onClick={() => setMenu(true)}>☰ {t('steps')}</button>
-          <button type="button" className="btn small" disabled={i >= reached} onClick={() => go(i + 1)}>{t('forward')} →</button>
+          <button type="button" className="btn small primary" disabled={i >= reached} onClick={() => go(reached)}>{t('toMyPlace')} →</button>
         </nav>
       )}
       {menu && (
@@ -137,7 +140,18 @@ function LessonView({ lesson }: { lesson: LessonT }) {
       )}
 
       {(step.kind === 'recap' || step.kind === 'quiz' || step.kind === 'drill' || step.kind === 'final') &&
-        runner(step.exercises, step.kind === 'final' ? finishLesson : next)}
+        (i < reached && !redo ? (
+          <Card className="center">
+            <h2>✓ {t('alreadyDone')}</h2>
+            <p className="muted">{t('alreadyDoneHint')}</p>
+            <div className="row" style={{ justifyContent: 'center' }}>
+              <button type="button" className="btn" onClick={() => setRedo(true)}>↻ {t('redo')}</button>
+              <button type="button" className="btn primary" onClick={() => go(i + 1)}>{t('next')} →</button>
+            </div>
+          </Card>
+        ) : (
+          runner(step.exercises, step.kind === 'final' ? finishLesson : next)
+        ))}
 
       {step.kind === 'rule' && (
         <>
