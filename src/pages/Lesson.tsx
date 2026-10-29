@@ -32,26 +32,34 @@ function LessonView({ lesson }: { lesson: LessonT }) {
   const { addCards, gain, completeLesson, saveResume, p } = useProgress();
   const saved = useMemo(() => p.resume?.[lesson.id], []); // eslint-disable-line react-hooks/exhaustive-deps
   const steps = useMemo<Step[]>(() => buildSteps(lesson, lessons[lessons.findIndex((x) => x.id === lesson.id) - 1]), [lesson]);
-  const [i, setI] = useState(() => {
+  const startAt = (() => {
     const k = parseStep(saved?.step);
     return k > 0 && k < steps.length - 1 ? k : 0;
-  });
+  })();
+  const [i, setI] = useState(startAt);
+  /** furthest step reached: everything up to it can be revisited, and it is where the lesson resumes */
+  const [reached, setReached] = useState(startAt);
   const [exPos, setExPos] = useState(saved?.ex ?? 0);
+  const [menu, setMenu] = useState(false);
   const step = steps[i];
-  const resumedHere = saved && parseStep(saved.step) === i;
+  const resumedHere = saved && startAt === i;
 
   // remember where the learner stopped, so leaving a lesson never loses progress
   useEffect(() => {
-    if (step.kind === 'done' || i === 0) return;
-    const hasEx = 'exercises' in step;
-    saveResume(lesson.id, { step: `s${i}`, theory: 0, ex: hasEx ? exPos : 0 });
-  }, [i, exPos]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (steps[reached].kind === 'done' || reached === 0) return;
+    const hasEx = 'exercises' in steps[reached];
+    saveResume(lesson.id, { step: `s${reached}`, theory: 0, ex: hasEx && i === reached ? exPos : 0 });
+  }, [reached, i, exPos]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const next = () => {
+  const go = (k: number) => {
     window.scrollTo({ top: 0 });
     setExPos(0);
-    setI((n) => Math.min(n + 1, steps.length - 1));
+    setMenu(false);
+    const n = Math.max(0, Math.min(k, steps.length - 1));
+    setI(n);
+    setReached((r) => Math.max(r, n));
   };
+  const next = () => go(i + 1);
 
   const learnWords = (items: Vocab[]) =>
     addCards(items.map((v) => ({ id: `${lesson.id}:${v.ko}`, ko: v.ko, roman: v.roman, tr: v.tr })));
@@ -67,7 +75,7 @@ function LessonView({ lesson }: { lesson: LessonT }) {
     <ExerciseRunner
       key={i}
       exercises={exercises}
-      startAt={resumedHere ? saved!.ex : 0}
+      startAt={resumedHere && i === startAt && reached === startAt ? saved!.ex : 0}
       onPos={setExPos}
       onFinish={() => { gain(1); onDone(); }}
     />
@@ -85,6 +93,39 @@ function LessonView({ lesson }: { lesson: LessonT }) {
       <p className="muted step-label">
         {t('step')} {i + 1} {t('of')} {steps.length} · <b>{tx(step.title)}</b>
       </p>
+      {step.kind !== 'done' && (
+        <nav className="stepnav" aria-label={t('steps')}>
+          <button type="button" className="btn small" disabled={i === 0} onClick={() => go(i - 1)}>← {t('back')}</button>
+          <button type="button" className="btn small" onClick={() => setMenu(true)}>☰ {t('steps')}</button>
+          <button type="button" className="btn small" disabled={i >= reached} onClick={() => go(i + 1)}>{t('forward')} →</button>
+        </nav>
+      )}
+      {menu && (
+        <div className="sheet-back" onClick={() => setMenu(false)}>
+          <div className="sheet" role="dialog" aria-label={t('steps')} onClick={(e) => e.stopPropagation()}>
+            <div className="row-between">
+              <h2>{t('steps')}</h2>
+              <button type="button" className="btn small" onClick={() => setMenu(false)}>✕</button>
+            </div>
+            <ol className="steplist">
+              {steps.map((st, k) => (
+                <li key={k}>
+                  <button
+                    type="button"
+                    className={`stepitem ${k === i ? 'current' : ''} ${k <= reached ? '' : 'locked'}`}
+                    disabled={k > reached}
+                    onClick={() => go(k)}
+                  >
+                    <span className="stepicon">{stepIcon(st.kind)}</span>
+                    <span className="steptitle">{tx(st.title)}</span>
+                    <span className="stepmark">{k < reached ? '✓' : k === i ? '●' : k > reached ? '🔒' : ''}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      )}
 
       {step.kind === 'cards' && (
         <>
@@ -129,6 +170,9 @@ function LessonView({ lesson }: { lesson: LessonT }) {
     </div>
   );
 }
+
+const stepIcon = (k: Step['kind']) =>
+  ({ recap: '🔁', cards: '🃏', quiz: '✅', rule: '📘', drill: '✍️', dialogue: '💬', story: '📖', final: '🏁', done: '🎉' } as const)[k];
 
 /** Longer emoji scenes get smaller so that they always fit the square. */
 const picSize = (e: string) => { const n = [...e].length; return n <= 2 ? '2.4rem' : n <= 4 ? '1.7rem' : '1.3rem'; };
