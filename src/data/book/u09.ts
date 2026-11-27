@@ -1,0 +1,227 @@
+import type { BookUnit } from './index';
+import { build, choice, cloze, dict, dl, l, listen, match, picOf, st, tf, type, v, wr } from './h';
+
+const p = picOf(9);
+
+export const unit: BookUnit = {
+  n: 9,
+  lesson: {
+    emoji: '🏊',
+    title: l('Я не умею плавать (저는 수영을 못해요)', "I can't swim (저는 수영을 못해요)"),
+    goal: l(
+      'Говорить о спорте и умениях: «с какого времени» 부터 и «не могу / не умею» -지 못하다 / 못.',
+      'Talk about sports and abilities: "since, from" 부터 and "can\'t" -지 못하다 / 못.',
+    ),
+    theory: [
+      {
+        title: l('Спорт: (운동)을 하다 = (운동)하다', 'Sports: (운동)을 하다 = (운동)하다'),
+        blocks: [
+          { type: 'img', src: p('sports'), caption: l('수영, 축구, 농구, 야구', 'Swimming, soccer, basketball, baseball') },
+          {
+            type: 'p',
+            text: l(
+              'Почти все виды спорта «делают»: **축구를 해요** = **축구해요** «играю в футбол». То же с 연습: **수영 연습을 해요** = **수영을 연습해요** «тренируюсь в плавании».',
+              'Almost every sport is "done": **축구를 해요** = **축구해요** "I play soccer". The same with 연습: **수영 연습을 해요** = **수영을 연습해요** "I practise swimming".',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '저는 운동을 해요. = 저는 운동해요.', tr: l('Я занимаюсь спортом.', 'I exercise.') },
+              { ko: '저는 농구를 해요.', tr: l('Я играю в баскетбол.', 'I play basketball.') },
+              { ko: '저는 축구를 연습해요.', tr: l('Я тренируюсь в футболе.', 'I practise soccer.') },
+            ],
+          },
+          { type: 'img', src: p('practice2'), caption: l('(연습)을 하다 = (연습)하다 — тренироваться', '(연습)을 하다 = (연습)하다 — to practise') },
+          {
+            type: 'tip',
+            text: l('«Хорошо умею» — 잘하다: 수영을 잘해요 «хорошо плаваю». Наречия: 자주 «часто», 매일 «каждый день», 다시 «снова».', '"To be good at" is 잘하다: 수영을 잘해요 "I swim well". Adverbs: 자주 "often", 매일 "every day", 다시 "again".'),
+          },
+        ],
+      },
+      {
+        title: l('«С, начиная с»: 부터', '"From, since": 부터'),
+        blocks: [
+          { type: 'img', src: p('g-buteo'), caption: l('오늘부터 아침에 운동을 해요. — С сегодняшнего дня занимаюсь спортом по утрам.', '오늘부터 아침에 운동을 해요. — From today I exercise in the morning.') },
+          {
+            type: 'p',
+            text: l(
+              '부터 после слова времени — **с какого момента** начинается действие. Форма одна для всех слов.',
+              '부터 after a time word shows **when** an action or state **starts**. One form for all nouns.',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '한국어를 언제부터 공부했어요? — 1월부터 공부했어요.', tr: l('С какого времени учишь корейский? — С января.', 'Since when have you studied Korean? — Since January.') },
+              { ko: '9시부터 비가 왔어요.', tr: l('С 9 часов шёл дождь.', 'It has rained since 9 o\'clock.') },
+              { ko: '어제부터 수영을 시작했어요.', tr: l('Со вчерашнего дня начал плавать.', 'I started swimming yesterday.') },
+              { ko: '그럼 리사 씨부터 읽으세요.', tr: l('Тогда начнём с Лизы — читайте.', "Then let's start with Lisa — please read.") },
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('부터 с людьми означает «начиная с кого-то»: 리사 씨부터 — «первой — Лиза». А «до» — 까지 (будет позже).', '부터 with a person means "starting with someone": 리사 씨부터 — "Lisa first". "Until" is 까지 (later).'),
+          },
+        ],
+      },
+      {
+        title: l('«Не могу»: -지 못하다 и 못', '"Can\'t": -지 못하다 and 못'),
+        blocks: [
+          { type: 'img', src: p('g-mot'), caption: l('나타샤 씨는 김치를 먹지 못해요. = 김치를 못 먹어요.', "나타샤 씨는 김치를 먹지 못해요. = 김치를 못 먹어요. — Natasha can't eat kimchi.") },
+          {
+            type: 'p',
+            text: l(
+              'Если **не можешь или не умеешь**, говорят **основа + 지 못하다** или **못 + глагол**. Сравни: 안 먹어요 — «не ем (не хочу)», 못 먹어요 — «не могу есть».',
+              'When you **can\'t or are unable to**, say **stem + 지 못하다** or **못 + verb**. Compare: 안 먹어요 "I don\'t eat (by choice)", 못 먹어요 "I can\'t eat".',
+            ),
+          },
+          {
+            type: 'table',
+            head: [l('Слово', 'Word'), '-지 못하다', '못 + …'],
+            rows: [
+              ['먹다', '먹지 못해요', '못 먹어요'],
+              ['가다', '가지 못해요', '못 가요'],
+              ['만나다', '만나지 못해요', '못 만나요'],
+              ['수영하다', '수영하지 못해요', '수영 못 해요'],
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('С «существительное + 하다» 못 ставится перед 하다: 수영 못 해요, 농구 못 해요. «Плохо умею» — 잘 못해요.', 'With "noun + 하다" put 못 before 하다: 수영 못 해요, 농구 못 해요. "Not good at" is 잘 못해요.'),
+          },
+        ],
+      },
+      {
+        title: l('Слушаем и читаем: плавание и баскетбол', 'Listening and reading: swimming and basketball'),
+        blocks: [
+          { type: 'img', src: p('listen'), caption: l('Чжихун и Чыонг говорят о спорте', 'Jihun and Truong talk about sports') },
+          { type: 'img', src: p('read'), caption: l('Наташа играет в баскетбол', 'Natasha plays basketball') },
+          {
+            type: 'p',
+            text: l(
+              '선수 — «спортсмен», 다리가 아프다 — «болит нога», 다음 주 — «на следующей неделе», 기분이 좋다 — «хорошее настроение», 배우다 — «учиться (у кого-то)».',
+              '선수 is "athlete", 다리가 아프다 "my leg hurts", 다음 주 "next week", 기분이 좋다 "to be in a good mood", 배우다 "to learn".',
+            ),
+          },
+        ],
+      },
+    ],
+    vocab: [
+      v('운동', 'undong', 'спорт, упражнения', 'exercise, sports', p('exercise')),
+      v('수영', 'suyeong', 'плавание', 'swimming', p('swim')),
+      v('축구', 'chukgu', 'футбол', 'soccer', p('soccer')),
+      v('농구', 'nonggu', 'баскетбол', 'basketball', p('basketball')),
+      v('야구', 'yagu', 'бейсбол', 'baseball', p('baseball')),
+      v('잘하다', 'jalhada', 'хорошо уметь', 'to be good at', p('goodat')),
+      v('연습', 'yeonseup', 'тренировка, практика', 'practice', p('practice')),
+      v('시작하다', 'sijakhada', 'начинать', 'to start', p('start')),
+      v('자주', 'jaju', 'часто', 'often', p('often')),
+      v('매일', 'maeil', 'каждый день', 'every day', p('everyday')),
+      v('다시', 'dasi', 'снова', 'again', p('again')),
+      v('하지만', 'hajiman', 'но', 'but', p('but')),
+      v('못', 'mot', 'не мочь (перед глаголом)', "can't (before a verb)", p('g-mot')),
+      v('배우다', 'baeuda', 'учиться, изучать', 'to learn'),
+      v('아침', 'achim', 'утро', 'morning'),
+      v('초등학교', 'chodeunghakgyo', 'начальная школа', 'elementary school'),
+      v('그때', 'geuttae', 'тогда, в то время', 'then, at that time'),
+      v('지난달', 'jinandal', 'прошлый месяц', 'last month'),
+      v('선수', 'seonsu', 'спортсмен, игрок', 'athlete, player'),
+      v('운동장', 'undongjang', 'спортплощадка, стадион', 'playground, sports field'),
+      v('아프다', 'apeuda', 'болеть, больной', 'to hurt, to be sick'),
+      v('다리', 'dari', 'нога', 'leg'),
+      v('다음 주', 'daeum ju', 'следующая неделя', 'next week'),
+      v('기분', 'gibun', 'настроение', 'mood, feeling'),
+      v('산', 'san', 'гора', 'mountain'),
+    ],
+    exercises: [
+      /* 0 */ match(l('Соедини спорт и перевод', 'Match the sports'), [
+        ['농구', l('баскетбол', 'basketball')],
+        ['수영', l('плавание', 'swimming')],
+        ['야구', l('бейсбол', 'baseball')],
+        ['축구', l('футбол', 'soccer')],
+      ]),
+      /* 1 */ listen('축구', [l('футбол', 'soccer'), l('баскетбол', 'basketball'), l('бейсбол', 'baseball')], 0),
+      /* 2 */ choice(l('«Я плаваю» другими словами — 저는 수영을 해요 = …', '"I swim" in other words — 저는 수영을 해요 = …'), ['저는 수영해요.', '저는 수영을 잘해요.', '저는 수영 못 해요.'], 0),
+      /* 3 */ choice(l('«Каждый день играю в баскетбол»:', '"I play basketball every day":'), ['매일 농구를 해요.', '다시 농구를 해요.', '자주 농구를 못해요.'], 0),
+      /* 4 */ cloze('가: 한국어를 언제___ 공부했어요? 나: 1월부터 공부했어요.', l('— С какого времени учишь корейский? — С января.', '— Since when have you studied Korean? — Since January.'), ['부터', '에서'], 0),
+      /* 5 */ cloze('가: 지금 밖에 비가 와요? 나: 네, 9시___ 비가 왔어요.', l('— Сейчас идёт дождь? — Да, с 9 часов.', "— Is it raining outside? — Yes, since 9 o'clock."), ['부터', '에서'], 0),
+      /* 6 */ cloze('나: 네. 어제___ 시작했어요.', l('Да. Начал вчера (со вчерашнего дня).', 'Yes. I started yesterday.'), ['부터', '에'], 0),
+      /* 7 */ cloze('나: 오전___ 일이 많았어요.', l('С утра было много работы.', 'I had a lot of work since the morning.'), ['부터', '에서'], 0),
+      /* 8 */ cloze('나: 네, 그럼 리사 씨___ 읽으세요.', l('Тогда начнём с Лизы — читайте.', "Then, Lisa, you read first."), ['부터', '에'], 0),
+      /* 9 */ choice(l('«Не могу отправить письмо»:', '"I can\'t send the letter":'), ['편지를 보내지 못해요.', '편지를 안 보내요.', '편지를 보내지 않아요.'], 0),
+      /* 10 */ choice(l('«Чыонг не умеет играть в баскетбол»:', '"Truong can\'t play basketball":'), ['쯔엉 씨는 농구를 못 해요.', '쯔엉 씨는 못 농구해요.', '쯔엉 씨는 농구를 안 잘해요.'], 0),
+      /* 11 */ cloze('저는 리사 씨를 좋아해요. 하지만 리사 씨를 ___.', l('Мне нравится Лиза. Но я не могу с ней встретиться.', "I like Lisa. But I can't meet her."), ['못 만나요', '안 좋아해요', '만나요'], 0),
+      /* 12 */ cloze('가: 가영 씨, 밥 먹었어요? 나: 아니요. ___ 먹었어요.', l('— Гаён, ты поела? — Нет, не смогла поесть.', "— Gayeong, did you eat? — No, I couldn't."), ['못', '잘'], 0),
+      /* 13 */ cloze('저는 수영을 잘해요. 그런데 축구는 ___.', l('Я хорошо плаваю. А в футбол не умею.', "I'm good at swimming. But I can't play soccer."), ['못해요', '잘해요'], 0),
+      /* 14 */ cloze('그래요? 저도 수영을 좋아해요. ___ 잘하지 못해요.', l('Правда? Я тоже люблю плавание. Но плаваю плохо.', "Really? I like swimming too. But I'm not good at it."), ['하지만', '다시'], 0),
+      /* 15 */ build(l('Собери: «Занятия у меня с 12 часов»', 'Build: "My class starts at 12"'), ['12시부터', '수업이', '있어요']),
+      /* 16 */ build(l('Собери: «Нет времени. Не могу поесть.»', 'Build: "I have no time. I can\'t eat."'), ['시간이', '없어요.', '밥을', '먹지', '못해요.']),
+      /* 17 */ type(l('Напиши «не могу пойти» через 못', 'Write "I can\'t go" with 못'), ['못 가요', '못 가요.']),
+      /* 18 */ listen('저는 수영을 못해요', [l('Я не умею плавать.', "I can't swim."), l('Я хорошо плаваю.', "I'm good at swimming."), l('Я не люблю плавать.', "I don't like swimming.")], 0),
+      /* 19 */ choice(l('Чем занимается Чжихун?', 'Which sport does Jihun play?'), [l('Футболом', 'Soccer'), l('Плаванием', 'Swimming'), l('Баскетболом', 'Basketball')], 0),
+      /* 20 */ tf('지훈 씨는 수영과 축구를 모두 못합니다.', false, l('Чжихун не умеет плавать, но хорошо играет в футбол.', "Jihun can't swim but is good at soccer.")),
+      /* 21 */ tf('쯔엉 씨는 지난달부터 수영을 다시 시작했습니다.', true),
+      /* 22 */ tf('지훈 씨는 초등학교에서 축구를 배웠습니다.', true),
+      /* 23 */ dict('매일 운동해요', '매일 운동해요', '매일 운동해요.'),
+      /* 24 */ choice(l('По тексту, что верно?', 'According to the text, what is true?'), ['제 친구는 한국의 운동 선수입니다.', '우리는 가끔 운동장에서 농구합니다.', '저는 다음 주에 농구를 하지 못합니다.', '제 친구는 저한테 농구를 가르쳤습니다.'], 3, l('저는 나타샤 씨한테 농구를 많이 배웠습니다 — Наташа учила автора.', '저는 나타샤 씨한테 농구를 많이 배웠습니다 — Natasha taught the writer.')),
+      /* 25 */ tf('나타샤 씨는 고향에서 농구 선수였습니다.', true),
+      /* 26 */ tf('지금도 다리가 아픕니다.', false, l('지금은 다리가 괜찮습니다.', '지금은 다리가 괜찮습니다.')),
+      /* 27 */ wr('운동', 'спорт', 'exercise'),
+      /* 28 */ wr('수영', 'плавание', 'swimming'),
+      /* 29 */ wr('축구', 'футбол', 'soccer'),
+      /* 30 */ wr('농구', 'баскетбол', 'basketball'),
+      /* 31 */ wr('매일', 'каждый день', 'every day'),
+    ],
+    dialogue: {
+      title: l('Ты каждый день плаваешь?', 'Do you swim every day?'),
+      lines: [
+        dl('A', '쯔엉 씨는 매일 수영해요?', 'Чыонг, ты плаваешь каждый день?', 'Truong, do you swim every day?'),
+        dl('B', '네. 지난달부터 수영을 다시 시작했어요. 지훈 씨도 수영을 좋아해요?', 'Да. С прошлого месяца снова начал. Ты тоже любишь плавать?', 'Yes. I started swimming again last month. Do you like swimming too?'),
+        dl('A', '아니요. 저는 수영을 못해요. 하지만 축구를 잘해요.', 'Нет. Я не умею плавать. Зато хорошо играю в футбол.', "No. I can't swim. But I'm good at soccer."),
+        dl('B', '언제부터 축구를 했어요?', 'С каких пор играешь в футбол?', 'Since when have you played soccer?'),
+        dl('A', '초등학교에서 축구를 배웠어요. 그때부터 좋아했어요.', 'Научился в начальной школе. С тех пор и люблю.', "I learned it at elementary school. I've loved it since then."),
+      ],
+    },
+    story: {
+      title: l('Моя подруга Наташа', 'My friend Natasha'),
+      sentences: [
+        st('제 친구 나타샤 씨는 러시아에서 왔습니다.', 'Моя подруга Наташа приехала из России.', 'My friend Natasha came from Russia.', [['제 친구', 'мой друг', 'my friend'], ['러시아에서', 'из России', 'from Russia'], ['왔습니다', 'приехала', 'came']]),
+        st('나타샤 씨는 농구를 좋아합니다. 저도 농구를 좋아합니다.', 'Наташа любит баскетбол. Я тоже люблю баскетбол.', 'Natasha likes basketball. I like basketball too.', [['농구를', 'баскетбол', 'basketball'], ['좋아합니다', 'любит', 'likes'], ['저도', 'я тоже', 'me too']]),
+        st('그래서 우리는 자주 학교 운동장에서 농구를 합니다.', 'Поэтому мы часто играем в баскетбол на школьной площадке.', 'So we often play basketball on the school field.', [['그래서', 'поэтому', 'so'], ['자주', 'часто', 'often'], ['운동장에서', 'на площадке', 'on the field']]),
+        st('나타샤 씨는 고향에서 농구 선수였습니다. 농구를 아주 잘합니다.', 'Наташа на родине была баскетболисткой. Она очень хорошо играет.', 'Natasha was a basketball player back home. She plays very well.', [['고향에서', 'на родине', 'back home'], ['농구 선수였습니다', 'была баскетболисткой', 'was a basketball player'], ['아주 잘합니다', 'очень хорошо умеет', 'is very good']]),
+        st('하지만 저는 잘 못합니다. 저는 나타샤 씨한테 농구를 많이 배웠습니다.', 'А я играю плохо. Я многому научился у Наташи.', "But I'm not good. I learned a lot of basketball from Natasha.", [['잘 못합니다', 'плохо умею', 'am not good'], ['나타샤 씨한테', 'у Наташи', 'from Natasha'], ['배웠습니다', 'научился', 'learned']]),
+        st('하지만 요즘 나타샤 씨하고 농구를 못합니다. 지난주부터 제 다리가 조금 아팠습니다.', 'Но сейчас я не могу играть с Наташей. С прошлой недели у меня немного болела нога.', "But these days I can't play with Natasha. My leg has hurt a little since last week.", [['요즘', 'в последнее время', 'these days'], ['못합니다', 'не могу', "can't"], ['지난주부터', 'с прошлой недели', 'since last week'], ['다리가 아팠습니다', 'болела нога', 'my leg hurt']]),
+        st('그런데 지금은 다리가 괜찮습니다. 다음 주부터 나타샤 씨하고 농구를 합니다. 그래서 기분이 좋습니다.', 'Но сейчас нога в порядке. Со следующей недели снова играю с Наташей. Поэтому настроение хорошее.', "But now my leg is fine. From next week I'll play with Natasha. So I'm in a good mood.", [['지금은', 'сейчас', 'now'], ['괜찮습니다', 'в порядке', 'is fine'], ['다음 주부터', 'со следующей недели', 'from next week'], ['기분이 좋습니다', 'хорошее настроение', 'in a good mood']]),
+      ],
+    },
+  },
+  exam: [
+    listen('농구를 잘해요', [l('Хорошо играю в баскетбол.', "I'm good at basketball."), l('Не умею играть в баскетбол.', "I can't play basketball."), l('Люблю бейсбол.', 'I like baseball.')], 0),
+    listen('김치를 못 먹어요', [l('Не могу есть кимчи.', "I can't eat kimchi."), l('Не ем кимчи.', "I don't eat kimchi."), l('Ем кимчи каждый день.', 'I eat kimchi every day.')], 0),
+    listen('언제부터 공부했어요?', [l('С каких пор учишься?', 'Since when have you studied?'), l('Где учишься?', 'Where do you study?'), l('Что учишь?', 'What do you study?')], 0),
+    listen('다음 주부터 다시 시작해요', [l('Со следующей недели начну снова.', "I'll start again from next week."), l('С прошлой недели начал.', 'I started last week.'), l('Каждый день тренируюсь.', 'I practise every day.')], 0),
+    dict('수영을 못해요', '수영을 못해요', '수영을 못해요.', '수영 못 해요', '수영을 못 해요'),
+    dict('오늘부터 운동해요', '오늘부터 운동해요', '오늘부터 운동해요.'),
+    match(l('Соедини слово и перевод', 'Match the words'), [
+      ['연습', l('тренировка', 'practice')],
+      ['시작하다', l('начинать', 'to start')],
+      ['다시', l('снова', 'again')],
+      ['선수', l('спортсмен', 'athlete')],
+      ['배우다', l('учиться', 'to learn')],
+    ]),
+    cloze('어제___ 비가 왔어요.', l('Со вчерашнего дня идёт дождь.', 'It has rained since yesterday.'), ['부터', '에서', '를'], 0),
+    cloze('다리가 아파요. 오늘 축구를 ___.', l('Болит нога. Сегодня не могу играть в футбол.', "My leg hurts. I can't play soccer today."), ['못 해요', '잘해요', '해요'], 0),
+    choice(l('«Не могу встретиться» правильно:', '"I can\'t meet" correctly:'), ['만나지 못해요', '못하지 만나요', '만나 못지요'], 0),
+    choice(l('Чем отличаются 안 먹어요 и 못 먹어요?', 'What is the difference between 안 먹어요 and 못 먹어요?'), [l('안 — не хочу, 못 — не могу', '안 — choose not to, 못 — unable to'), l('Ничем', 'No difference'), l('안 — прошлое, 못 — настоящее', '안 is past, 못 is present')], 0),
+    choice(l('«Я хорошо играю в футбол»:', '"I\'m good at soccer":'), ['저는 축구를 잘해요.', '저는 축구를 자주 해요.', '저는 축구를 못해요.'], 0),
+    choice(l('Повторение (юнит 8): «Что делал вчера?»', 'Review (unit 8): "What did you do yesterday?"'), ['어제 뭘 했어요?', '어제에 뭘 해요?', '어제 뭘 해요?'], 0),
+    build(l('Собери: «С прошлого месяца плаваю»', 'Build: "I have swum since last month"'), ['지난달부터', '수영해요']),
+    build(l('Собери: «Не умею играть в баскетбол»', 'Build: "I can\'t play basketball"'), ['저는', '농구를', '못', '해요']),
+    type(l('Напиши «не могу есть» через -지 못하다', 'Write "I can\'t eat" with -지 못하다'), ['먹지 못해요', '먹지 못해요.']),
+    tf('지훈 씨는 축구를 잘합니다.', true),
+    tf('나타샤 씨는 농구를 잘 못합니다.', false),
+    wr('운동', 'спорт', 'exercise'),
+    wr('수영', 'плавание', 'swimming'),
+  ],
+};

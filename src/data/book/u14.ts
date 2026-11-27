@@ -1,0 +1,235 @@
+import type { BookUnit } from './index';
+import { build, choice, cloze, dict, dl, l, listen, match, picOf, st, tf, type, v, wr } from './h';
+
+const p = picOf(14);
+
+export const unit: BookUnit = {
+  n: 14,
+  lesson: {
+    emoji: '✈️',
+    title: l('Перед отъездом домой попутешествую (고향에 가기 전에 여행을 할 거예요)', "I'm going to travel before I go to my hometown (고향에 가기 전에 여행을 할 거예요)"),
+    goal: l(
+      'Планировать поездку: места Кореи, бронирование, «перед тем как» -기 전에, «чтобы» -으려고 и будущее -을 거예요.',
+      'Plan a trip: places in Korea, bookings, "before" -기 전에, "in order to" -으려고 and the future -을 거예요.',
+    ),
+    theory: [
+      {
+        title: l('Путешествия по Корее', 'Travelling in Korea'),
+        blocks: [
+          {
+            type: 'p',
+            text: l(
+              'Популярные места: **서울** — столица (дворец 경복궁), **부산** — море, **인천** — аэропорт, **제주도** — остров с мандаринами, **전주** — деревня ханоков и пибимпап, **경주** — древняя столица.',
+              'Popular places: **서울** — the capital (경복궁 Palace), **부산** — the sea, **인천** — the airport, **제주도** — an island famous for tangerines, **전주** — the hanok village and bibimbap, **경주** — the ancient capital.',
+            ),
+          },
+          { type: 'img', src: p('jeju'), caption: l('제주도에서 귤을 많이 먹었어요. — На Чеджу я ел много мандаринов.', '제주도에서 귤을 많이 먹었어요. — I ate a lot of tangerines on Jeju.') },
+          { type: 'img', src: p('reserve'), caption: l('숙소를 예약했어요. — Я забронировала жильё.', '숙소를 예약했어요. — I made a reservation for accommodation.') },
+          { type: 'img', src: p('book'), caption: l('비행기 표를 예매할 거예요. — Я куплю билет на самолёт.', "비행기 표를 예매할 거예요. — I'm going to book a plane ticket.") },
+          {
+            type: 'p',
+            text: l(
+              '**Будущее / намерение** — **-을 거예요** после согласной, **-ㄹ 거예요** после гласной: 먹을 거예요, 갈 거예요, 할 거예요. Официально — -을 것입니다.',
+              '**Future / intention** is **-을 거예요** after a consonant and **-ㄹ 거예요** after a vowel: 먹을 거예요, 갈 거예요, 할 거예요. Formal: -을 것입니다.',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '주말에 부산에 여행을 갈 거예요.', tr: l('В выходные поеду в Пусан.', "I'm going on a trip to Busan at the weekend.") },
+              { ko: '그다음에 경주와 부산, 전주에도 갈 거예요.', tr: l('Потом поеду ещё в Кёнджу, Пусан и Чонджу.', "After that I'll also go to Gyeongju, Busan and Jeonju.") },
+            ],
+          },
+        ],
+      },
+      {
+        title: l('«Перед тем как»: -기 전에', '"Before": -기 전에'),
+        blocks: [
+          { type: 'img', src: p('g-gijeone'), caption: l('— 자기 전에 무엇을 해요? — 책을 읽어요.', '— What do you do before going to bed? — I read a book.') },
+          {
+            type: 'p',
+            text: l(
+              '**Основа + 기 전에** — «перед тем как (сделать)». Одна форма для всех глаголов: 먹기 전에, 가기 전에, 자기 전에. С существительными — **существительное + 전에**: 수업 전에, 1시 전에.',
+              '**Stem + 기 전에** — "before (doing)". One form for all verbs: 먹기 전에, 가기 전에, 자기 전에. With nouns use **noun + 전에**: 수업 전에, 1시 전에.',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '밥을 먹기 전에 손을 씻어요.', tr: l('Перед едой мою руки.', 'I wash my hands before eating.') },
+              { ko: '친구 집에 가기 전에 전화를 해요.', tr: l('Перед тем как пойти к другу, звоню.', "I call before going to my friend's house.") },
+              { ko: '수영을 하기 전에 준비 운동을 해요.', tr: l('Перед плаванием делаю разминку.', 'I warm up before swimming.') },
+              { ko: '고향에 돌아가기 전에 여행을 많이 할 거예요.', tr: l('Перед возвращением домой буду много путешествовать.', "I'll travel a lot before I go back home.") },
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('Время (прошлое/будущее) ставится только в конце: 자기 전에 불을 껐어요 «перед сном выключил свет».', 'Tense goes only at the end: 자기 전에 불을 껐어요 "I turned off the light before going to bed".'),
+          },
+          { type: 'img', src: p('order4'), caption: l('Учёба → душ → выключил свет → сон', 'Study → shower → light off → sleep') },
+        ],
+      },
+      {
+        title: l('«Чтобы»: -으려고 / -려고', '"In order to": -으려고 / -려고'),
+        blocks: [
+          { type: 'img', src: p('g-euryeogo'), caption: l('— 가게에서 뭐 샀어요? — 점심에 먹으려고 빵을 샀어요.', '— What did you buy at the store? — I bought bread to eat for lunch.') },
+          {
+            type: 'p',
+            text: l(
+              '**Цель или намерение**: «чтобы, с целью». После согласной — **-으려고**, после гласной и ㄹ — **-려고**: 먹으려고, 가려고, 놀려고.',
+              '**Purpose or intention**: "in order to". After a consonant use **-으려고**, after a vowel or ㄹ use **-려고**: 먹으려고, 가려고, 놀려고.',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '친구를 만나려고 공원에 가요.', tr: l('Иду в парк, чтобы встретиться с другом.', "I'm going to the park to meet a friend.") },
+              { ko: '비행기 표를 예매하려고 여행사에 전화했어요.', tr: l('Позвонил в турагентство, чтобы купить билет.', 'I called the travel agency to book a plane ticket.') },
+              { ko: '전화를 걸려고 휴대 전화를 찾고 있어요.', tr: l('Ищу телефон, чтобы позвонить.', "I'm looking for my phone to make a call.") },
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('-으려고 해요 в конце — «собираюсь»: 약을 먹으려고 해요 — «собираюсь выпить лекарство».', '-으려고 해요 at the end means "I\'m planning to": 약을 먹으려고 해요 — "I\'m going to take medicine".'),
+          },
+        ],
+      },
+      {
+        title: l('Слушаем и читаем: план поездок и Чонджу', 'Listening and reading: travel plans and Jeonju'),
+        blocks: [
+          { type: 'img', src: p('listen'), caption: l('고향에 돌아가기 전에 여행을 많이 할 거예요.', "I'll travel a lot before I go back home.") },
+          { type: 'img', src: p('places4'), caption: l('Куда Чыонг поедет сначала? (Ответ: ③ 제주도)', 'Where will Truong go first? (Answer: ③ Jeju Island)') },
+          { type: 'img', src: p('read'), caption: l('전주 한옥 마을 — деревня ханоков в Чонджу', 'Jeonju Hanok Village') },
+          {
+            type: 'p',
+            text: l(
+              '한옥 — «традиционный корейский дом», 마을 — «деревня», 한복 — «корейская национальная одежда», 입다 — «надевать», 구경하다 — «осматривать», 떠나다 — «уезжать», 우선 — «сначала», 준비하다 — «готовиться».',
+              '한옥 is "traditional Korean house", 마을 "village", 한복 "traditional Korean clothes", 입다 "to wear", 구경하다 "to look around", 떠나다 "to leave", 우선 "first of all", 준비하다 "to prepare".',
+            ),
+          },
+        ],
+      },
+    ],
+    vocab: [
+      v('여행', 'yeohaeng', 'путешествие', 'trip', p('trip')),
+      v('산', 'san', 'гора', 'mountain', p('mountain')),
+      v('바다', 'bada', 'море', 'sea', p('sea')),
+      v('서울', 'seoul', 'Сеул', 'Seoul', p('seoul')),
+      v('부산', 'busan', 'Пусан', 'Busan', p('busan')),
+      v('인천', 'incheon', 'Инчхон', 'Incheon', p('incheon')),
+      v('제주도', 'jejudo', 'остров Чеджу', 'Jeju Island', p('jeju')),
+      v('외국', 'oeguk', 'заграница', 'foreign country', p('abroad')),
+      v('여권', 'yeogwon', 'паспорт', 'passport', p('passport')),
+      v('여행사', 'yeohaengsa', 'турагентство', 'travel agency', p('agency')),
+      v('호텔', 'hotel', 'гостиница', 'hotel', p('hotel')),
+      v('신혼여행', 'sinhonyeohaeng', 'медовый месяц', 'honeymoon', p('honeymoon')),
+      v('예약하다', 'yeyakhada', 'бронировать', 'to make a reservation', p('reserve')),
+      v('예매하다', 'yemaehada', 'покупать билет заранее', 'to book (a ticket)', p('book')),
+      v('비행기', 'bihaenggi', 'самолёт', 'airplane'),
+      v('표', 'pyo', 'билет', 'ticket'),
+      v('전에', 'jeone', 'до, перед', 'before'),
+      v('자다', 'jada', 'спать', 'to sleep'),
+      v('씻다', 'ssitda', 'мыть', 'to wash'),
+      v('돌아가다', 'doragada', 'возвращаться', 'to go back'),
+      v('준비하다', 'junbihada', 'готовиться', 'to prepare'),
+      v('한옥', 'hanok', 'ханок (традиционный дом)', 'hanok (traditional house)', p('read')),
+      v('한복', 'hanbok', 'ханбок (национальная одежда)', 'hanbok (traditional clothes)'),
+      v('입다', 'ipda', 'надевать (одежду)', 'to wear'),
+      v('구경하다', 'gugyeonghada', 'осматривать', 'to look around, to sightsee'),
+      v('떠나다', 'tteonada', 'уезжать', 'to leave'),
+    ],
+    exercises: [
+      /* 0 */ match(l('Соедини место и перевод', 'Match the places'), [
+        ['산', l('гора', 'mountain')],
+        ['바다', l('море', 'sea')],
+        ['외국', l('заграница', 'abroad')],
+        ['호텔', l('гостиница', 'hotel')],
+      ]),
+      /* 1 */ match(l('Соедини город и описание', 'Match the city'), [
+        ['서울', l('столица', 'the capital')],
+        ['부산', l('город у моря', 'a city by the sea')],
+        ['인천', l('аэропорт', 'the airport')],
+        ['제주도', l('остров', 'an island')],
+      ]),
+      /* 2 */ listen('여권', [l('паспорт', 'passport'), l('турагентство', 'travel agency'), l('билет', 'ticket')], 0),
+      /* 3 */ cloze('가: ___ 준비는 다 했어요? 나: 아니요. 가방을 싸지 못했어요.', l('— Ты всё подготовил к поездке? — Нет, ещё не собрал сумку.', "— Are you ready for the trip? — No, I haven't packed yet."), ['여행', '바다', '여권'], 0),
+      /* 4 */ cloze('가: 제주도에서 뭐 했어요? 나: ___에서 수영을 했어요.', l('— Что делал на Чеджу? — Плавал в море.', '— What did you do on Jeju? — I swam in the sea.'), ['바다', '여행사', '여권'], 0),
+      /* 5 */ cloze('나: 저희 오빠는 ___에서 일해요. 여행 상품을 팔아요.', l('Мой брат работает в турагентстве. Продаёт туры.', 'My brother works at a travel agency. He sells tours.'), ['여행사', '호텔', '바다'], 0),
+      /* 6 */ cloze('가: 왜 비행기를 못 탔어요? 나: ___을/를 집에 두고 왔어요.', l('— Почему не сел на самолёт? — Оставил паспорт дома.', "— Why didn't you get on the plane? — I left my passport at home."), ['여권', '여행', '바다'], 0),
+      /* 7 */ choice(l('«Забронировать гостиницу»:', '"To reserve a hotel":'), ['호텔을 예약하다', '호텔을 예매하다', '호텔을 구경하다'], 0),
+      /* 8 */ cloze('밥을 ___ 손을 씻어요. (먹다)', l('Перед едой мою руки.', 'I wash my hands before eating.'), ['먹기 전에', '먹으려고', '먹을 거예요'], 0),
+      /* 9 */ cloze('친구 집에 ___ 전화를 해요. (가다)', l('Перед тем как пойти к другу, звоню.', "I call before going to my friend's."), ['가기 전에', '가려고'], 0),
+      /* 10 */ cloze('수영을 ___ 준비 운동을 해요. (하다)', l('Перед плаванием делаю разминку.', 'I warm up before swimming.'), ['하기 전에', '하려고'], 0),
+      /* 11 */ tf('그림: 잠을 자기 전에 불을 껐어요.', true, l('На картинках: учёба → душ → выключил свет → сон.', 'In the pictures: study → shower → light off → sleep.')),
+      /* 12 */ cloze('가: 공원에 왜 가요? 나: 친구를 ___ 공원에 가요. (만나다)', l('— Зачем идёшь в парк? — Встретиться с другом.', '— Why are you going to the park? — To meet a friend.'), ['만나려고', '만나기 전에'], 0),
+      /* 13 */ cloze('나: 비행기 표를 ___ 여행사에 전화했어요. (예매하다)', l('Позвонил в турагентство, чтобы купить билет.', 'I called the travel agency to book a ticket.'), ['예매하려고', '예매하기 전에'], 0),
+      /* 14 */ cloze('집에 ___ 버스를 탔어요.', l('Сел на автобус, чтобы поехать домой.', 'I took the bus to go home.'), ['가려고', '가으려고'], 0),
+      /* 15 */ cloze('밥을 ___ 손을 씻었어요.', l('Помыл руки, чтобы поесть.', 'I washed my hands to eat.'), ['먹으려고', '먹려고'], 0),
+      /* 16 */ cloze('친구에게 ___ 꽃을 샀어요.', l('Купил цветы, чтобы подарить другу.', 'I bought flowers to give to a friend.'), ['주려고', '주으려고'], 0),
+      /* 17 */ build(l('Собери: «Перед сном читаю книгу»', 'Build: "I read a book before going to bed"'), ['자기', '전에', '책을', '읽어요']),
+      /* 18 */ build(l('Собери: «Купил хлеб, чтобы съесть на обед»', 'Build: "I bought bread to eat for lunch"'), ['점심에', '먹으려고', '빵을', '샀어요']),
+      /* 19 */ type(l('Напиши «Поеду в Пусан.» (부산에 …)', 'Write "I\'ll go to Busan." (부산에 …)'), ['부산에 갈 거예요', '부산에 갈 거예요.']),
+      /* 20 */ listen('고향에 돌아가기 전에 여행을 많이 할 거예요', [l('Перед возвращением домой много попутешествую.', "I'll travel a lot before going back home."), l('Вернувшись домой, буду путешествовать.', "I'll travel after going back home."), l('Я не путешествовал в Корее.', "I didn't travel in Korea.")], 0),
+      /* 21 */ choice(l('Куда Чыонг НЕ собирается?', "Where is Truong NOT going?"), [l('Сеул', 'Seoul'), l('Чонджу', 'Jeonju'), l('Пусан', 'Busan'), l('Кёнджу', 'Gyeongju')], 0),
+      /* 22 */ tf('쯔엉 씨는 한국에서 여행을 많이 했어요.', false, l('Чыонг: 아니요. 많이 못 했어요.', 'Truong: 아니요. 많이 못 했어요.')),
+      /* 23 */ tf('쯔엉 씨는 전주에 갈 거예요.', true),
+      /* 24 */ dict('제주도에 갈 거예요', '제주도에 갈 거예요', '제주도에 갈 거예요.'),
+      /* 25 */ choice(l('Что автор сделал перед отъездом из Чонджу?', 'What did the writer do before leaving Jeonju?'), [l('Купил подарки друзьям', 'Bought presents for friends'), l('Надел ханбок', 'Wore hanbok'), l('Съел пибимпап', 'Ate bibimbap')], 0),
+      /* 26 */ tf('저는 한옥 마을을 구경하려고 전주에 갔습니다.', true),
+      /* 27 */ tf('전주에서 한복을 입고 사진을 찍었습니다.', true),
+      /* 28 */ wr('여행', 'путешествие', 'trip'),
+      /* 29 */ wr('바다', 'море', 'sea'),
+      /* 30 */ wr('여권', 'паспорт', 'passport'),
+      /* 31 */ wr('호텔', 'гостиница', 'hotel'),
+      /* 32 */ wr('한복', 'ханбок', 'hanbok'),
+    ],
+    dialogue: {
+      title: l('Куда хочешь поехать?', 'Where do you want to go?'),
+      lines: [
+        dl('A', '한국에서 여행을 많이 했어요?', 'Ты много путешествовал по Корее?', 'Have you travelled a lot in Korea?'),
+        dl('B', '아니요. 많이 못 했어요. 그래서 고향에 돌아가기 전에 많이 할 거예요.', 'Нет, мало. Поэтому перед возвращением домой хочу много поездить.', "No, not much. So I'll travel a lot before I go back home."),
+        dl('A', '어디에 가고 싶어요?', 'Куда хочешь поехать?', 'Where do you want to go?'),
+        dl('B', '우선 제주도에 가려고 준비하고 있어요. 그다음에 경주와 부산, 전주에도 갈 거예요.', 'Сначала готовлюсь поехать на Чеджу. Потом — в Кёнджу, Пусан и Чонджу.', "First I'm getting ready to go to Jeju. After that I'll also go to Gyeongju, Busan and Jeonju."),
+      ],
+    },
+    story: {
+      title: l('Поездка в Чонджу', 'A trip to Jeonju'),
+      sentences: [
+        st('저는 지난 주말에 한옥 마을을 구경하려고 전주에 갔습니다.', 'В прошлые выходные я ездил в Чонджу, чтобы посмотреть деревню ханоков.', 'Last weekend I went to Jeonju to see the hanok village.', [['지난 주말에', 'в прошлые выходные', 'last weekend'], ['한옥 마을', 'деревня ханоков', 'hanok village'], ['구경하려고', 'чтобы осмотреть', 'to look around'], ['갔습니다', 'поехал', 'went']]),
+        st('한옥 마을에서 한복을 입고 사진을 많이 찍었습니다.', 'В деревне я надел ханбок и много фотографировался.', 'In the village I wore hanbok and took a lot of photos.', [['한복을 입고', 'надев ханбок', 'wearing hanbok'], ['사진을', 'фото', 'photos'], ['많이 찍었습니다', 'много снимал', 'took a lot']]),
+        st('그리고 비빔밥도 먹었습니다. 비빔밥이 정말 맛있었습니다.', 'А ещё ел пибимпап. Он был очень вкусный.', 'I also ate bibimbap. It was really delicious.', [['비빔밥도', 'и пибимпап', 'bibimbap too'], ['먹었습니다', 'ел', 'ate'], ['정말 맛있었습니다', 'очень вкусный', 'really delicious']]),
+        st('전주를 떠나기 전에 친구들 선물을 샀습니다.', 'Перед отъездом из Чонджу купил подарки друзьям.', 'Before leaving Jeonju I bought presents for my friends.', [['전주를 떠나기 전에', 'перед отъездом из Чонджу', 'before leaving Jeonju'], ['친구들 선물', 'подарки друзьям', "friends' presents"], ['샀습니다', 'купил', 'bought']]),
+        st('정말 즐거웠습니다. 다음에 또 가고 싶습니다.', 'Было очень весело. Хочу поехать ещё раз.', 'It was really fun. I want to go again.', [['즐거웠습니다', 'было весело', 'was fun'], ['다음에', 'в следующий раз', 'next time'], ['또 가고 싶습니다', 'хочу снова поехать', 'want to go again']]),
+      ],
+    },
+  },
+  exam: [
+    listen('바다', [l('море', 'sea'), l('гора', 'mountain'), l('заграница', 'abroad')], 0),
+    listen('호텔을 예약했어요', [l('Забронировал гостиницу.', 'I reserved a hotel.'), l('Купил билет.', 'I bought a ticket.'), l('Потерял паспорт.', 'I lost my passport.')], 0),
+    listen('자기 전에 샤워해요', [l('Перед сном принимаю душ.', 'I shower before going to bed.'), l('После душа ложусь спать.', 'I go to bed after showering.'), l('Сплю, чтобы отдохнуть.', 'I sleep to rest.')], 0),
+    listen('사진을 찍으려고 산에 가요', [l('Иду в горы, чтобы фотографировать.', "I'm going to the mountain to take photos."), l('Перед походом в горы фотографирую.', 'I take photos before going to the mountain.'), l('В горах фотографировал.', 'I took photos on the mountain.')], 0),
+    dict('여행을 갈 거예요', '여행을 갈 거예요', '여행을 갈 거예요.'),
+    dict('비행기 표를 예매했어요', '비행기 표를 예매했어요', '비행기 표를 예매했어요.'),
+    match(l('Соедини слово и перевод', 'Match the words'), [
+      ['여권', l('паспорт', 'passport')],
+      ['여행사', l('турагентство', 'travel agency')],
+      ['한옥', l('традиционный дом', 'traditional house')],
+      ['떠나다', l('уезжать', 'to leave')],
+      ['구경하다', l('осматривать', 'to sightsee')],
+    ]),
+    cloze('수업___ 숙제를 했어요.', l('Сделал домашку перед уроком.', 'I did my homework before class.'), ['전에', '기 전에', '려고'], 0),
+    cloze('한국에 ___ 한국어를 공부했어요.', l('Учил корейский перед поездкой в Корею.', 'I studied Korean before coming to Korea.'), ['오기 전에', '오려고 전에', '온 전에'], 0),
+    cloze('한국 친구와 ___ 한국어를 배워요.', l('Учу корейский, чтобы разговаривать с корейскими друзьями.', 'I learn Korean to talk with Korean friends.'), ['이야기하려고', '이야기하기 전에'], 0),
+    cloze('다음 주에 제주도에 ___.', l('На следующей неделе поеду на Чеджу.', "Next week I'll go to Jeju."), ['갈 거예요', '가려고', '가기 전에'], 0),
+    choice(l('먹다 → -으려고', '먹다 → -으려고'), ['먹으려고', '먹려고', '머거려고'], 0),
+    choice(l('«Купить билет на самолёт заранее»:', '"To book a plane ticket":'), ['비행기 표를 예매하다', '비행기 표를 예약하다', '비행기 표를 구경하다'], 0),
+    choice(l('Повторение (юнит 13): «Умею плавать»', 'Review (unit 13): "I can swim"'), ['수영할 수 있어요.', '수영하고 있어요.', '수영할 거예요.'], 0),
+    build(l('Собери: «Перед едой мою руки»', 'Build: "I wash my hands before eating"'), ['먹기', '전에', '손을', '씻어요']),
+    build(l('Собери: «Иду в магазин, чтобы купить фрукты»', 'Build: "I go to the store to buy fruit"'), ['과일을', '사려고', '가게에', '가요']),
+    type(l('Напиши «перед сном» (자다 + -기 전에)', 'Write "before sleeping" (자다 + -기 전에)'), ['자기 전에']),
+    tf('쯔엉 씨는 먼저 제주도에 갈 거예요.', true),
+    tf('저는 전주를 떠난 후에 선물을 샀습니다.', false),
+    wr('여행', 'путешествие', 'trip'),
+    wr('제주도', 'остров Чеджу', 'Jeju Island'),
+  ],
+};

@@ -3,8 +3,9 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { exams } from '../data/exams';
-import { levels } from '../data/levels';
-import { EXAM_PASS, isExamUnlocked } from '../lib/access';
+import { isBookLevel } from '../data/book';
+import { isExamUnlocked, passOf } from '../lib/access';
+import { unitsOfLevel } from '../data/units';
 import { Card } from '../components/ui';
 import { describe, ExerciseRunner } from '../components/ExerciseRunner';
 import type { Stats } from '../components/ExerciseRunner';
@@ -21,8 +22,11 @@ export default function Exam() {
   if (!exam || !isExamUnlocked(exam.level, p)) return <Navigate to="/" replace />;
 
   const total = exam.exercises.length;
-  const needed = Math.ceil(total * EXAM_PASS);
-  const nextLevel = levels.find((l) => l.level === exam.level + 1);
+  const pass = passOf(exam);
+  const needed = Math.ceil(total * pass - 1e-9);
+  const book = isBookLevel(exam.level);
+  const nextOpens = unitsOfLevel(exam.level + 1).length > 0;
+  const unlockedText = book ? `${t('unitOpen')} ${exam.level + 1 - 100}` : `${t('yourLevelOpen')} ${exam.level + 1}`;
 
   const finish = (s: Stats) => {
     const correct = s.outcomes.filter((o) => o.ok).length;
@@ -44,7 +48,7 @@ export default function Exam() {
           <p>{t('examIntro')}</p>
           <ul>
             <li>{total} {t('questions')}</li>
-            <li>{t('passMark')}: {Math.round(EXAM_PASS * 100)}% ({needed}/{total})</li>
+            <li>{t('passMark')}: {Math.round(pass * 100)}% ({needed}/{total})</li>
             {p.exams[exam.id] && <li>{t('bestScore')}: {Math.round(p.exams[exam.id].best * 100)}%</li>}
           </ul>
           <button type="button" className="btn primary" onClick={() => setPhase('run')}>{t('startExam')}</button>
@@ -70,9 +74,9 @@ export default function Exam() {
         <div className="confetti">{passed ? '🏆' : '📚'}</div>
         <h2>{passed ? t('passed') : t('failed')}</h2>
         <div className="score-ring">{correct}/{total} · {Math.round((correct / total) * 100)}%</div>
-        <p className="muted">{t('passMark')}: {Math.round(EXAM_PASS * 100)}%</p>
-        {passed && nextLevel && <p><b>{t('levelUnlocked')}</b> {t('yourLevelOpen')} {nextLevel.level}</p>}
-        {!passed && <p>{t('failedText')}</p>}
+        <p className="muted">{t('passMark')}: {Math.round(pass * 100)}%</p>
+        {passed && nextOpens && <p><b>{book ? t('unitUnlocked') : t('levelUnlocked')}</b> {unlockedText}</p>}
+        {!passed && <p>{book ? t('failedUnitText') : t('failedText')}</p>}
         <div className="row" style={{ justifyContent: 'center' }}>
           {!passed && <button type="button" className="btn primary" onClick={() => { setAttempt(attempt + 1); setStats(null); setPhase('intro'); }}>{t('retry')}</button>}
           <Link className={`btn ${passed ? 'primary' : ''}`} to="/">{t('openNext')}</Link>

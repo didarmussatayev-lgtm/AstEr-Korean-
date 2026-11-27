@@ -1,11 +1,12 @@
 import type { Exam } from '../lib/types';
 import { l } from './helpers';
+import { bookExams } from './book';
 
 const passage = '저는 안나예요. 카자흐스탄에서 왔어요. 스무 살이에요. 학생이에요. 어제 도서관에서 한국어를 공부했어요. 내일은 친구를 만날 거예요.';
 
 const passage2 = '저는 민수예요. 열아홉 살이에요. 우리 가족은 네 명이에요. 아버지는 선생님이에요. 저는 아침 일곱 시에 일어나요. 보통 버스로 학교에 가요. 오늘은 비가 와서 지하철을 타요. 주말에 친구하고 축구를 해요.';
 
-export const exams: Exam[] = [
+const coreExams: Exam[] = [
   {
     id: 'exam-l1',
     level: 1,
@@ -93,5 +94,7 @@ export const exams: Exam[] = [
     ],
   },
 ];
+
+export const exams: Exam[] = [...coreExams, ...bookExams];
 
 export const examOfLevel = (level: number) => exams.find((e) => e.level === level);

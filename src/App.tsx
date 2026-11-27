@@ -7,14 +7,22 @@ import Lesson from './pages/Lesson';
 import Review from './pages/Review';
 import Account from './pages/Account';
 import Exam from './pages/Exam';
+import Courses from './pages/Courses';
+import CourseSoon from './pages/CourseSoon';
+import { useCourse } from './lib/course';
 
 export default function App() {
   const { t, lang, setLang } = useI18n();
   const { dueCount } = useProgress();
+  const { course } = useCourse();
+  const home = course.ready ? <Home /> : <CourseSoon course={course} />;
   return (
     <HashRouter>
       <header className="top">
-        <NavLink to="/" className="brand">🌸 AstEr <span className="ko">한국어</span></NavLink>
+        <NavLink to="/" className="brand">🌸 AstEr</NavLink>
+        <NavLink to="/courses" className="course-chip" aria-label={t('chooseCourse')}>
+          <span>{course.flag}</span> {course.native} <span className="caret">▾</span>
+        </NavLink>
         <div className="lang" role="group" aria-label="Language">
           {(['ru', 'en'] as const).map((l) => (
             <button type="button" key={l} className={lang === l ? 'active' : ''} onClick={() => setLang(l)}>{l.toUpperCase()}</button>
@@ -23,13 +31,14 @@ export default function App() {
       </header>
       <main className="page">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={home} />
+          <Route path="/courses" element={<Courses />} />
           <Route path="/hangul" element={<Hangul />} />
           <Route path="/lesson/:id" element={<Lesson />} />
           <Route path="/exam/:id" element={<Exam />} />
           <Route path="/review" element={<Review />} />
           <Route path="/account" element={<Account />} />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={home} />
         </Routes>
       </main>
       <nav className="tabbar" aria-label="Main">
