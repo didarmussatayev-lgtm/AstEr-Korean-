@@ -43,6 +43,8 @@ const dict = {
     levelUnlocked: 'Открыт следующий уровень!', locked: 'Закрыто', lessonsLeft: 'Осталось уроков до экзамена', examLocked: 'Пройди все уроки уровня, чтобы открыть экзамен',
     levelLocked: 'Сдай экзамен предыдущего уровня, чтобы открыть этот', soon: 'Скоро', bestScore: 'Лучший результат', mistakesReview: 'Разбор ошибок',
     allCorrect: 'Ошибок нет — отлично!', yourLevelOpen: 'Теперь открыт уровень', openNext: 'К карте',
+    course: 'Курс', chooseCourse: 'Выбрать курс', chooseCourseHint: 'Какой язык учим? Переключаться можно в любой момент — прогресс не теряется.',
+    courseSoon: 'Курс готовится', courseSoonText: 'Материалы этого курса ещё добавляются. Пока можно заниматься корейским — он уже открыт.', courseWillHave: 'Что будет в курсе',
   },
   en: {
     home: 'Home', hangul: 'Hangul', review: 'Review', account: 'Account',
@@ -84,6 +86,8 @@ const dict = {
     levelUnlocked: 'Next level unlocked!', locked: 'Locked', lessonsLeft: 'Lessons left before the exam', examLocked: 'Finish all lessons of this level to unlock the exam',
     levelLocked: 'Pass the exam of the previous level to unlock this one', soon: 'Coming soon', bestScore: 'Best score', mistakesReview: 'Review of mistakes',
     allCorrect: 'No mistakes — great!', yourLevelOpen: 'Now open: level', openNext: 'To the map',
+    course: 'Course', chooseCourse: 'Choose a course', chooseCourseHint: 'Which language are we learning? Switch any time — your progress stays.',
+    courseSoon: 'Course in preparation', courseSoonText: 'Materials for this course are still being added. Meanwhile the Korean course is open.', courseWillHave: 'What the course will include',
   },
 } as const;
 
