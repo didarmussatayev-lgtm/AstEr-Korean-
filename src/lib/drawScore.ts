@@ -4,7 +4,7 @@ export interface Pt {
   y: number;
 }
 
-export const KO_FONT = "'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', system-ui, sans-serif";
+export const KO_FONT = "'Noto Sans KR', 'Noto Sans SC', 'Malgun Gothic', 'Apple SD Gothic Neo', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif";
 
 /** Draws a glyph centred in the square (x0, y0, size). */
 export function drawGlyph(ctx: CanvasRenderingContext2D, ch: string, x0: number, y0: number, size: number) {

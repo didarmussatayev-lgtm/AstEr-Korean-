@@ -1,6 +1,7 @@
 import type { Exam } from '../lib/types';
 import { l } from './helpers';
 import { bookExams } from './book';
+import { hskExams } from './hsk';
 
 const passage = '저는 안나예요. 카자흐스탄에서 왔어요. 스무 살이에요. 학생이에요. 어제 도서관에서 한국어를 공부했어요. 내일은 친구를 만날 거예요.';
 
@@ -95,6 +96,6 @@ const coreExams: Exam[] = [
   },
 ];
 
-export const exams: Exam[] = [...coreExams, ...bookExams];
+export const exams: Exam[] = [...coreExams, ...bookExams, ...hskExams];
 
 export const examOfLevel = (level: number) => exams.find((e) => e.level === level);

@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { exams } from '../data/exams';
-import { isBookLevel } from '../data/book';
+import { seriesOf, unitNo } from '../data/series';
 import { isExamUnlocked, passOf } from '../lib/access';
 import { unitsOfLevel } from '../data/units';
 import { Card } from '../components/ui';
@@ -24,9 +24,13 @@ export default function Exam() {
   const total = exam.exercises.length;
   const pass = passOf(exam);
   const needed = Math.ceil(total * pass - 1e-9);
-  const book = isBookLevel(exam.level);
+  const series = seriesOf(exam.level);
+  const book = series !== 'core';
   const nextOpens = unitsOfLevel(exam.level + 1).length > 0;
-  const unlockedText = book ? `${t('unitOpen')} ${exam.level + 1 - 100}` : `${t('yourLevelOpen')} ${exam.level + 1}`;
+  const unlockedText =
+    series === 'hsk' ? `${t('hskOpen')} ${unitNo(exam.level) + 1}`
+    : book ? `${t('unitOpen')} ${unitNo(exam.level) + 1}`
+    : `${t('yourLevelOpen')} ${exam.level + 1}`;
 
   const finish = (s: Stats) => {
     const correct = s.outcomes.filter((o) => o.ok).length;
@@ -75,8 +79,8 @@ export default function Exam() {
         <h2>{passed ? t('passed') : t('failed')}</h2>
         <div className="score-ring">{correct}/{total} · {Math.round((correct / total) * 100)}%</div>
         <p className="muted">{t('passMark')}: {Math.round(pass * 100)}%</p>
-        {passed && nextOpens && <p><b>{book ? t('unitUnlocked') : t('levelUnlocked')}</b> {unlockedText}</p>}
-        {!passed && <p>{book ? t('failedUnitText') : t('failedText')}</p>}
+        {passed && nextOpens && <p><b>{series === 'hsk' ? t('hskUnlocked') : book ? t('unitUnlocked') : t('levelUnlocked')}</b> {unlockedText}</p>}
+        {!passed && <p>{series === 'hsk' ? t('hskFailed') : book ? t('failedUnitText') : t('failedText')}</p>}
         <div className="row" style={{ justifyContent: 'center' }}>
           {!passed && <button type="button" className="btn primary" onClick={() => { setAttempt(attempt + 1); setStats(null); setPhase('intro'); }}>{t('retry')}</button>}
           <Link className={`btn ${passed ? 'primary' : ''}`} to="/">{t('openNext')}</Link>

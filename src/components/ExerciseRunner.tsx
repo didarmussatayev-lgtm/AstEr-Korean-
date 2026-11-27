@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { Exercise, Text } from '../lib/types';
 import { useI18n } from '../lib/i18n';
 import { norm, ProgressBar, shuffle, SpeakButton } from './ui';
-import { play, speak } from '../lib/speak';
+import { isChinese, play, speak } from '../lib/speak';
 import { GuidedWrite } from './write/GuidedWrite';
 import { MNEMONICS, mnemoText } from '../data/mnemonics';
 
@@ -326,6 +326,7 @@ function TypeIn({
   const { t } = useI18n();
   const [v, setV] = useState('');
   const submit = () => onSubmit(answers.some((a) => norm(a) === norm(v)));
+  const zh = answers.some(isChinese);
   return (
     <>
       <h2 className="prompt">{prompt}</h2>
@@ -333,10 +334,10 @@ function TypeIn({
       {hint && <p className="muted">💡 {hint}</p>}
       <input
         className="input ko"
-        lang="ko"
+        lang={zh ? 'zh' : 'ko'}
         value={v}
         disabled={disabled}
-        placeholder={t('typeKo')}
+        placeholder={zh ? t('typeZh') : t('typeKo')}
         aria-label={t('yourAnswer')}
         onChange={(e) => setV(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && v.trim() && submit()}

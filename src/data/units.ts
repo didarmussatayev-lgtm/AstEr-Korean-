@@ -1,5 +1,7 @@
 import { lessons as coreLessons } from './lessons';
-import { bookLessons, isBookLevel } from './book';
+import { bookLessons } from './book';
+import { hskLessons } from './hsk';
+import { seriesOf } from './series';
 import { planParts } from './plan';
 import type { PlanItem } from './plan';
 import type { L, Lesson } from '../lib/types';
@@ -24,7 +26,7 @@ export interface Unit {
 
 const wordsOf = (plan: PlanItem[]) => plan.flatMap((it) => ('w' in it ? it.w : []));
 
-const lessons = [...coreLessons, ...bookLessons];
+const lessons = [...coreLessons, ...bookLessons, ...hskLessons];
 
 export const units: Unit[] = lessons.flatMap((lesson) => {
   const parts = planParts[lesson.id] ?? [[]];
@@ -51,7 +53,7 @@ export const unitsOfLevel = (level: number) => units.filter((u) => u.lesson.leve
 /** the unit before this one in the same course (the book never recaps the main course and vice versa) */
 export const prevUnit = (u: Unit) => {
   const prev = units[units.findIndex((x) => x.id === u.id) - 1];
-  return prev && isBookLevel(prev.lesson.level) === isBookLevel(u.lesson.level) ? prev : undefined;
+  return prev && seriesOf(prev.lesson.level) === seriesOf(u.lesson.level) ? prev : undefined;
 };
 
 /** A unit counts as done if its own id is stored, or the whole lesson was finished before lessons were split. */

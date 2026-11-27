@@ -1,20 +1,28 @@
-let cached: SpeechSynthesisVoice | null | undefined;
+const cached: Record<string, SpeechSynthesisVoice | null | undefined> = {};
 
-function koVoice(): SpeechSynthesisVoice | null {
-  if (cached) return cached;
+function voiceFor(lang: 'ko' | 'zh'): SpeechSynthesisVoice | null {
+  if (cached[lang]) return cached[lang]!;
   const voices = window.speechSynthesis?.getVoices() ?? [];
-  cached = voices.find((v) => v.lang.toLowerCase().startsWith('ko')) ?? null;
-  return cached;
+  const pick =
+    lang === 'zh'
+      ? voices.find((v) => /^zh[-_]cn/i.test(v.lang)) ?? voices.find((v) => v.lang.toLowerCase().startsWith('zh'))
+      : voices.find((v) => v.lang.toLowerCase().startsWith('ko'));
+  cached[lang] = pick ?? null;
+  return cached[lang]!;
 }
+
+/** Chinese text: has Han characters and no Hangul. */
+export const isChinese = (text: string) => /[\u4e00-\u9fff]/.test(text) && !/[\uac00-\ud7a3]/.test(text);
 
 export const canSpeak = () => typeof window !== 'undefined' && 'speechSynthesis' in window;
 
 export function speak(text: string, rate = 0.85) {
   if (!canSpeak()) return;
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'ko-KR';
-  u.rate = rate;
-  const v = koVoice();
+  const zh = isChinese(text);
+  u.lang = zh ? 'zh-CN' : 'ko-KR';
+  u.rate = zh ? Math.min(rate, 0.8) : rate;
+  const v = voiceFor(zh ? 'zh' : 'ko');
   if (v) u.voice = v;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(u);
@@ -22,7 +30,8 @@ export function speak(text: string, rate = 0.85) {
 
 if (canSpeak()) {
   window.speechSynthesis.onvoiceschanged = () => {
-    cached = undefined;
+    delete cached.ko;
+    delete cached.zh;
   };
 }
 
