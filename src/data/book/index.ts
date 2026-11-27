@@ -4,6 +4,8 @@ import { unit as u02 } from './u02';
 import { unit as u03 } from './u03';
 import { unit as u04 } from './u04';
 import { unit as u05 } from './u05';
+import { unit as u06 } from './u06';
+import { unit as u07 } from './u07';
 
 /**
  * "Korean by book": every unit of the textbook is a lesson with its own level number BOOK_BASE + n.
@@ -23,7 +25,7 @@ export interface BookUnit {
   exam: Exam['exercises'];
 }
 
-const raw: BookUnit[] = [u01, u02, u03, u04, u05];
+const raw: BookUnit[] = [u01, u02, u03, u04, u05, u06, u07];
 
 export const bookLevel = (n: number) => BOOK_BASE + n;
 export const isBookLevel = (level: number) => level > BOOK_BASE;
