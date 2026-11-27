@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { speak } from '../lib/speak';
+import { play } from '../lib/speak';
 
 /** **bold** markup -> <b> */
 export function Rich({ text }: { text: string }) {
@@ -11,9 +11,9 @@ export function Rich({ text }: { text: string }) {
   );
 }
 
-export function SpeakButton({ text, label = 'Listen', big = false }: { text: string; label?: string; big?: boolean }) {
+export function SpeakButton({ text, label = 'Listen', big = false, src }: { text: string; label?: string; big?: boolean; src?: string }) {
   return (
-    <button type="button" className={`speak ${big ? 'big' : ''}`} aria-label={`${label}: ${text}`} onClick={() => speak(text)}>
+    <button type="button" className={`speak ${big ? 'big' : ''}`} aria-label={`${label}: ${text}`} onClick={() => play(text, src)}>
       🔊
     </button>
   );

@@ -1,5 +1,6 @@
 import type { L } from '../lib/types';
 import { l } from './helpers';
+import { bookLessons } from './book';
 
 export type CourseId = 'korean' | 'korean-book' | 'english' | 'french' | 'chinese';
 
@@ -23,7 +24,7 @@ export const courses: Course[] = [
     blurb: l('Курс с нуля: хангыль, уроки маленькими шагами, повторение и экзамены уровней.', 'From zero: Hangul, lessons in small steps, spaced review and level exams.'),
   },
   {
-    id: 'korean-book', flag: '📘', native: '한국어', ready: false,
+    id: 'korean-book', flag: '📘', native: '한국어', ready: bookLessons.length > 0,
     title: l('Korean by book', 'Korean by book'),
     blurb: l('Корейский по учебнику: все юниты книги с картинками и аудио.', 'Korean following the textbook: every unit with its pictures and audio.'),
     plan: [

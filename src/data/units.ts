@@ -1,4 +1,5 @@
-import { lessons } from './lessons';
+import { lessons as coreLessons } from './lessons';
+import { bookLessons } from './book';
 import { planParts } from './plan';
 import type { PlanItem } from './plan';
 import type { L, Lesson } from '../lib/types';
@@ -22,6 +23,8 @@ export interface Unit {
 }
 
 const wordsOf = (plan: PlanItem[]) => plan.flatMap((it) => ('w' in it ? it.w : []));
+
+const lessons = [...coreLessons, ...bookLessons];
 
 export const units: Unit[] = lessons.flatMap((lesson) => {
   const parts = planParts[lesson.id] ?? [[]];

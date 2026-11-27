@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { Exercise, Text } from '../lib/types';
 import { useI18n } from '../lib/i18n';
 import { norm, ProgressBar, shuffle, SpeakButton } from './ui';
-import { speak } from '../lib/speak';
+import { play, speak } from '../lib/speak';
 import { GuidedWrite } from './write/GuidedWrite';
 import { MNEMONICS, mnemoText } from '../data/mnemonics';
 
@@ -43,7 +43,7 @@ export function ExerciseRunner({ exercises, exam = false, startAt = 0, onPos, on
   const cur = queue[pos];
 
   useEffect(() => {
-    if (cur && (cur.e.type === 'listen' || cur.e.type === 'dictation')) speak(cur.e.say);
+    if (cur && (cur.e.type === 'listen' || cur.e.type === 'dictation')) play(cur.e.say, cur.e.audio);
   }, [cur]);
 
   useEffect(() => {
@@ -114,7 +114,7 @@ export function ExerciseRunner({ exercises, exam = false, startAt = 0, onPos, on
         {e.type === 'listen' && (
           <>
             <div className="listen-box">
-              <SpeakButton text={e.say} big />
+              <SpeakButton text={e.say} src={e.audio} big />
               <span className="muted">{t('listen')}</span>
             </div>
             <Choice
@@ -151,7 +151,7 @@ export function ExerciseRunner({ exercises, exam = false, startAt = 0, onPos, on
         {e.type === 'dictation' && (
           <TypeIn
             prompt={t('dictation')}
-            top={<div className="listen-box"><SpeakButton text={e.say} big /><span className="muted">{t('listen')}</span></div>}
+            top={<div className="listen-box"><SpeakButton text={e.say} src={e.audio} big /><span className="muted">{t('listen')}</span></div>}
             answers={e.answers}
             disabled={done}
             onSubmit={(ok) => settle(ok, e.answers[0])}

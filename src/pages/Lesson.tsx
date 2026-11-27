@@ -11,7 +11,7 @@ import type { Step } from '../lib/steps';
 import type { Block, Lesson as LessonT, StorySentence, Vocab } from '../lib/types';
 import { Card, ProgressBar, Rich, SpeakButton } from '../components/ui';
 import { ExerciseRunner } from '../components/ExerciseRunner';
-import { speak } from '../lib/speak';
+import { media, speak } from '../lib/speak';
 import { speakable } from '../lib/quiz';
 
 export default function Lesson() {
@@ -199,11 +199,15 @@ function WordCard({ lessonId, v }: { lessonId: string; v: Vocab }) {
   const m = mnemonicFor(lessonId, v.ko);
   return (
     <article className="wcard">
-      <div className="wc-pic" aria-hidden="true" style={{ fontSize: picSize(m?.e ?? '🔤') }}>{m?.e ?? '🔤'}</div>
+      {v.img ? (
+        <img className="wc-pic wc-img" src={media(v.img)} alt="" loading="lazy" />
+      ) : (
+        <div className="wc-pic" aria-hidden="true" style={{ fontSize: picSize(m?.e ?? '🔤') }}>{m?.e ?? '🔤'}</div>
+      )}
       <div className="wc-main">
         <div className="wc-top">
           <span className="ko wc-ko">{v.ko}</span>
-          <SpeakButton text={speakable(v.ko)} label={t('tapToHear')} />
+          <SpeakButton text={speakable(v.ko)} src={v.audio} label={t('tapToHear')} />
         </div>
         <div className="muted roman">{v.roman}</div>
         <div className="wc-tr">{tx(v.tr)}</div>
@@ -221,6 +225,21 @@ function BlockView({ b }: { b: Block }) {
   const { tx } = useI18n();
   if (b.type === 'p') return <p><Rich text={tx(b.text)} /></p>;
   if (b.type === 'tip') return <p className="tip">💡 <Rich text={tx(b.text)} /></p>;
+  if (b.type === 'img')
+    return (
+      <figure className="book-fig">
+        <img src={media(b.src)} alt={b.caption ? tx(b.caption) : ''} loading="lazy" />
+        {b.caption && <figcaption className="muted">{tx(b.caption)}</figcaption>}
+      </figure>
+    );
+  if (b.type === 'audio')
+    return (
+      <div className="book-audio">
+        {b.title && <b>🎧 {tx(b.title)}</b>}
+        <audio controls preload="none" src={media(b.src)} />
+        {b.transcript && <details><summary>{tx({ ru: 'Текст', en: 'Transcript' })}</summary><p className="ko">{b.transcript}</p></details>}
+      </div>
+    );
   if (b.type === 'table')
     return (
       <div className="table-wrap">

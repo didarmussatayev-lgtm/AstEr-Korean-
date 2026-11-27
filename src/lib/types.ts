@@ -6,23 +6,31 @@ export type Block =
   | { type: 'p'; text: L }
   | { type: 'tip'; text: L }
   | { type: 'table'; head: Text[]; rows: Text[][] }
-  | { type: 'examples'; items: { ko: string; tr: L }[] };
+  | { type: 'examples'; items: { ko: string; tr: L }[] }
+  /** a picture (e.g. cut from the textbook); src is relative to public/ */
+  | { type: 'img'; src: string; caption?: L }
+  /** an audio track (e.g. from the textbook CD) with an optional transcript */
+  | { type: 'audio'; src: string; title?: L; transcript?: string };
 
 export interface Vocab {
   ko: string;
   roman: string;
   tr: L;
+  /** picture for the word card (relative to public/) */
+  img?: string;
+  /** recorded pronunciation; text-to-speech is used when absent */
+  audio?: string;
 }
 
 export type Exercise =
   | { type: 'choice'; prompt: L; options: Text[]; answer: number; why?: L; passage?: string; ref?: string }
   | { type: 'cloze'; sentence: string; tr?: L; options: Text[]; answer: number; why?: L }
   | { type: 'tf'; statement: Text; answer: boolean; why?: L }
-  | { type: 'listen'; say: string; options: L[]; answer: number; ref?: string }
+  | { type: 'listen'; say: string; options: L[]; answer: number; ref?: string; audio?: string }
   | { type: 'match'; prompt: L; pairs: { ko: string; tr: Text }[] }
   | { type: 'build'; prompt: L; tokens: string[]; answer: string[] }
   | { type: 'type'; prompt: L; answers: string[]; hint?: L }
-  | { type: 'dictation'; say: string; answers: string[] }
+  | { type: 'dictation'; say: string; answers: string[]; audio?: string }
   /** guided handwriting: assemble -> trace -> write syllables -> write the word */
   | { type: 'write'; prompt: L; word: string; tr?: L };
 
@@ -31,6 +39,8 @@ export interface Exam {
   level: number;
   title: L;
   exercises: Exercise[];
+  /** share of correct answers needed to pass (default EXAM_PASS) */
+  pass?: number;
 }
 
 export interface ExamResult {

@@ -3,7 +3,9 @@ import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { addDays, today } from '../lib/srs';
 import { unitDone, unitsOfLevel } from '../data/units';
-import { levels } from '../data/levels';
+import { levels as coreLevels } from '../data/levels';
+import { bookLevels } from '../data/book';
+import { useCourse } from '../lib/course';
 import { examOfLevel } from '../data/exams';
 import { allLetters } from '../data/hangul';
 import { isExamUnlocked, isLevelOpen, lessonsLeft } from '../lib/access';
@@ -15,12 +17,15 @@ export default function Home() {
   const alive = p.lastDay === today() || p.lastDay === addDays(today(), -1);
   const streak = alive ? p.streak : 0;
   const learned = p.letters.length;
+  const { course } = useCourse();
+  const book = course.id === 'korean-book';
+  const levels = book ? bookLevels : coreLevels;
 
   return (
     <div className="stack">
       <div className="hero">
-        <h1>{t('hello')}</h1>
-        <p>{t('tagline')}</p>
+        <h1>{book ? `${course.flag} ${tx(course.title)}` : t('hello')}</h1>
+        <p>{book ? t('bookTagline') : t('tagline')}</p>
       </div>
 
       <div className="stats">
@@ -60,7 +65,7 @@ export default function Home() {
 
             {!open && (
               <Card className="lock-card">
-                <p>🔒 {t('levelLocked')}</p>
+                <p>🔒 {book ? t('unitLocked') : t('levelLocked')}</p>
                 {items.length === 0 && <p><b>{t('soon')}</b></p>}
               </Card>
             )}
@@ -117,7 +122,7 @@ export default function Home() {
                         <span className="emoji">🔒</span>
                         <span className="node-body">
                           <b>{tx(exam.title)}</b>
-                          <span className="muted">{t('examLocked')} · {t('lessonsLeft')}: {left}</span>
+                          <span className="muted">{book ? t('examLockedUnit') : `${t('examLocked')} · ${t('lessonsLeft')}: ${left}`}</span>
                         </span>
                       </div>
                     )}

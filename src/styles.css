@@ -275,3 +275,11 @@ th { background: var(--brand-soft); }
 .plan-list { margin: 0; padding-left: 1.2rem; display: grid; gap: .3rem; }
 @media (max-width: 380px) { .course-chip { padding: .3rem .5rem; } .brand { font-size: 1rem; } }
 .soon-card > * { margin: 0; }
+
+/* textbook media */
+.wc-img { object-fit: cover; padding: 0; }
+.book-fig { margin: .8rem 0; }
+.book-fig img { display: block; max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+.book-fig figcaption { font-size: .85rem; margin-top: .3rem; }
+.book-audio { display: grid; gap: .4rem; margin: .8rem 0; padding: .7rem; border-radius: 12px; background: var(--brand-soft); }
+.book-audio audio { width: 100%; }

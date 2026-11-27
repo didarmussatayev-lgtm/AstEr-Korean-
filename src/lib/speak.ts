@@ -25,3 +25,17 @@ if (canSpeak()) {
     cached = undefined;
   };
 }
+
+/** URL of a file in public/ (works with the relative base of the build). */
+export const media = (src: string) => (/^(https?:)?\/\//.test(src) || src.startsWith('/') ? src : `./${src}`);
+
+let current: HTMLAudioElement | null = null;
+
+/** Plays a recording when there is one, otherwise reads the text aloud. */
+export function play(text: string, src?: string) {
+  current?.pause();
+  if (!src) return speak(text);
+  if (canSpeak()) window.speechSynthesis.cancel();
+  current = new Audio(media(src));
+  current.play().catch(() => speak(text));
+}
