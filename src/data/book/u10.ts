@@ -1,0 +1,277 @@
+import type { BookUnit } from './index';
+import { build, choice, cloze, dict, dl, l, listen, match, picOf, st, tf, type, v, wr } from './h';
+
+const p = picOf(10);
+
+export const unit: BookUnit = {
+  n: 10,
+  lesson: {
+    emoji: '🍱',
+    title: l('Пообедаем вместе? (같이 점심을 먹을까요?)', 'Shall we have lunch together? (같이 점심을 먹을까요?)'),
+    goal: l(
+      'Называть время, предлагать и договариваться: исконно корейские числа, -을까요?, -읍시다 и «и» между глаголами -고.',
+      'Tell the time, suggest and make plans: native Korean numbers, -을까요?, -읍시다 and "and" between verbs -고.',
+    ),
+    theory: [
+      {
+        title: l('Исконно корейские числа и время', 'Native Korean numbers and time'),
+        blocks: [
+          {
+            type: 'table',
+            head: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            rows: [['하나', '둘', '셋', '넷', '다섯', '여섯', '일곱', '여덟', '아홉', '열']],
+          },
+          {
+            type: 'p',
+            text: l(
+              'Эти числа используют для **часов** и счёта предметов. Перед словом 하나, 둘, 셋, 넷 укорачиваются: **한 시, 두 시, 세 시, 네 시**; 스물 → **스무**. 11 = 열하나 (열한 시), 12 = 열둘 (열두 시).',
+              'These numbers are used for **hours** and counting things. Before a noun 하나, 둘, 셋, 넷 shorten: **한 시, 두 시, 세 시, 네 시**; 스물 → **스무**. 11 = 열하나 (열한 시), 12 = 열둘 (열두 시).',
+            ),
+          },
+          { type: 'img', src: p('hour'), caption: l('다섯 시 — пять часов', '다섯 시 — five o\'clock') },
+          {
+            type: 'p',
+            text: l(
+              'Время = **корейское число + 시** и **сино-корейское число + 분**: 5:30 = 다섯 시 삼십 분, 12:02 = 열두 시 이 분, 7:12 = 일곱 시 십이 분. «Половина» — 반: 다섯 시 반.',
+              'Time = **native number + 시** and **Sino-Korean number + 분**: 5:30 = 다섯 시 삼십 분, 12:02 = 열두 시 이 분, 7:12 = 일곱 시 십이 분. "Half" is 반: 다섯 시 반.',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '지금 몇 시예요?', tr: l('Который сейчас час?', 'What time is it now?') },
+              { ko: '아침에 학교에 가요.', tr: l('Утром иду в школу.', 'I go to school in the morning.') },
+              { ko: '점심에 식당에서 밥을 먹어요.', tr: l('В обед ем в столовой.', 'I have lunch at the cafeteria.') },
+              { ko: '저녁에 집에서 쉬어요.', tr: l('Вечером отдыхаю дома.', 'I rest at home in the evening.') },
+            ],
+          },
+          { type: 'img', src: p('havetime'), caption: l('— 이번 주말에 시간이 있어요? — 네, 한가해요.', "— Do you have time this weekend? — Yes, I'm free.") },
+          { type: 'img', src: p('notime'), caption: l('— 오늘 오후에 만나요. — 미안해요. 오후에 시간이 없어요.', "— See you this afternoon. — Sorry, I have no time in the afternoon.") },
+        ],
+      },
+      {
+        title: l('Предложить: -을까요? / -ㄹ까요?', 'Suggest: -을까요? / -ㄹ까요?'),
+        blocks: [
+          { type: 'img', src: p('g-eulkka'), caption: l('한국 음식을 먹을까요? — Поедим корейской еды?', '한국 음식을 먹을까요? — Shall we eat Korean food?') },
+          {
+            type: 'p',
+            text: l(
+              '«Давай…?», «Может, …?» — спрашиваем мнение собеседника о совместном действии. Основа на согласную → **-을까요?**, на гласную → **-ㄹ까요?**',
+              '"Shall we…?" — asking the other person\'s opinion about doing something together. Stem ending in a consonant → **-을까요?**, in a vowel → **-ㄹ까요?**',
+            ),
+          },
+          {
+            type: 'table',
+            head: [l('Основа', 'Stem'), l('Слово', 'Word'), '-을까요? / -ㄹ까요?'],
+            rows: [
+              [l('согласная', 'consonant'), '먹다', '먹을까요?'],
+              [l('гласная', 'vowel'), '가다, 만나다', '갈까요?, 만날까요?'],
+              [l('гласная', 'vowel'), '쓰다, 운동하다', '쓸까요?, 운동할까요?'],
+              [l('ㄷ → ㄹ', 'ㄷ → ㄹ'), '듣다', '들을까요?'],
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('듣다 «слушать» перед гласной меняет ㄷ на ㄹ: 들을까요?, 들어요.', '듣다 "to listen" changes ㄷ to ㄹ before a vowel: 들을까요?, 들어요.'),
+          },
+        ],
+      },
+      {
+        title: l('«Давайте!»: -읍시다 / -ㅂ시다', '"Let\'s!": -읍시다 / -ㅂ시다'),
+        blocks: [
+          { type: 'img', src: p('g-eupsida'), caption: l('— 점심에 뭘 먹을까요? — 비빔밥을 먹읍시다.', "— What shall we eat for lunch? — Let's eat bibimbap.") },
+          {
+            type: 'p',
+            text: l(
+              '«Давайте сделаем» — **-읍시다** после согласной, **-ㅂ시다** после гласной. Часто это ответ на -을까요?. Звучит официально и **не используется со старшими** по возрасту и положению.',
+              '"Let\'s do it" — **-읍시다** after a consonant, **-ㅂ시다** after a vowel. It often answers -을까요?. It sounds formal and is **not used towards elders or superiors**.',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '— 같이 갈까요? — 네, 같이 갑시다.', tr: l('— Пойдём вместе? — Да, пойдём.', "— Shall we go together? — Yes, let's go.") },
+              { ko: '— 7시에 만날까요? — 네, 7시에 만납시다.', tr: l('— Встретимся в 7? — Да, давайте в 7.', "— Shall we meet at 7? — Yes, let's meet at 7.") },
+              { ko: '같이 한국어를 공부합시다.', tr: l('Давайте вместе учить корейский.', "Let's study Korean together.") },
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('С друзьями проще сказать в стиле -아요: 같이 가요! — «Пойдём вместе!»', 'With friends just use the -아요 style: 같이 가요! — "Let\'s go together!"'),
+          },
+        ],
+      },
+      {
+        title: l('«И» между глаголами: -고', '"And" between verbs: -고'),
+        blocks: [
+          { type: 'img', src: p('g-go'), caption: l('저는 밥을 먹고 동생은 우유를 마셔요.', '저는 밥을 먹고 동생은 우유를 마셔요. — I eat rice and my younger sister drinks milk.') },
+          {
+            type: 'p',
+            text: l(
+              '-고 соединяет два действия или признака: «и». Просто добавь -고 к основе, время и вежливость ставятся в конце: **크고 좋아요** «большой и хороший».',
+              '-고 joins two actions or qualities: "and". Just add -고 to the stem; tense and politeness go at the end: **크고 좋아요** "big and good".',
+            ),
+          },
+          {
+            type: 'examples',
+            items: [
+              { ko: '우리 학교는 크고 좋아요.', tr: l('Наша школа большая и хорошая.', 'Our school is big and nice.') },
+              { ko: '쯔엉 씨는 베트남 사람이고 리사 씨는 미국 사람이에요.', tr: l('Чыонг — вьетнамец, а Лиза — американка.', 'Truong is Vietnamese and Lisa is American.') },
+              { ko: '하늘이 맑고 따뜻해요.', tr: l('Небо ясное и тепло.', 'The sky is clear and it is warm.') },
+              { ko: '그 식당이 싸고 맛있어요.', tr: l('Тот ресторан дешёвый и вкусный.', 'That restaurant is cheap and tasty.') },
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('С существительным: 학생이고 (после согласной) / 친구고 (после гласной, разговорно).', 'With nouns: 학생이고 (after a consonant) / 친구고 (after a vowel, colloquial).'),
+          },
+        ],
+      },
+      {
+        title: l('Слушаем и читаем: договариваемся о встрече', 'Listening and reading: making plans'),
+        blocks: [
+          { type: 'img', src: p('listen'), caption: l('— 금요일에 같이 점심을 먹을까요? — 미안해요. 그날 약속이 있어요.', '— Shall we have lunch on Friday? — Sorry, I have plans that day.') },
+          { type: 'img', src: p('read'), caption: l('Переписка Наташи и Чжихуна', 'Natasha and Jihun chatting') },
+          { type: 'img', src: p('trip4'), caption: l('Что Наташа делала на родине? (Ответ: ③ путешествовала, ④ встречалась с семьёй)', 'What did Natasha do back home? (Answer: ③ travelled, ④ met her family)') },
+          {
+            type: 'p',
+            text: l(
+              '약속 — «договорённость, встреча», 방학 — «каникулы», 다녀오다 — «съездить и вернуться», 아르바이트 — «подработка», 모레 — «послезавтра», 이야기 — «рассказ, разговор».',
+              '약속 is "appointment, plans", 방학 "school vacation", 다녀오다 "to go and come back", 아르바이트 "part-time job", 모레 "the day after tomorrow", 이야기 "story, talk".',
+            ),
+          },
+        ],
+      },
+    ],
+    vocab: [
+      v('하나', 'hana', 'один', 'one'),
+      v('둘', 'dul', 'два', 'two'),
+      v('셋', 'set', 'три', 'three'),
+      v('넷', 'net', 'четыре', 'four'),
+      v('다섯', 'daseot', 'пять', 'five'),
+      v('여섯', 'yeoseot', 'шесть', 'six'),
+      v('일곱', 'ilgop', 'семь', 'seven'),
+      v('여덟', 'yeodeol', 'восемь', 'eight'),
+      v('아홉', 'ahop', 'девять', 'nine'),
+      v('열', 'yeol', 'десять', 'ten'),
+      v('시', 'si', 'час', "o'clock", p('hour')),
+      v('분', 'bun', 'минута', 'minute', p('minute')),
+      v('몇', 'myeot', 'сколько', 'how many, what (number)', p('howmany')),
+      v('아침', 'achim', 'утро; завтрак', 'morning; breakfast', p('morning')),
+      v('점심', 'jeomsim', 'обед; полдень', 'lunch; midday', p('lunch')),
+      v('저녁', 'jeonyeok', 'вечер; ужин', 'evening; dinner', p('evening')),
+      v('시간', 'sigan', 'время', 'time', p('havetime')),
+      v('약속', 'yaksok', 'договорённость, встреча', 'appointment, plans', p('notime')),
+      v('내일', 'naeil', 'завтра', 'tomorrow'),
+      v('그날', 'geunal', 'тот день', 'that day'),
+      v('싸다', 'ssada', 'дешёвый', 'to be cheap'),
+      v('맛있다', 'masitda', 'вкусный', 'to be tasty'),
+      v('마시다', 'masida', 'пить', 'to drink', p('g-go')),
+      v('방학', 'banghak', 'каникулы', 'school vacation'),
+      v('여행', 'yeohaeng', 'путешествие', 'trip, travel'),
+      v('아르바이트', 'areubaiteu', 'подработка', 'part-time job'),
+      v('모레', 'more', 'послезавтра', 'the day after tomorrow'),
+      v('이야기', 'iyagi', 'рассказ, разговор', 'story, talk'),
+    ],
+    exercises: [
+      /* 0 */ match(l('Соедини число и слово', 'Match the number'), [
+        ['1', '하나'],
+        ['2', '둘'],
+        ['3', '셋'],
+        ['4', '넷'],
+        ['5', '다섯'],
+      ]),
+      /* 1 */ match(l('Соедини число и слово', 'Match the number'), [
+        ['6', '여섯'],
+        ['7', '일곱'],
+        ['8', '여덟'],
+        ['9', '아홉'],
+        ['10', '열'],
+      ]),
+      /* 2 */ listen('여덟', [l('8', '8'), l('9', '9'), l('6', '6')], 0),
+      /* 3 */ choice(l('Как сказать «1 час»?', 'How do you say "1 o\'clock"?'), ['한 시', '하나 시', '일 시'], 0),
+      /* 4 */ choice(l('12:02 = ?', '12:02 = ?'), ['열두 시 이 분', '십이 시 둘 분', '열둘 시 이 분'], 0),
+      /* 5 */ choice(l('7:12 = ?', '7:12 = ?'), ['일곱 시 십이 분', '칠 시 열두 분', '일곱 시 열두 분'], 0),
+      /* 6 */ choice(l('5:09 = ?', '5:09 = ?'), ['다섯 시 구 분', '오 시 아홉 분', '다섯 시 아홉 분'], 0),
+      /* 7 */ listen('지금 몇 시예요?', [l('Который час?', 'What time is it?'), l('Сколько человек?', 'How many people?'), l('Сколько это стоит?', 'How much is it?')], 0),
+      /* 8 */ choice(l('Ты свободен. Ответ на «이번 주말에 시간이 있어요?»:', 'You are free. Answer to "이번 주말에 시간이 있어요?":'), ['네, 시간이 있어요.', '미안해요. 시간이 없어요.', '네, 약속이 있어요.'], 0),
+      /* 9 */ choice(l('쓰다 → -을까요?', '쓰다 → -을까요?'), ['쓸까요?', '쓰을까요?', '썰까요?'], 0),
+      /* 10 */ choice(l('듣다 → -을까요?', '듣다 → -을까요?'), ['들을까요?', '듣을까요?', '들까요?'], 0),
+      /* 11 */ choice(l('만나다 → -ㅂ시다', '만나다 → -ㅂ시다'), ['만납시다', '만나읍시다', '만났시다'], 0),
+      /* 12 */ choice(l('운동하다 → -ㅂ시다', '운동하다 → -ㅂ시다'), ['운동합시다', '운동하읍시다', '운동할시다'], 0),
+      /* 13 */ cloze('가: 내일 같이 저녁을 ___? 나: 네, 좋아요.', l('— Поужинаем завтра вместе? — Да, хорошо.', "— Shall we have dinner together tomorrow? — Sure."), ['먹을까요', '먹읍시다', '먹고'], 0),
+      /* 14 */ cloze('나: 네, 좋아요. 7시에 ___.', l('Да, давайте встретимся в 7.', "Sure. Let's meet at 7."), ['만납시다', '만날까요', '만나고'], 0),
+      /* 15 */ cloze('나: 네, 같이 한국어를 ___.', l('Да, давайте вместе учить корейский.', "Yes, let's study Korean together."), ['공부합시다', '공부하고'], 0),
+      /* 16 */ cloze('가: 저녁에 같이 운동을 ___? 나: 네, 좋아요.', l('— Позанимаемся вечером спортом? — Да.', "— Shall we exercise in the evening? — Sure."), ['할까요', '하고'], 0),
+      /* 17 */ cloze('하늘이 맑___ 따뜻해요.', l('Небо ясное и тепло.', 'The sky is clear and it is warm.'), ['고', '도'], 0),
+      /* 18 */ cloze('저는 수영을 ___ 농구도 잘해요.', l('Я хорошо плаваю и в баскетбол тоже хорошо играю.', "I'm good at swimming and good at basketball too."), ['잘하고', '잘합시다'], 0),
+      /* 19 */ cloze('우리 학교는 ___ 좋아요.', l('Наша школа большая и хорошая.', 'Our school is big and nice.'), ['크고', '커고', '큽시다'], 0),
+      /* 20 */ build(l('Собери: «Чыонг — вьетнамец, а Лиза — американка»', 'Build: "Truong is Vietnamese and Lisa is American"'), ['쯔엉 씨는', '베트남 사람이고', '리사 씨는', '미국 사람이에요']),
+      /* 21 */ build(l('Собери: «Пообедаем вместе?»', 'Build: "Shall we have lunch together?"'), ['같이', '점심을', '먹을까요?']),
+      /* 22 */ type(l('Напиши «Давайте пойдём вместе.» (같이 …)', 'Write "Let\'s go together." (같이 …)'), ['같이 갑시다', '같이 갑시다.']),
+      /* 23 */ listen('그날 약속이 있어요', [l('В тот день у меня планы.', 'I have plans that day.'), l('В тот день я свободен.', "I'm free that day."), l('В тот день день рождения.', "That day is a birthday.")], 0),
+      /* 24 */ choice(l('Когда они встретятся?', 'When will they meet?'), [l('В среду в 1 час дня', 'Wednesday at 1 p.m.'), l('В пятницу в 1 час дня', 'Friday at 1 p.m.'), l('В среду в 7 вечера', 'Wednesday at 7 p.m.')], 0),
+      /* 25 */ tf('두 사람 모두 금요일에 약속이 있습니다.', false, l('Планы на пятницу только у Лизы.', 'Only Lisa has plans on Friday.')),
+      /* 26 */ tf('학교 앞 식당은 비싸요.', false, l('그 식당이 싸고 맛있어요.', '그 식당이 싸고 맛있어요.')),
+      /* 27 */ dict('같이 점심을 먹읍시다', '같이 점심을 먹읍시다', '같이 점심을 먹읍시다.'),
+      /* 28 */ choice(l('По тексту, что верно?', 'According to the text, what is true?'), ['나타샤 씨는 방학에 고향에 다녀왔어요.', '지훈 씨는 토요일에 혼자 여행을 가요.', '나타샤 씨는 주말에 아르바이트를 해요.'], 0),
+      /* 29 */ tf('지훈 씨는 내일 아르바이트가 있어요.', true),
+      /* 30 */ wr('점심', 'обед', 'lunch'),
+      /* 31 */ wr('저녁', 'вечер, ужин', 'evening, dinner'),
+      /* 32 */ wr('시간', 'время', 'time'),
+      /* 33 */ wr('약속', 'встреча, договорённость', 'appointment'),
+      /* 34 */ wr('하나', 'один', 'one'),
+    ],
+    dialogue: {
+      title: l('Пообедаем вместе?', 'Shall we have lunch together?'),
+      lines: [
+        dl('A', '금요일에 같이 점심을 먹을까요?', 'Пообедаем вместе в пятницу?', 'Shall we have lunch together on Friday?'),
+        dl('B', '미안해요. 그날 약속이 있어요. 다음 주 수요일은 어때요?', 'Извини. У меня в тот день планы. Как насчёт среды на следующей неделе?', 'Sorry. I have plans that day. How about Wednesday next week?'),
+        dl('A', '그럼 쯔엉 씨한테도 연락할까요? 저하고 같이 수업을 들어요.', 'Тогда позовём и Чыонга? Он ходит со мной на занятия.', 'Then shall we contact Truong too? He takes classes with me.'),
+        dl('B', '네, 쯔엉 씨도 같이 만나요.', 'Да, встретимся и с Чыонгом.', "Yes, let's meet Truong too."),
+        dl('A', '그럼 한 시에 학교 정문에서 만납시다.', 'Тогда давайте встретимся в час у главных ворот школы.', "Then let's meet at one o'clock at the school's main gate."),
+        dl('B', '좋아요. 학교 앞 식당에 가요. 그 식당이 싸고 맛있어요.', 'Хорошо. Пойдём в ресторан перед школой. Там дёшево и вкусно.', "Great. Let's go to the restaurant in front of the school. It's cheap and tasty."),
+      ],
+    },
+    story: {
+      title: l('Переписка после каникул', 'A chat after the vacation'),
+      sentences: [
+        st('지훈 씨, 안녕하세요? 저 나타샤예요.', 'Чжихун, привет! Это Наташа.', "Hi, Jihun! It's Natasha.", [['안녕하세요', 'здравствуйте', 'hello'], ['저', 'я', 'I'], ['나타샤예요', 'Наташа', "it's Natasha"]]),
+        st('나타샤 씨, 반가워요. 방학 잘 보냈어요?', 'Наташа, рад тебя слышать! Хорошо провела каникулы?', 'Natasha, good to hear from you! Did you have a good vacation?', [['반가워요', 'рад', 'glad'], ['방학', 'каникулы', 'vacation'], ['잘 보냈어요', 'хорошо провела', 'spent well']]),
+        st('저는 고향에 잘 다녀왔어요. 가족을 만나고 친구들하고 여행도 갔어요.', 'Я хорошо съездила домой. Встретилась с семьёй и путешествовала с друзьями.', 'I had a good trip home. I met my family and travelled with friends.', [['고향에', 'на родину', 'home'], ['다녀왔어요', 'съездила', 'went and came back'], ['만나고', 'встретилась и', 'met and'], ['여행도 갔어요', 'и путешествовала', 'also travelled']]),
+        st('러시아에서 지훈 씨 선물을 샀어요. 우리 주말에 만날까요?', 'Купила тебе подарок в России. Встретимся в выходные?', 'I bought you a present in Russia. Shall we meet at the weekend?', [['러시아에서', 'в России', 'in Russia'], ['선물을 샀어요', 'купила подарок', 'bought a present'], ['만날까요', 'встретимся?', 'shall we meet?']]),
+        st('그런데 내일은 아르바이트도 있고 오후에 친구도 만나요. 그래서 못 만나요.', 'Но завтра у меня подработка и днём встреча с другом. Поэтому не смогу.', "But tomorrow I have my part-time job and I'm meeting a friend in the afternoon. So I can't meet.", [['아르바이트도 있고', 'и подработка есть', 'also have a part-time job'], ['친구도 만나요', 'и с другом встречаюсь', 'also meet a friend'], ['못 만나요', 'не смогу встретиться', "can't meet"]]),
+        st('우리 모레 만날까요? 일요일에 러시아 여행 이야기도 많이 합시다.', 'Может, послезавтра? В воскресенье расскажешь побольше о поездке в Россию.', "Shall we meet the day after tomorrow? On Sunday let's talk a lot about your trip to Russia.", [['모레', 'послезавтра', 'the day after tomorrow'], ['만날까요', 'встретимся?', 'shall we meet?'], ['이야기도', 'и разговоры', 'stories too'], ['합시다', 'давай', "let's"]]),
+      ],
+    },
+  },
+  exam: [
+    listen('세 시', [l('3 часа', "3 o'clock"), l('4 часа', "4 o'clock"), l('10 часов', "10 o'clock")], 0),
+    listen('열두 시 삼십 분', [l('12:30', '12:30'), l('2:30', '2:30'), l('12:03', '12:03')], 0),
+    listen('같이 영화를 볼까요?', [l('Посмотрим вместе фильм?', 'Shall we watch a movie together?'), l('Давай посмотрим фильм!', "Let's watch a movie!"), l('Ты смотрел фильм?', 'Did you watch the movie?')], 0),
+    listen('싸고 맛있어요', [l('Дёшево и вкусно.', "It's cheap and tasty."), l('Дорого и вкусно.', "It's expensive and tasty."), l('Дёшево, но невкусно.', "It's cheap but not tasty.")], 0),
+    dict('몇 시예요?', '몇 시예요?', '몇 시예요'),
+    dict('내일 만납시다', '내일 만납시다', '내일 만납시다.'),
+    match(l('Соедини слово и перевод', 'Match the words'), [
+      ['아침', l('утро', 'morning')],
+      ['점심', l('обед', 'lunch')],
+      ['저녁', l('вечер', 'evening')],
+      ['약속', l('встреча', 'appointment')],
+      ['모레', l('послезавтра', 'day after tomorrow')],
+    ]),
+    choice(l('4:15 = ?', '4:15 = ?'), ['네 시 십오 분', '사 시 열다섯 분', '넷 시 십오 분'], 0),
+    choice(l('Сколько будет 둘 + 셋?', 'What is 둘 + 셋?'), ['다섯', '여섯', '넷'], 0),
+    cloze('가: 뭘 ___? 나: 비빔밥을 먹읍시다.', l('— Что поедим? — Давай пибимпап.', "— What shall we eat? — Let's eat bibimbap."), ['먹을까요', '먹고', '먹었어요'], 0),
+    cloze('나: 좋아요. 같이 ___.', l('Хорошо. Пойдём вместе.', "Okay. Let's go together."), ['갑시다', '갈까요', '가고'], 0),
+    cloze('저는 밥을 먹___ 동생은 우유를 마셔요.', l('Я ем рис, а младший брат пьёт молоко.', 'I eat rice and my brother drinks milk.'), ['고', '을까요', '읍시다'], 0),
+    choice(l('Кому НЕ стоит говорить -읍시다?', 'To whom should you NOT say -읍시다?'), [l('Своему профессору', 'Your professor'), l('Одногруппнику', 'A classmate'), l('Младшему брату', 'Your younger brother')], 0),
+    choice(l('Повторение (юнит 9): «Не умею плавать»', 'Review (unit 9): "I can\'t swim"'), ['수영을 못해요.', '수영을 안 잘해요.', '못 수영해요.'], 0),
+    build(l('Собери: «Встретимся в 7 часов?»', 'Build: "Shall we meet at 7?"'), ['일곱 시에', '만날까요?']),
+    build(l('Собери: «Погода ясная и тёплая»', 'Build: "The weather is clear and warm"'), ['날씨가', '맑고', '따뜻해요']),
+    type(l('Напиши «Встретимся завтра?» (내일 …)', 'Write "Shall we meet tomorrow?" (내일 …)'), ['내일 만날까요?', '내일 만날까요']),
+    tf('리사 씨는 금요일에 약속이 있어요.', true),
+    tf('두 사람은 열두 시에 만나요.', false),
+    wr('시간', 'время', 'time'),
+    wr('점심', 'обед', 'lunch'),
+  ],
+};
