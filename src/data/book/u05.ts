@@ -1,0 +1,233 @@
+import type { BookUnit } from './index';
+import { build, choice, cloze, dict, dl, l, listen, match, picOf, st, tf, type, v, wr } from './h';
+
+const p = picOf(5);
+
+export const unit: BookUnit = {
+  n: 5,
+  lesson: {
+    emoji: '🌦️',
+    title: l('Погода плохая (날씨가 좋지 않아요)', "The weather's not good (날씨가 좋지 않아요)"),
+    goal: l(
+      'Говорить о погоде и временах года: вежливый разговорный стиль -아요/-어요 и отрицание -지 않다 / 안.',
+      'Talk about the weather and seasons: the polite everyday style -아요/-어요 and the negation -지 않다 / 안.',
+    ),
+    theory: [
+      {
+        title: l('Погода: «Какая погода?»', 'Weather: "How is the weather?"'),
+        blocks: [
+          { type: 'img', src: p('how'), caption: l('날씨가 어떻습니까? — Какая погода?', '날씨가 어떻습니까? — How is the weather?') },
+          {
+            type: 'p',
+            text: l(
+              '**(существительное)이/가 어떻다** — «каков?». 날씨가 어떻습니까? = 날씨가 어때요? — «Какая погода?»',
+              '**(noun)이/가 어떻다** means "how is…?". 날씨가 어떻습니까? = 날씨가 어때요? — "How is the weather?"',
+            ),
+          },
+          { type: 'img', src: p('snowfall'), caption: l('눈이 내립니까? — Идёт снег?', '눈이 내립니까? — Is it snowing?') },
+          { type: 'img', src: p('rainfall'), caption: l('비가 내립니다. — Идёт дождь.', '비가 내립니다. — It is raining.') },
+          {
+            type: 'tip',
+            text: l('«Идёт дождь/снег» — 비가 오다 или 비가 내리다 (букв. «дождь приходит / падает»).', '"It rains / snows" is 비가 오다 or 비가 내리다 (lit. "rain comes / falls").'),
+          },
+        ],
+      },
+      {
+        title: l('Вежливый разговорный стиль -아요 / -어요', 'Polite everyday style -아요 / -어요'),
+        blocks: [
+          { type: 'img', src: p('g-eoyo'), caption: l('날씨가 좋아요. — Погода хорошая.', '날씨가 좋아요. — The weather is nice.') },
+          {
+            type: 'p',
+            text: l(
+              'Это самый частый стиль в живой речи: вежливо, но не официально (мягче, чем -습니다). Вопрос и ответ звучат одинаково, меняется только интонация. Отбрось -다 и посмотри на **последнюю гласную основы**:',
+              'This is the most common style in everyday speech: polite but not formal (softer than -습니다). Questions and answers look the same — only the intonation differs. Drop -다 and look at the **last vowel of the stem**:',
+            ),
+          },
+          {
+            type: 'table',
+            head: [l('Последняя гласная', 'Last vowel'), l('Слово', 'Word'), l('Форма', 'Form')],
+            rows: [
+              [l('ㅏ, ㅗ → -아요', 'ㅏ, ㅗ → -아요'), '좋다, 많다, 맑다', '좋아요, 많아요, 맑아요'],
+              [l('другие → -어요', 'others → -어요'), '있다, 없다, 먹다', '있어요, 없어요, 먹어요'],
+              [l('하다 → 해요', '하다 → 해요'), '좋아하다, 공부하다', '좋아해요, 공부해요'],
+            ],
+          },
+          {
+            type: 'p',
+            text: l(
+              'Если основа без 받침, гласные сливаются: 가 + 아요 → **가요**, 오 + 아요 → **와요**, 가르치 + 어요 → **가르쳐요**. Гласная ㅡ выпадает: 나쁘 → **나빠요**, 예쁘 → **예뻐요**.',
+              'Without a 받침 the vowels merge: 가 + 아요 → **가요**, 오 + 아요 → **와요**, 가르치 + 어요 → **가르쳐요**. The vowel ㅡ drops: 나쁘 → **나빠요**, 예쁘 → **예뻐요**.',
+            ),
+          },
+          {
+            type: 'tip',
+            text: l('Особые: 덥다 → **더워요**, 춥다 → **추워요** (ㅂ превращается в 우). 흐리다 → 흐려요.', 'Special ones: 덥다 → **더워요**, 춥다 → **추워요** (ㅂ turns into 우). 흐리다 → 흐려요.'),
+          },
+        ],
+      },
+      {
+        title: l('Отрицание: -지 않다 и 안', 'Negation: -지 않다 and 안'),
+        blocks: [
+          { type: 'img', src: p('g-jianta'), caption: l('날씨가 좋지 않아요. = 날씨가 안 좋아요.', "날씨가 좋지 않아요. = 날씨가 안 좋아요. — The weather isn't good.") },
+          {
+            type: 'p',
+            text: l(
+              'Два способа сказать «не»: **основа + 지 않다** (지 않아요, 지 않습니다) или **안 + глагол** перед словом. Смысл одинаковый, 안 — короче и разговорнее.',
+              'Two ways to say "not": **stem + 지 않다** (지 않아요, 지 않습니다) or **안 + verb** in front. Same meaning; 안 is shorter and more casual.',
+            ),
+          },
+          {
+            type: 'table',
+            head: [l('Слово', 'Word'), '-지 않다', '안 + …'],
+            rows: [
+              ['먹다', '먹지 않아요', '안 먹어요'],
+              ['좋다', '좋지 않아요', '안 좋아요'],
+              ['오다', '오지 않아요', '안 와요'],
+              ['흐리다', '흐리지 않아요', '안 흐려요'],
+            ],
+          },
+          {
+            type: 'tip',
+            text: l('С 하-глаголами «существительное + 하다» 안 ставится в середину: 공부 안 해요 (а не 안 공부해요). 있다 → 없다, 이다 → 아니다 — у них своё отрицание.', 'With "noun + 하다" verbs 안 goes in the middle: 공부 안 해요 (not 안 공부해요). 있다 → 없다 and 이다 → 아니다 have their own negatives.'),
+          },
+        ],
+      },
+      {
+        title: l('Слушаем и читаем: погода в России и времена года в Корее', 'Listening and reading: weather in Russia and seasons in Korea'),
+        blocks: [
+          { type: 'img', src: p('listen'), caption: l('Наташа звонит Чжихуну из России', 'Natasha calls Jihun from Russia') },
+          { type: 'img', src: p('read'), caption: l('한국의 사계절 — четыре сезона Кореи', "한국의 사계절 — Korea's four seasons") },
+          {
+            type: 'p',
+            text: l(
+              '요즘 — «в последнее время, сейчас». 바람이 불다 — «дует ветер» (불어요). 많이 — «много» (наречие).',
+              '요즘 means "these days". 바람이 불다 means "the wind blows" (불어요). 많이 means "a lot" (adverb).',
+            ),
+          },
+        ],
+      },
+    ],
+    vocab: [
+      v('날씨', 'nalssi', 'погода', 'weather', p('weather')),
+      v('맑다', 'makda', 'ясный', 'to be clear', p('clear')),
+      v('흐리다', 'heurida', 'пасмурный', 'to be cloudy', p('cloudy')),
+      v('비', 'bi', 'дождь', 'rain', p('rain')),
+      v('눈', 'nun', 'снег', 'snow', p('snow')),
+      v('오다', 'oda', 'приходить; идти (о дожде, снеге)', 'to come; to fall (rain, snow)', p('come')),
+      v('덥다', 'deopda', 'жаркий', 'to be hot', p('hot')),
+      v('춥다', 'chupda', 'холодный', 'to be cold', p('cold')),
+      v('따뜻하다', 'ttatteuthada', 'тёплый', 'to be warm', p('warm')),
+      v('시원하다', 'siwonhada', 'прохладный, свежий', 'to be cool', p('cool')),
+      v('계절', 'gyejeol', 'время года', 'season'),
+      v('봄', 'bom', 'весна', 'spring', p('spring')),
+      v('여름', 'yeoreum', 'лето', 'summer', p('summer')),
+      v('가을', 'gaeul', 'осень', 'autumn', p('autumn')),
+      v('겨울', 'gyeoul', 'зима', 'winter', p('winter')),
+      v('어떻다', 'eotteota', 'какой, каков', 'to be how', p('how')),
+      v('내리다', 'naerida', 'падать, идти (об осадках)', 'to fall (rain, snow)', p('snowfall')),
+      v('하늘', 'haneul', 'небо', 'sky'),
+      v('요즘', 'yojeum', 'в последнее время', 'these days'),
+      v('바람', 'baram', 'ветер', 'wind'),
+      v('많이', 'mani', 'много (наречие)', 'a lot'),
+      v('오늘', 'oneul', 'сегодня', 'today'),
+      v('사계절', 'sagyejeol', 'четыре времени года', 'the four seasons', p('read')),
+    ],
+    exercises: [
+      /* 0 */ match(l('Соедини погоду и перевод', 'Match the weather words'), [
+        ['눈', l('снег', 'snow')],
+        ['비', l('дождь', 'rain')],
+        ['맑다', l('ясный', 'clear')],
+        ['흐리다', l('пасмурный', 'cloudy')],
+      ]),
+      /* 1 */ match(l('Соедини время года', 'Match the seasons'), [
+        ['봄', l('весна', 'spring')],
+        ['여름', l('лето', 'summer')],
+        ['가을', l('осень', 'autumn')],
+        ['겨울', l('зима', 'winter')],
+      ]),
+      /* 2 */ choice(l('Противоположность 덥다:', 'The opposite of 덥다:'), ['춥다', '맑다', '따뜻하다'], 0),
+      /* 3 */ listen('시원해요', [l('Прохладно.', "It's cool."), l('Жарко.', "It's hot."), l('Холодно.', "It's cold.")], 0),
+      /* 4 */ choice(l('좋다 → -아요/-어요:', '좋다 → -아요/-어요:'), ['좋아요', '좋어요', '좋해요'], 0, l('Последняя гласная ㅗ → -아요.', 'The last vowel is ㅗ → -아요.')),
+      /* 5 */ choice(l('있다 → -아요/-어요:', '있다 → -아요/-어요:'), ['있어요', '있아요', '있해요'], 0),
+      /* 6 */ choice(l('맑다 → -아요/-어요:', '맑다 → -아요/-어요:'), ['맑아요', '맑어요', '맑해요'], 0),
+      /* 7 */ choice(l('공부하다 → ?', '공부하다 → ?'), ['공부해요', '공부하아요', '공부하어요'], 0),
+      /* 8 */ choice(l('오다 → ?', '오다 → ?'), ['와요', '오아요', '오요'], 0, l('오 + 아요 → 와요.', '오 + 아요 → 와요.')),
+      /* 9 */ choice(l('춥다 → ?', '춥다 → ?'), ['추워요', '춥어요', '춥아요'], 0, l('ㅂ → 우: 추 + 워요.', 'ㅂ → 우: 추 + 워요.')),
+      /* 10 */ choice(l('덥다 → ?', '덥다 → ?'), ['더워요', '덥어요', '덥아요'], 0),
+      /* 11 */ choice(l('먹다 → ?', '먹다 → ?'), ['먹어요', '먹아요', '먹해요'], 0),
+      /* 12 */ cloze('가: 사과가 있어요? 나: 아니요, 사과가 ___.', l('— Есть яблоки? — Нет, яблок нет.', '— Are there apples? — No, there are none.'), ['없어요', '있어요', '안 있어요'], 0),
+      /* 13 */ cloze('날씨가 좋지 ___.', l('Погода не хорошая.', "The weather isn't good."), ['않아요', '안 좋아요', '없어요'], 0),
+      /* 14 */ cloze('아니요. 눈이 ___ 와요.', l('Нет. Снег не идёт.', "No. It isn't snowing."), ['안', '지 않', '없'], 0),
+      /* 15 */ cloze('여름을 ___. 저는 가을을 좋아해요.', l('Лето не люблю. Я люблю осень.', "I don't like summer. I like autumn."), ['좋아하지 않아요', '좋아해요'], 0),
+      /* 16 */ choice(l('«Не учусь» правильно:', '"I don\'t study" correctly:'), ['공부 안 해요', '안 공부해요', '공부하지 안아요'], 0),
+      /* 17 */ build(l('Собери: «Сегодня погода не хорошая»', 'Build: "The weather isn\'t good today"'), ['오늘', '날씨가', '좋지', '않아요']),
+      /* 18 */ build(l('Собери: «Зимой идёт снег»', 'Build: "It snows in winter"'), ['겨울은', '눈이', '와요']),
+      /* 19 */ type(l('Напиши «холодно» в стиле -아요/-어요', 'Write "it\'s cold" in the -아요/-어요 style'), ['추워요']),
+      /* 20 */ listen('요즘 한국 날씨가 어때요?', [l('Какая сейчас погода в Корее?', 'How is the weather in Korea these days?'), l('Вы любите корейскую погоду?', 'Do you like Korean weather?'), l('В Корее идёт снег?', 'Is it snowing in Korea?')], 0),
+      /* 21 */ choice(l('Какая погода в Корее (по диалогу)?', 'How is the weather in Korea (in the dialogue)?'), [l('Пасмурно', 'Cloudy'), l('Ясно', 'Clear'), l('Снег', 'Snowy'), l('Дождь', 'Rainy')], 0),
+      /* 22 */ tf('러시아는 춥지 않아요.', false, l('Наташа: 아주 추워요.', 'Natasha: 아주 추워요.')),
+      /* 23 */ tf('러시아는 지금 눈이 와요.', true),
+      /* 24 */ tf('한국은 지금 비가 내려요.', false, l('Чжихун: 비는 안 와요.', 'Jihun: 비는 안 와요.')),
+      /* 25 */ dict('날씨가 맑아요', '날씨가 맑아요', '날씨가 맑아요.'),
+      /* 26 */ choice(l('По тексту, что НЕВЕРНО?', 'According to the text, which is WRONG?'), ['봄은 따뜻해요.', '겨울은 추워요.', '여름은 비가 안 와요.', '가을은 날씨가 좋아요.'], 2, l('В тексте: 여름은 … 자주 비가 와요.', 'The text says: 여름은 … 자주 비가 와요.')),
+      /* 27 */ tf('봄은 바람이 많이 불어요.', true),
+      /* 28 */ wr('날씨', 'погода', 'weather'),
+      /* 29 */ wr('봄', 'весна', 'spring'),
+      /* 30 */ wr('여름', 'лето', 'summer'),
+      /* 31 */ wr('가을', 'осень', 'autumn'),
+      /* 32 */ wr('겨울', 'зима', 'winter'),
+      /* 33 */ wr('눈', 'снег', 'snow'),
+    ],
+    dialogue: {
+      title: l('Какая там погода?', "How's the weather there?"),
+      lines: [
+        dl('A', '요즘 한국 날씨가 어때요?', 'Какая сейчас погода в Корее?', 'How is the weather in Korea these days?'),
+        dl('B', '날씨가 좋지 않아요. 흐려요.', 'Погода не очень. Пасмурно.', "The weather isn't good. It's cloudy."),
+        dl('A', '지금 비가 와요?', 'Сейчас идёт дождь?', 'Is it raining now?'),
+        dl('B', '아니요. 비는 안 와요. 러시아 날씨는 어때요?', 'Нет. Дождя нет. А какая погода в России?', "No. It isn't raining. How's the weather in Russia?"),
+        dl('A', '아주 추워요. 그리고 눈이 많이 와요.', 'Очень холодно. И снега много.', "It's very cold. And it snows a lot."),
+      ],
+    },
+    story: {
+      title: l('Четыре сезона Кореи', "Korea's four seasons"),
+      sentences: [
+        st('한국은 봄, 여름, 가을, 겨울이 있어요.', 'В Корее есть весна, лето, осень и зима.', 'Korea has spring, summer, autumn and winter.', [['한국은', 'в Корее (тема)', 'Korea (topic)'], ['봄, 여름, 가을, 겨울', 'весна, лето, осень, зима', 'spring, summer, autumn, winter'], ['있어요', 'есть', 'there are']]),
+        st('봄은 바람이 많이 불어요. 하지만 따뜻해요.', 'Весной сильный ветер. Но тепло.', 'In spring the wind blows a lot. But it is warm.', [['바람이', 'ветер', 'the wind'], ['많이', 'много', 'a lot'], ['불어요', 'дует', 'blows'], ['따뜻해요', 'тепло', 'it is warm']]),
+        st('여름은 아주 더워요. 자주 비가 와요.', 'Летом очень жарко. Часто идут дожди.', 'Summer is very hot. It often rains.', [['아주', 'очень', 'very'], ['더워요', 'жарко', 'hot'], ['자주', 'часто', 'often'], ['비가 와요', 'идёт дождь', 'it rains']]),
+        st('가을은 날씨가 맑아요.', 'Осенью ясная погода.', 'In autumn the weather is clear.', [['가을은', 'осенью', 'in autumn'], ['날씨가', 'погода', 'the weather'], ['맑아요', 'ясная', 'is clear']]),
+        st('춥지 않아요. 그리고 덥지 않아요.', 'Не холодно. И не жарко.', "It isn't cold. And it isn't hot.", [['춥지 않아요', 'не холодно', "isn't cold"], ['그리고', 'и', 'and'], ['덥지 않아요', 'не жарко', "isn't hot"]]),
+        st('겨울은 추워요. 눈도 내려요.', 'Зимой холодно. Идёт и снег.', 'Winter is cold. It snows too.', [['겨울은', 'зимой', 'in winter'], ['추워요', 'холодно', 'cold'], ['눈도', 'и снег', 'snow too'], ['내려요', 'падает', 'falls']]),
+      ],
+    },
+  },
+  exam: [
+    listen('비가 와요', [l('Идёт дождь.', "It's raining."), l('Идёт снег.', "It's snowing."), l('Ясно.', "It's clear.")], 0),
+    listen('겨울은 추워요', [l('Зимой холодно.', 'Winter is cold.'), l('Летом жарко.', 'Summer is hot.'), l('Весной тепло.', 'Spring is warm.')], 0),
+    listen('날씨가 안 좋아요', [l('Погода плохая.', "The weather isn't good."), l('Погода хорошая.', 'The weather is good.'), l('Погода ясная.', 'The weather is clear.')], 0),
+    listen('무슨 계절을 좋아해요?', [l('Какое время года ты любишь?', 'Which season do you like?'), l('Какая сегодня погода?', 'How is the weather today?'), l('Сейчас идёт дождь?', 'Is it raining now?')], 0),
+    dict('눈이 많이 와요', '눈이 많이 와요', '눈이 많이 와요.'),
+    dict('여름은 더워요', '여름은 더워요', '여름은 더워요.'),
+    match(l('Соедини слово и перевод', 'Match the words'), [
+      ['따뜻하다', l('тёплый', 'warm')],
+      ['시원하다', l('прохладный', 'cool')],
+      ['계절', l('время года', 'season')],
+      ['하늘', l('небо', 'sky')],
+      ['요즘', l('в последнее время', 'these days')],
+    ]),
+    choice(l('맑다 → ?', '맑다 → ?'), ['맑아요', '맑어요', '말가요'], 0),
+    choice(l('덥다 → ?', '덥다 → ?'), ['더워요', '덥어요', '더와요'], 0),
+    choice(l('가다 → ?', '가다 → ?'), ['가요', '가아요', '가어요'], 0),
+    cloze('비가 오지 ___.', l('Дождь не идёт.', "It isn't raining."), ['않아요', '안 와요', '아니에요'], 0),
+    cloze('저는 김치를 ___ 먹어요.', l('Я не ем кимчи.', "I don't eat kimchi."), ['안', '지 않', '못해'], 0),
+    choice(l('Правильное отрицание «не учусь»:', 'Correct negation "I don\'t study":'), ['공부하지 않아요', '안 공부해요', '공부 않아요'], 0),
+    cloze('한국의 날씨는 ___? — 추워요.', l('Какая погода в Корее? — Холодно.', 'How is the weather in Korea? — Cold.'), ['어때요', '뭐예요', '누구예요'], 0),
+    choice(l('Повторение (юнит 3): «Я тоже люблю дорамы» —', 'Review (unit 3): "I like dramas, too" —'), ['저도 드라마를 좋아해요.', '저는 드라마도를 좋아해요.', '저를 드라마도 좋아해요.'], 0),
+    choice(l('Повторение (юнит 4): «Чья это книга?» —', 'Review (unit 4): "Whose book is it?" —'), ['누구의 책이에요?', '누구와 책이에요?', '누구 책을 있어요?'], 0),
+    build(l('Собери: «Осенью не холодно»', 'Build: "It isn\'t cold in autumn"'), ['가을은', '춥지', '않아요']),
+    type(l('Напиши «идёт снег» (눈이 …)', 'Write "it snows" (눈이 …)'), ['눈이 와요', '눈이 와요.', '눈이 내려요', '눈이 내려요.']),
+    tf('한국은 사계절이 있어요.', true),
+    tf('여름은 자주 눈이 와요.', false),
+    wr('날씨', 'погода', 'weather'),
+    wr('겨울', 'зима', 'winter'),
+  ],
+};
