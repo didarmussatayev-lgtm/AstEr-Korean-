@@ -13,6 +13,8 @@ import { unit as h2_08 } from './h2-08';
 import { unit as h2_09 } from './h2-09';
 import { unit as h2_10 } from './h2-10';
 import { unit as h2_11 } from './h2-11';
+import { unit as h2_12 } from './h2-12';
+import { unit as h2_13 } from './h2-13';
 
 /**
  * Chinese course: HSK lessons. HSK 2 follows the workbook «HSK标准教程 2 练习册» (15 lessons).
@@ -20,7 +22,7 @@ import { unit as h2_11 } from './h2-11';
  * Files: h2-NN.ts in this folder export `unit` (a BookUnit with n = lesson number) and are listed in `hsk2`.
  * Pictures from the workbook live in public/hsk/2/NN/ and are referenced as 'hsk/2/NN/file.webp'.
  */
-const hsk2: BookUnit[] = [h2_01, h2_02, h2_03, h2_04, h2_05, h2_06, h2_07, h2_08, h2_09, h2_10, h2_11];
+const hsk2: BookUnit[] = [h2_01, h2_02, h2_03, h2_04, h2_05, h2_06, h2_07, h2_08, h2_09, h2_10, h2_11, h2_12, h2_13];
 
 interface HskBook {
   hsk: number;
