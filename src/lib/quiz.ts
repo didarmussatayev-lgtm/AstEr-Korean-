@@ -1,6 +1,7 @@
 import type { Exercise, L, Text, Vocab } from './types';
 import { mnemonicKey, MNEMONICS } from '../data/mnemonics';
 import { shuffle } from '../components/ui';
+import { isChinese } from './speak';
 
 /** What to read aloud for a vocabulary entry: "먹다 · 먹어요" -> "먹어요", "-고" -> "고". */
 export function speakable(ko: string): string {
@@ -48,7 +49,9 @@ function qReverse(v: Vocab, lessonId: string, pool: Pool): Exercise | null {
   const opts = shuffle([v, ...ds]);
   return {
     type: 'choice',
-    prompt: l(`Как будет по-корейски: «${v.tr.ru}»?`, `How do you say "${v.tr.en}" in Korean?`),
+    prompt: isChinese(v.ko)
+      ? l(`Как будет по-китайски: «${v.tr.ru}»?`, `How do you say "${v.tr.en}" in Chinese?`)
+      : l(`Как будет по-корейски: «${v.tr.ru}»?`, `How do you say "${v.tr.en}" in Korean?`),
     options: opts.map((o) => o.ko),
     answer: opts.indexOf(v),
     ref: mnemonicKey(lessonId, v.ko) ?? undefined,

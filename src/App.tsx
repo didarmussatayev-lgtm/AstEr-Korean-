@@ -43,7 +43,7 @@ export default function App() {
       </main>
       <nav className="tabbar" aria-label="Main">
         <NavLink to="/" end><span>🏠</span>{t('home')}</NavLink>
-        <NavLink to="/hangul"><span className="ko">한</span>{t('hangul')}</NavLink>
+        {course.id !== 'chinese' && <NavLink to="/hangul"><span className="ko">한</span>{t('hangul')}</NavLink>}
         <NavLink to="/review"><span>🃏{dueCount > 0 && <i className="badge">{dueCount}</i>}</span>{t('review')}</NavLink>
         <NavLink to="/account"><span>👤</span>{t('account')}</NavLink>
       </nav>

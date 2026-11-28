@@ -1,5 +1,6 @@
 import type { Exercise } from '../lib/types';
 import { bookPartAt, bookPlans } from './book/plans';
+import { hskPartAt, hskPlans } from './hsk/plans';
 
 /**
  * Teaching order of a lesson. Numbers are indices into the lesson's vocab / theory / exercises.
@@ -16,6 +17,7 @@ export type PlanItem =
 
 const RAW: Record<string, PlanItem[]> = {
   ...bookPlans,
+  ...hskPlans,
   'l3-numbers-sino': [
     { r: 0 },
     { w: [0, 1, 2] }, { w: [3, 4] }, { mix: true, d: [0] },
@@ -165,6 +167,7 @@ const RULE_SPLITS: Record<string, Record<number, number[][]>> = {
 /** Lessons that are too long for one sitting are cut in two parts; the number is where part 2 starts in the plan. */
 const PART_AT: Record<string, number> = {
   ...bookPartAt,
+  ...hskPartAt,
   'l3-numbers-sino': 12,
   'l8-days': 6,
   'l9-likes': 4,

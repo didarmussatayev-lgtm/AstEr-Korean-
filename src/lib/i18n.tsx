@@ -32,7 +32,7 @@ const dict = {
     mnemoRu: 'подсказка составлена для русскоязычных', continueLesson: 'Продолжить урок', recapTitle: 'Вспомним прошлый урок',
     assembleHelp: 'Перетащи буквы в кубик или нажми букву, а потом нужную клетку', stageAssemble: 'Собери слог из букв', stageTrace: 'Обведи слог пальцем',
     stageWriteOne: 'Напиши слог (буквы подсказаны)', stageWriteNoHint: 'Напиши слог (клетки пустые)', stageWriteSome: 'Напиши несколько слогов',
-    stageWriteWhole: 'Напиши всё слово целиком', skipStep: 'Пропустить шаг', clear: 'Стереть', drawGood: 'Отлично! Форма совпала', drawArea: 'Область для письма',
+    stageWriteWhole: 'Напиши всё слово целиком', stageTraceZh: 'Обведи иероглиф пальцем', stageWriteZh: 'Напиши иероглиф по памяти', skipStep: 'Пропустить шаг', clear: 'Стереть', drawGood: 'Отлично! Форма совпала', drawArea: 'Область для письма',
     traceRetry: 'Попробуй обводить точнее — по серой линии. Можно стереть и повторить.', writeRetry: 'Не совпало. Красным показан образец — сравни и попробуй ещё раз.',
     acceptAnyway: 'Я справился, дальше', tracePractice: 'Обвести пальцем', closePractice: 'Закрыть', writeIntro: 'Научись писать',
     resumeFrom: 'Продолжить', inProgress: 'в процессе',
@@ -47,6 +47,9 @@ const dict = {
     courseSoon: 'Курс готовится', courseSoonText: 'Материалы этого курса ещё добавляются. Пока можно заниматься корейским — он уже открыт.', courseWillHave: 'Что будет в курсе',
     examLockedUnit: 'Пройди уроки юнита, чтобы открыть экзамен', unitUnlocked: 'Открыт следующий юнит!', unitOpen: 'Теперь открыт юнит', unitLocked: 'Сдай экзамен предыдущего юнита на 90% или выше, чтобы открыть этот',
     failedUnitText: 'Нужно 90% или больше. Повтори юнит и попробуй ещё раз — пересдавать можно сколько угодно.', bookTagline: 'Юнит за юнитом по учебнику. Следующий юнит открывается после экзамена на 90%.',
+    hskTagline: 'Урок за уроком по HSK. Следующий урок открывается после экзамена на 90%.', hskOpen: 'Теперь открыт урок', hskUnlocked: 'Открыт следующий урок!',
+    hskLocked: 'Сдай экзамен предыдущего урока на 90% или выше, чтобы открыть этот', hskExamLocked: 'Пройди урок, чтобы открыть экзамен',
+    hskFailed: 'Нужно 90% или больше. Повтори урок и попробуй ещё раз — пересдавать можно сколько угодно.', typeZh: 'Иероглифами или пиньинем',
   },
   en: {
     home: 'Home', hangul: 'Hangul', review: 'Review', account: 'Account',
@@ -77,7 +80,7 @@ const dict = {
     mnemoRu: 'the hint is written for Russian speakers', continueLesson: 'Continue the lesson', recapTitle: 'Recap of the last lesson',
     assembleHelp: 'Drag the letters into the cube, or tap a letter and then the cell', stageAssemble: 'Build the syllable from letters', stageTrace: 'Trace the syllable with your finger',
     stageWriteOne: 'Write the syllable (letters shown)', stageWriteNoHint: 'Write the syllable (empty cells)', stageWriteSome: 'Write several syllables',
-    stageWriteWhole: 'Write the whole word', skipStep: 'Skip this step', clear: 'Clear', drawGood: 'Great! The shape matches', drawArea: 'Writing area',
+    stageWriteWhole: 'Write the whole word', stageTraceZh: 'Trace the character with your finger', stageWriteZh: 'Write the character from memory', skipStep: 'Skip this step', clear: 'Clear', drawGood: 'Great! The shape matches', drawArea: 'Writing area',
     traceRetry: 'Try to follow the grey line more closely. You can clear and try again.', writeRetry: 'No match. The model is shown in red — compare and try again.',
     acceptAnyway: 'I got it, continue', tracePractice: 'Trace with finger', closePractice: 'Close', writeIntro: 'Learn to write',
     resumeFrom: 'Continue', inProgress: 'in progress',
@@ -92,6 +95,9 @@ const dict = {
     courseSoon: 'Course in preparation', courseSoonText: 'Materials for this course are still being added. Meanwhile the Korean course is open.', courseWillHave: 'What the course will include',
     examLockedUnit: 'Finish the unit’s lessons to unlock the exam', unitUnlocked: 'Next unit unlocked!', unitOpen: 'Now open: unit', unitLocked: 'Pass the previous unit’s exam with 90% or more to unlock this one',
     failedUnitText: 'You need 90% or more. Review the unit and try again — you can retake it as many times as you like.', bookTagline: 'Unit by unit through the textbook. The next unit opens after its exam is passed with 90%.',
+    hskTagline: 'Lesson by lesson through HSK. The next lesson opens after its exam is passed with 90%.', hskOpen: 'Now open: lesson', hskUnlocked: 'Next lesson unlocked!',
+    hskLocked: 'Pass the previous lesson’s exam with 90% or more to unlock this one', hskExamLocked: 'Finish the lesson to unlock the exam',
+    hskFailed: 'You need 90% or more. Review the lesson and try again — you can retake it as many times as you like.', typeZh: 'In characters or pinyin',
   },
 } as const;
 

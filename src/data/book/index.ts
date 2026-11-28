@@ -41,7 +41,7 @@ export interface BookUnit {
 const raw: BookUnit[] = [u01, u02, u03, u04, u05, u06, u07, u08, u09, u10, u11, u12, u13, u14, u15, u16, u17, u18, u19, u20];
 
 export const bookLevel = (n: number) => BOOK_BASE + n;
-export const isBookLevel = (level: number) => level > BOOK_BASE;
+export const isBookLevel = (level: number) => level > BOOK_BASE && level < 1000;
 
 export const bookLessons: Lesson[] = raw.map((u) => ({ ...u.lesson, id: `b${String(u.n).padStart(2, '0')}`, level: bookLevel(u.n) }));
 

@@ -1,6 +1,7 @@
 import type { L } from '../lib/types';
 import { l } from './helpers';
 import { bookLessons } from './book';
+import { hskLessons } from './hsk';
 
 export type CourseId = 'korean' | 'korean-book' | 'english' | 'french' | 'chinese';
 
@@ -47,9 +48,9 @@ export const courses: Course[] = [
     blurb: l('Французский с нуля: произношение, слова, грамматика и диалоги.', 'French from zero: pronunciation, words, grammar and dialogues.'),
   },
   {
-    id: 'chinese', flag: '🇨🇳', native: '中文', ready: false,
-    title: l('Китайский', 'Chinese'),
-    blurb: l('Китайский с нуля: тоны, пиньинь, иероглифы и базовая речь.', 'Chinese from zero: tones, pinyin, characters and basic speech.'),
+    id: 'chinese', flag: '🇨🇳', native: '中文', ready: hskLessons.length > 0,
+    title: l('Китайский · HSK', 'Chinese · HSK'),
+    blurb: l('Китайский по уровням HSK: слова с пиньинем, грамматика, тексты, аудирование и письмо иероглифов.', 'Chinese by HSK levels: words with pinyin, grammar, texts, listening and writing characters.'),
   },
 ];
 

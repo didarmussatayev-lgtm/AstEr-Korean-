@@ -1,5 +1,5 @@
 import { unitDone, unitsOfLevel } from '../data/units';
-import { BOOK_BASE } from '../data/book';
+import { FIRST_LEVELS } from '../data/series';
 import type { Exam, Progress } from './types';
 
 export const EXAM_PASS = 0.8;
@@ -11,7 +11,7 @@ export const lessonsOfLevel = (level: number) => unitsOfLevel(level);
 
 /** Level 1 and the first unit of the book are always open. Level N opens after the exam of level N-1 is passed, or when an admin grants it. */
 export function isLevelOpen(level: number, p: Progress): boolean {
-  if (level <= 1 || level === BOOK_BASE + 1) return true;
+  if (level <= 1 || FIRST_LEVELS.includes(level)) return true;
   return p.granted.includes(level) || p.exams[examIdOf(level - 1)]?.passed === true;
 }
 

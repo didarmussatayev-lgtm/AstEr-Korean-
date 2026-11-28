@@ -5,6 +5,7 @@ import { addDays, today } from '../lib/srs';
 import { unitDone, unitsOfLevel } from '../data/units';
 import { levels as coreLevels } from '../data/levels';
 import { bookLevels } from '../data/book';
+import { hskSections } from '../data/hsk';
 import { useCourse } from '../lib/course';
 import { examOfLevel } from '../data/exams';
 import { allLetters } from '../data/hangul';
@@ -18,14 +19,18 @@ export default function Home() {
   const streak = alive ? p.streak : 0;
   const learned = p.letters.length;
   const { course } = useCourse();
-  const book = course.id === 'korean-book';
-  const levels = book ? bookLevels : coreLevels;
+  const zh = course.id === 'chinese';
+  /** book units and HSK lessons: each is its own "level" opened by the exam of the previous one */
+  const book = course.id === 'korean-book' || zh;
+  const sections = zh
+    ? hskSections.map((s) => ({ key: `hsk${s.hsk}`, title: s.title, blurb: s.blurb, levels: s.levels }))
+    : [{ key: 'all', title: null, blurb: null, levels: book ? bookLevels : coreLevels }];
 
   return (
     <div className="stack">
       <div className="hero">
         <h1>{book ? `${course.flag} ${tx(course.title)}` : t('hello')}</h1>
-        <p>{book ? t('bookTagline') : t('tagline')}</p>
+        <p>{zh ? t('hskTagline') : book ? t('bookTagline') : t('tagline')}</p>
       </div>
 
       <div className="stats">
@@ -45,7 +50,18 @@ export default function Home() {
         )}
       </Card>
 
-      {levels.map((lv) => {
+      {sections.map((sec) => (
+        <div key={sec.key} className="stack">
+          {sec.title && (
+            <div className="hsk-head">
+              <h2>{tx(sec.title)}</h2>
+              {sec.blurb && <p className="muted">{tx(sec.blurb)}</p>}
+            </div>
+          )}
+          {sec.title && sec.levels.length === 0 && (
+            <Card className="lock-card"><b>{t('soon')}</b></Card>
+          )}
+      {sec.levels.map((lv) => {
         const open = isLevelOpen(lv.level, p);
         const items = unitsOfLevel(lv.level);
         const exam = examOfLevel(lv.level);
@@ -65,7 +81,7 @@ export default function Home() {
 
             {!open && (
               <Card className="lock-card">
-                <p>🔒 {book ? t('unitLocked') : t('levelLocked')}</p>
+                <p>🔒 {zh ? t('hskLocked') : book ? t('unitLocked') : t('levelLocked')}</p>
                 {items.length === 0 && <p><b>{t('soon')}</b></p>}
               </Card>
             )}
@@ -122,7 +138,7 @@ export default function Home() {
                         <span className="emoji">🔒</span>
                         <span className="node-body">
                           <b>{tx(exam.title)}</b>
-                          <span className="muted">{book ? t('examLockedUnit') : `${t('examLocked')} · ${t('lessonsLeft')}: ${left}`}</span>
+                          <span className="muted">{zh ? t('hskExamLocked') : book ? t('examLockedUnit') : `${t('examLocked')} · ${t('lessonsLeft')}: ${left}`}</span>
                         </span>
                       </div>
                     )}
@@ -134,6 +150,8 @@ export default function Home() {
           </section>
         );
       })}
+        </div>
+      ))}
     </div>
   );
 }

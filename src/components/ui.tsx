@@ -41,4 +41,12 @@ export const shuffle = <T,>(a: T[]): T[] => {
   return r;
 };
 
-export const norm = (s: string) => s.replace(/[\s.,!?~]/g, '').toLowerCase();
+/** compare answers ignoring spaces, punctuation, case and pinyin tone marks (ü may be typed as v or u) */
+export const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .normalize('NFC')
+    .replace(/[\s.,!?~。，！？、；：“”‘’'"·]/g, '')
+    .toLowerCase()
+    .replace(/v/g, 'u');

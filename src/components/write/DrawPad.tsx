@@ -135,7 +135,7 @@ export function DrawPad({ text, mode, hint, size, onPass }: Props) {
     <div className="pad-wrap" ref={wrap}>
       <div className="pad" style={{ width: W, height: size }}>
         <div className="pad-cubes">
-          {guides.map((p, i) => (p ? <Cube key={i} parts={p} hint={hint} size={size} guide /> : <div key={i} style={{ width: size }} />))}
+          {guides.map((p, i) => (p ? <Cube key={i} parts={p} hint={hint} size={size} guide /> : <div key={i} className="tian" style={{ width: size, height: size }} />))}
         </div>
         <canvas ref={ghost} className="pad-canvas" style={{ width: W, height: size }} />
         <canvas

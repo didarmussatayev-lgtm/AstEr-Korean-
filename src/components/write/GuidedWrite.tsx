@@ -14,18 +14,23 @@ type Stage =
  * Gradual writing: for every syllable assemble it from letters in a cube, trace it, write it with letters in the
  * cubes; then write 2 syllables, 3 syllables … and finally the whole word with empty cubes.
  */
-export function buildStages(n: number): Stage[] {
+export function buildStages(n: number, assemble = true): Stage[] {
   const st: Stage[] = [];
-  for (let i = 0; i < n; i++) st.push({ kind: 'assemble', i }, { kind: 'trace', i }, { kind: 'write', from: i, to: i + 1, hint: 'letters' });
+  for (let i = 0; i < n; i++) {
+    if (assemble) st.push({ kind: 'assemble', i });
+    st.push({ kind: 'trace', i }, { kind: 'write', from: i, to: i + 1, hint: assemble ? 'letters' : 'empty' });
+  }
   for (let k = 2; k <= n; k++) st.push({ kind: 'write', from: 0, to: k, hint: k < n ? 'letters' : 'empty' });
-  if (n === 1) st.push({ kind: 'write', from: 0, to: 1, hint: 'empty' });
+  if (n === 1 && assemble) st.push({ kind: 'write', from: 0, to: 1, hint: 'empty' });
   return st;
 }
 
 export function GuidedWrite({ word, tr, prompt, onDone }: { word: string; tr?: string; prompt?: string; onDone: (s: { skipped: number }) => void }) {
   const { t } = useI18n();
-  const syllables = useMemo(() => [...word].filter(isSyllable), [word]);
-  const stages = useMemo(() => buildStages(syllables.length), [syllables.length]);
+  // Hangul syllables are assembled from letters first; Chinese characters are traced and written straight away
+  const hangul = useMemo(() => [...word].filter(isSyllable), [word]);
+  const syllables = useMemo(() => (hangul.length ? hangul : [...word].filter((ch) => /[\u4e00-\u9fff]/.test(ch))), [word, hangul]);
+  const stages = useMemo(() => buildStages(syllables.length, hangul.length > 0), [syllables.length, hangul.length]);
   const [idx, setIdx] = useState(0);
   const [skipped, setSkipped] = useState(0);
   const st = stages[idx];
@@ -37,8 +42,12 @@ export function GuidedWrite({ word, tr, prompt, onDone }: { word: string; tr?: s
     next();
   };
 
-  const title =
-    st.kind === 'assemble' ? t('stageAssemble')
+  const zh = hangul.length === 0;
+  const title = zh
+    ? st.kind === 'trace' ? t('stageTraceZh')
+      : st.kind === 'write' && st.to - st.from === 1 ? t('stageWriteZh')
+      : t('stageWriteWhole')
+    : st.kind === 'assemble' ? t('stageAssemble')
     : st.kind === 'trace' ? t('stageTrace')
     : st.to - st.from === 1 ? (st.hint === 'letters' ? t('stageWriteOne') : t('stageWriteNoHint'))
     : st.to === syllables.length ? t('stageWriteWhole')
