@@ -24,7 +24,7 @@ export default function App() {
           <span>{course.flag}</span> {course.native} <span className="caret">▾</span>
         </NavLink>
         <div className="lang" role="group" aria-label="Language">
-          {(['ru', 'en'] as const).map((l) => (
+          {(['ru', 'en', 'kk', 'tr'] as const).map((l) => (
             <button type="button" key={l} className={lang === l ? 'active' : ''} onClick={() => setLang(l)}>{l.toUpperCase()}</button>
           ))}
         </div>

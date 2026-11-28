@@ -1,6 +1,8 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Lang, Text } from './types';
+import { kk } from './i18n-kk';
+import { tr } from './i18n-tr';
 
 const dict = {
   ru: {
@@ -116,11 +118,12 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     try {
       const s = localStorage.getItem('aster-korean:lang');
-      if (s === 'ru' || s === 'en') return s;
+      if (s === 'ru' || s === 'en' || s === 'kk' || s === 'tr') return s;
     } catch {
       /* ignore */
     }
-    return navigator.language.startsWith('ru') ? 'ru' : 'en';
+    const nav = navigator.language.toLowerCase();
+    return nav.startsWith('ru') ? 'ru' : nav.startsWith('kk') ? 'kk' : nav.startsWith('tr') ? 'tr' : 'en';
   });
   const setLang = (l: Lang) => {
     setLangState(l);
@@ -131,8 +134,9 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
     document.documentElement.lang = l;
   };
-  const t = (k: Key) => dict[lang][k];
-  const tx = (x: Text) => (typeof x === 'string' ? x : x[lang]);
+  const t = (k: Key) => (lang === 'kk' ? kk[k] : lang === 'tr' ? tr[k] : dict[lang][k]) ?? dict.en[k];
+  /** Kazakh texts fall back to Russian, Turkish ones to English when a lesson has no translation yet */
+  const tx = (x: Text) => (typeof x === 'string' ? x : x[lang] ?? (lang === 'kk' ? x.ru : x.en));
   return <Ctx.Provider value={{ lang, setLang, t, tx }}>{children}</Ctx.Provider>;
 }
 

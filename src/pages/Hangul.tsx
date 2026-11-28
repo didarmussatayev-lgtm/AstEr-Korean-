@@ -11,7 +11,7 @@ import { DrawPad } from '../components/write/DrawPad';
 type Tab = 'vowel' | 'consonant';
 
 export default function Hangul() {
-  const { t, tx, lang } = useI18n();
+  const { t, tx } = useI18n();
   const { p, learnLetters, addCards, gain } = useProgress();
   const [tab, setTab] = useState<Tab>('vowel');
   const [sel, setSel] = useState<Letter>(vowels[0]);
@@ -110,8 +110,8 @@ export default function Hangul() {
             <b className="roman">{sel.roman}</b>
             <SpeakButton text={sel.ch === 'ㅇ' ? '오' : sel.word.ko} big />
           </div>
-          <p><span className="muted">{t('sound')}:</span> {sel.sound[lang]}</p>
-          <p><span className="muted">{t('memory')}:</span> {sel.mnemonic[lang]}</p>
+          <p><span className="muted">{t('sound')}:</span> {tx(sel.sound)}</p>
+          <p><span className="muted">{t('memory')}:</span> {tx(sel.mnemonic)}</p>
           <p className="example">
             <span className="muted">{t('example')}:</span> <span className="ko">{sel.word.ko}</span> <i>({sel.word.roman})</i> — {tx(sel.word.tr)}
           </p>

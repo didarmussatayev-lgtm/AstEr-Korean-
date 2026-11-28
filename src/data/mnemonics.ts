@@ -357,7 +357,7 @@ export const MNEMONICS: Record<string, Mnemonic> = {
 for (const [k, en] of Object.entries(MNEMONICS_EN)) if (MNEMONICS[k]) MNEMONICS[k].en = en;
 
 /** The hook in the language the interface is in (falls back to Russian). */
-export const mnemoText = (m: Mnemonic, lang: 'ru' | 'en') => (lang === 'en' && m.en ? m.en : m.ru);
+export const mnemoText = (m: Mnemonic, lang: 'ru' | 'en' | 'kk' | 'tr') => ((lang === 'en' || lang === 'tr') && m.en ? m.en : m.ru);
 
 /** Lookup for a vocabulary entry of a given lesson ("word@lesson" wins over "word"). */
 export function mnemonicKey(lessonId: string, ko: string): string | null {
