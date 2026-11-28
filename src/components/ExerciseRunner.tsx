@@ -309,7 +309,7 @@ function Build({ ex, disabled, onSubmit }: { ex: Extract<Exercise, { type: 'buil
       <button
         type="button"
         className="btn primary"
-        disabled={disabled || chosen.length !== ex.tokens.length}
+        disabled={disabled || chosen.length === 0}
         onClick={() => onSubmit(words.join(' ') === ex.answer.join(' '))}
       >
         {t('check')}
