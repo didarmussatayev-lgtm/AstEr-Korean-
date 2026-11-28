@@ -2,6 +2,7 @@ import type { Exam, Lesson, L } from '../../lib/types';
 import type { BookUnit } from '../book';
 import { BOOK_PASS } from '../book';
 import { hskLevel } from '../series';
+import { trDict } from './tr-dict';
 import { unit as h2_01 } from './h2-01';
 import { unit as h2_02 } from './h2-02';
 import { unit as h2_03 } from './h2-03';
@@ -24,7 +25,22 @@ import { unit as h2_15 } from './h2-15';
  * Files: h2-NN.ts in this folder export `unit` (a BookUnit with n = lesson number) and are listed in `hsk2`.
  * Pictures from the workbook live in public/hsk/2/NN/ and are referenced as 'hsk/2/NN/file.webp'.
  */
-const hsk2: BookUnit[] = [h2_01, h2_02, h2_03, h2_04, h2_05, h2_06, h2_07, h2_08, h2_09, h2_10, h2_11, h2_12, h2_13, h2_14, h2_15];
+/** adds `tr` (Turkish) to every {ru,en} text in a lesson/exam, looking it up by the English string */
+function withTr<T>(x: T): T {
+  if (Array.isArray(x)) return x.map(withTr) as unknown as T;
+  if (x && typeof x === 'object' && Object.getPrototypeOf(x) === Object.prototype) {
+    const o = x as Record<string, unknown>;
+    if (typeof o.ru === 'string' && typeof o.en === 'string') return { ...o, tr: o.tr ?? trDict[o.en] } as T;
+    return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, withTr(v)])) as T;
+  }
+  return x;
+}
+
+const hsk2: BookUnit[] = [h2_01, h2_02, h2_03, h2_04, h2_05, h2_06, h2_07, h2_08, h2_09, h2_10, h2_11, h2_12, h2_13, h2_14, h2_15].map((u) => ({
+  ...u,
+  lesson: withTr(u.lesson),
+  exam: withTr(u.exam),
+}));
 
 interface HskBook {
   hsk: number;
@@ -39,7 +55,7 @@ export const hskLessons: Lesson[] = books.flatMap((b) =>
   b.units.map((u) => ({ ...u.lesson, id: lessonId(b.hsk, u.n), level: hskLevel(b.hsk, u.n) })),
 );
 
-const examTitle = (n: number): L => ({ ru: `Экзамен урока ${n}`, en: `Lesson ${n} exam` });
+const examTitle = (n: number): L => ({ ru: `Экзамен урока ${n}`, en: `Lesson ${n} exam`, tr: `${n}. ders sınavı` });
 
 export const hskExams: Exam[] = books.flatMap((b) =>
   b.units.map((u) => ({
@@ -63,7 +79,7 @@ export const hskSections: HskSection[] = [
   {
     hsk: 1,
     title: { ru: 'HSK 1', en: 'HSK 1' },
-    blurb: { ru: 'Первые 150 слов: приветствия, числа, время, семья.', en: 'The first 150 words: greetings, numbers, time, family.' },
+    blurb: { ru: 'Первые 150 слов: приветствия, числа, время, семья.', en: 'The first 150 words: greetings, numbers, time, family.', tr: 'İlk 150 kelime: selamlaşma, sayılar, zaman, aile.' },
     levels: [],
   },
   ...books.map((b) => ({
@@ -72,11 +88,12 @@ export const hskSections: HskSection[] = [
     blurb: {
       ru: 'По рабочей тетради «HSK标准教程 2»: 15 уроков, после каждого — экзамен на 90%.',
       en: 'Following the «HSK Standard Course 2» workbook: 15 lessons, each with a 90% exam.',
+      tr: '«HSK标准教程 2» çalışma kitabına göre: 15 ders, her birinin ardından %90 geçme notlu sınav.',
     },
     levels: b.units.map((u) => ({
       level: hskLevel(b.hsk, u.n),
       emoji: u.lesson.emoji,
-      title: { ru: `Урок ${u.n} · ${u.lesson.title.ru}`, en: `Lesson ${u.n} · ${u.lesson.title.en}` },
+      title: { ru: `Урок ${u.n} · ${u.lesson.title.ru}`, en: `Lesson ${u.n} · ${u.lesson.title.en}`, tr: `Ders ${u.n} · ${u.lesson.title.tr ?? u.lesson.title.en}` },
       blurb: u.lesson.goal,
     })),
   })),
