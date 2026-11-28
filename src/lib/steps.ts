@@ -15,7 +15,8 @@ export type Step =
   | { kind: 'final'; title: L; exercises: Exercise[] }
   | { kind: 'done'; title: L };
 
-const t = (ru: string, en: string): L => ({ ru, en });
+const T: Record<string, [string, string]> = {"Recap of the first part": ["Сабақтың басын еске түсірейік", "Dersin başını hatırlayalım"], "Recap of the last lesson": ["Өткен сабақты еске түсірейік", "Geçen dersi hatırlayalım"], "Check what you just learned": ["Жаңа үйренгенімізді тексерейік", "Yeni öğrendiklerimizi kontrol edelim"], "Practice": ["Жаттығайық", "Pratik yapalım"], "Review everything so far": ["Бәрін бірге қайталайық", "Şimdiye kadarkileri birlikte tekrar edelim"], "Rule": ["Ереже", "Kural"], "Practice the rule": ["Ережені бекітейік", "Kuralı pekiştirelim"], "More words": ["Тағы сөздер", "Daha fazla kelime"], "Check": ["Тексерейік", "Kontrol edelim"], "Dialogue": ["Диалог", "Diyalog"], "Story": ["Әңгіме", "Hikâye"], "Final review": ["Қорытынды қайталау", "Son tekrar"], "Done": ["Дайын", "Tamam"]};
+const t = (ru: string, en: string, kk?: string, tr?: string): L => ({ ru, en, kk: kk ?? T[en]?.[0], tr: tr ?? T[en]?.[1] });
 
 const globalPool: Vocab[] = allLessons.flatMap((x) => x.vocab);
 
@@ -120,7 +121,7 @@ export function buildSteps(unit: Unit, prev?: Unit): Step[] {
   const finalQ = [...mixQuiz(known, lesson.id, wide, 8), ...leftover];
   steps.push({
     kind: 'final',
-    title: isLast ? t('Итоговое повторение', 'Final review') : t(`Итог части ${unit.part}`, `Part ${unit.part} review`),
+    title: isLast ? t('Итоговое повторение', 'Final review') : t(`Итог части ${unit.part}`, `Part ${unit.part} review`, `${unit.part}-бөлім қорытындысы`, `${unit.part}. bölüm tekrarı`),
     exercises: finalQ,
   });
   steps.push({ kind: 'done', title: t('Готово', 'Done') });

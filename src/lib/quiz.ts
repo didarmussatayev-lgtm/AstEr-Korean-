@@ -9,7 +9,7 @@ export function speakable(ko: string): string {
   return last.split('/')[0].replace(/^-/, '').replace(/[?]/g, '').trim();
 }
 
-const l = (ru: string, en: string): L => ({ ru, en });
+const l = (ru: string, en: string, kk?: string, tr?: string): L => ({ ru, en, kk, tr });
 
 type Pool = Vocab[];
 
@@ -36,7 +36,7 @@ function qMeaning(v: Vocab, lessonId: string, pool: Pool): Exercise | null {
   const opts = shuffle([v, ...ds]);
   return {
     type: 'choice',
-    prompt: l(`Что значит «${v.ko}»?`, `What does "${v.ko}" mean?`),
+    prompt: l(`Что значит «${v.ko}»?`, `What does "${v.ko}" mean?`, `«${v.ko}» нені білдіреді?`, `"${v.ko}" ne demek?`),
     options: opts.map((o) => o.tr),
     answer: opts.indexOf(v),
     ref: mnemonicKey(lessonId, v.ko) ?? undefined,
@@ -50,8 +50,8 @@ function qReverse(v: Vocab, lessonId: string, pool: Pool): Exercise | null {
   return {
     type: 'choice',
     prompt: isChinese(v.ko)
-      ? l(`Как будет по-китайски: «${v.tr.ru}»?`, `How do you say "${v.tr.en}" in Chinese?`)
-      : l(`Как будет по-корейски: «${v.tr.ru}»?`, `How do you say "${v.tr.en}" in Korean?`),
+      ? l(`Как будет по-китайски: «${v.tr.ru}»?`, `How do you say "${v.tr.en}" in Chinese?`, `«${v.tr.kk ?? v.tr.ru}» қытайша қалай болады?`, `Çincede "${v.tr.tr ?? v.tr.en}" nasıl denir?`)
+      : l(`Как будет по-корейски: «${v.tr.ru}»?`, `How do you say "${v.tr.en}" in Korean?`, `«${v.tr.kk ?? v.tr.ru}» корейше қалай болады?`, `Korecede "${v.tr.tr ?? v.tr.en}" nasıl denir?`),
     options: opts.map((o) => o.ko),
     answer: opts.indexOf(v),
     ref: mnemonicKey(lessonId, v.ko) ?? undefined,
@@ -104,7 +104,7 @@ export function chunkQuiz(items: Vocab[], lessonId: string, pool: Pool): Exercis
   if (items.length >= 3) {
     q.push({
       type: 'match',
-      prompt: l('Соедини слово и перевод', 'Match the word and its meaning'),
+      prompt: l('Соедини слово и перевод', 'Match the word and its meaning', 'Сөз бен аудармасын сәйкестендір', 'Kelimeyi anlamıyla eşleştir'),
       pairs: items.map((v) => ({ ko: v.ko, tr: v.tr })),
     });
   }
