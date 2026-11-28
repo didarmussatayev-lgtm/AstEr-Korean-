@@ -120,3 +120,6 @@ export interface Progress {
   granted: number[];
   updatedAt: number;
 }
+
+/** exercises where the student must type or handwrite Korean/Chinese from scratch — not shown (too hard) */
+export const isFromScratch = (e: { type: string }) => e.type === 'type' || e.type === 'dictation' || e.type === 'write';

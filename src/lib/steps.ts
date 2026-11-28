@@ -1,3 +1,4 @@
+import { isFromScratch } from './types';
 import type { Exercise, L, Lesson, Vocab } from './types';
 import { chunkQuiz, mixQuiz } from './quiz';
 import { lessons as allLessons } from '../data/lessons';
@@ -58,9 +59,9 @@ export function buildSteps(unit: Unit, prev?: Unit): Step[] {
     const out: Exercise[] = [];
     for (const i of idx) if (lesson.exercises[i]) {
       used.add(i);
-      out.push(lesson.exercises[i]);
+      if (!isFromScratch(lesson.exercises[i])) out.push(lesson.exercises[i]);
     }
-    return [...out, ...extra];
+    return [...out, ...extra.filter((e) => !isFromScratch(e))];
   };
 
   if (priorWords.length) {
@@ -117,7 +118,7 @@ export function buildSteps(unit: Unit, prev?: Unit): Step[] {
     steps.push({ kind: 'story', title: t('Рассказ', 'Story') });
   }
 
-  const leftover = isLast && unit.parts === 1 ? lesson.exercises.filter((_, i) => !used.has(i)) : [];
+  const leftover = isLast && unit.parts === 1 ? lesson.exercises.filter((e, i) => !used.has(i) && !isFromScratch(e)) : [];
   const finalQ = [...mixQuiz(known, lesson.id, wide, 8), ...leftover];
   steps.push({
     kind: 'final',

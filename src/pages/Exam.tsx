@@ -4,6 +4,7 @@ import { useI18n } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 import { exams } from '../data/exams';
 import { seriesOf, unitNo } from '../data/series';
+import { isFromScratch } from '../lib/types';
 import { isExamUnlocked, passOf } from '../lib/access';
 import { unitsOfLevel } from '../data/units';
 import { Card } from '../components/ui';
@@ -21,7 +22,8 @@ export default function Exam() {
 
   if (!exam || !isExamUnlocked(exam.level, p)) return <Navigate to="/" replace />;
 
-  const total = exam.exercises.length;
+  const exercises = exam.exercises.filter((e) => !isFromScratch(e));
+  const total = exercises.length;
   const pass = passOf(exam);
   const needed = Math.ceil(total * pass - 1e-9);
   const series = seriesOf(exam.level);
@@ -64,7 +66,7 @@ export default function Exam() {
     return (
       <div className="stack">
         <h1>{tx(exam.title)}</h1>
-        <ExerciseRunner key={attempt} exam exercises={exam.exercises} onFinish={finish} />
+        <ExerciseRunner key={attempt} exam exercises={exercises} onFinish={finish} />
       </div>
     );
 
