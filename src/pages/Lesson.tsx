@@ -237,7 +237,7 @@ function BlockView({ b }: { b: Block }) {
       <div className="book-audio">
         {b.title && <b>🎧 {tx(b.title)}</b>}
         <audio controls preload="none" src={media(b.src)} />
-        {b.transcript && <details><summary>{tx({ ru: 'Текст', en: 'Transcript' })}</summary><p className="ko">{b.transcript}</p></details>}
+        {b.transcript && <details><summary>{tx({ ru: 'Текст', en: 'Transcript', kk: 'Мәтін', tr: 'Metin' })}</summary><p className="ko">{b.transcript}</p></details>}
       </div>
     );
   if (b.type === 'table')

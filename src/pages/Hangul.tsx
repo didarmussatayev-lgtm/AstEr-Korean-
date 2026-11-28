@@ -29,7 +29,7 @@ export default function Hangul() {
       const opts = shuffle([l, ...wrong]);
       return {
         type: 'choice',
-        prompt: { ru: `Какой звук у буквы ${l.ch}?`, en: `What sound does ${l.ch} make?` },
+        prompt: { ru: `Какой звук у буквы ${l.ch}?`, en: `What sound does ${l.ch} make?`, kk: `${l.ch} әрпі қандай дыбыс береді?`, tr: `${l.ch} harfi hangi sesi verir?` },
         options: opts.map((o) => o.roman),
         answer: opts.indexOf(l),
       } as Exercise;

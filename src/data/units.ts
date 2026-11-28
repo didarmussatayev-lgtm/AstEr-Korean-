@@ -40,7 +40,7 @@ export const units: Unit[] = lessons.flatMap((lesson) => {
       parts: parts.length,
       title: single
         ? lesson.title
-        : { ru: `${lesson.title.ru} · часть ${k + 1}/${parts.length}`, en: `${lesson.title.en} · part ${k + 1}/${parts.length}` },
+        : { ru: `${lesson.title.ru} · часть ${k + 1}/${parts.length}`, en: `${lesson.title.en} · part ${k + 1}/${parts.length}`, kk: `${lesson.title.kk ?? lesson.title.ru} · ${k + 1}/${parts.length} бөлім`, tr: `${lesson.title.tr ?? lesson.title.en} · ${k + 1}/${parts.length}. bölüm` },
       plan,
       vocab: wordsOf(plan),
       prior: parts.slice(0, k).flatMap(wordsOf),
