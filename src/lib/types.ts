@@ -1,5 +1,6 @@
-export type Lang = 'ru' | 'en';
-export type L = Record<Lang, string>;
+export type Lang = 'ru' | 'en' | 'kk' | 'tr';
+/** ru and en are required; kk and tr are optional (Kazakh falls back to Russian, Turkish to English) */
+export type L = Record<'ru' | 'en', string> & Partial<Record<'kk' | 'tr', string>>;
 export type Text = string | L;
 
 export type Block =
